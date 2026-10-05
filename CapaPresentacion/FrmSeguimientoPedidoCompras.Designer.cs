@@ -74,6 +74,7 @@
             this.btnBuscarTransaccion.TabIndex = 2;
             this.btnBuscarTransaccion.Text = "Buscar";
             this.btnBuscarTransaccion.UseVisualStyleBackColor = true;
+            this.btnBuscarTransaccion.Click += new System.EventHandler(this.btnBuscarTransaccion_Click);
             // 
             // btnBuscarPedido
             // 
