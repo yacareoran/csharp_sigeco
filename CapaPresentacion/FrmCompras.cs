@@ -27,6 +27,7 @@ namespace CapaPresentacion
                 btnSeguimientoPedidos.Visible = false;
                 btnNotasIngresadasModulo.Visible = false;
                 btnModificarEncabezadoNotaPedido.Visible = false;
+                btnGenerarExpediente.Visible = false;
             }
             else 
             { 
@@ -36,6 +37,7 @@ namespace CapaPresentacion
                 btnSeguimientoPedidos.Visible = true;
                 btnNotasIngresadasModulo.Visible = true;
                 btnModificarEncabezadoNotaPedido.Visible = true;
+                btnGenerarExpediente.Visible = true;
             }
         }
 
@@ -90,6 +92,12 @@ namespace CapaPresentacion
             seguimiento.txtOrigen.Text = this.txtSector.Text;
             seguimiento.txtIdSectoresInternos.Text = this.txtSectoresInternos.Text;
             seguimiento.Show();
+        }
+
+        private void btnGenerarExpediente_Click(object sender, EventArgs e)
+        {
+            FrmGenerarExpedientes generarExpedientes = new FrmGenerarExpedientes();
+            generarExpedientes.Show();
         }
     }
 }

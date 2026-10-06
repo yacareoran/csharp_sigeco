@@ -49,6 +49,7 @@
             this.txtSectoresInternos = new System.Windows.Forms.TextBox();
             this.txtIdUsuario = new System.Windows.Forms.TextBox();
             this.txtLegajoUsuario = new System.Windows.Forms.TextBox();
+            this.btnGenerarExpediente = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
@@ -107,12 +108,13 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.btnGenerarExpediente);
             this.panel2.Controls.Add(this.btnModificarPedidoCompras);
             this.panel2.Controls.Add(this.btnModificarEncabezadoNotaPedido);
             this.panel2.Controls.Add(this.btnNotasIngresadasModulo);
             this.panel2.Location = new System.Drawing.Point(70, 31);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(342, 200);
+            this.panel2.Size = new System.Drawing.Size(342, 214);
             this.panel2.TabIndex = 5;
             this.panel2.Visible = false;
             // 
@@ -251,6 +253,17 @@
             this.txtLegajoUsuario.Size = new System.Drawing.Size(19, 20);
             this.txtLegajoUsuario.TabIndex = 16;
             // 
+            // btnGenerarExpediente
+            // 
+            this.btnGenerarExpediente.Location = new System.Drawing.Point(49, 157);
+            this.btnGenerarExpediente.Name = "btnGenerarExpediente";
+            this.btnGenerarExpediente.Size = new System.Drawing.Size(289, 23);
+            this.btnGenerarExpediente.TabIndex = 14;
+            this.btnGenerarExpediente.Text = "Generar Expedientes";
+            this.btnGenerarExpediente.UseVisualStyleBackColor = true;
+            this.btnGenerarExpediente.Visible = false;
+            this.btnGenerarExpediente.Click += new System.EventHandler(this.btnGenerarExpediente_Click);
+            // 
             // FrmCompras
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -306,5 +319,6 @@
         public System.Windows.Forms.TextBox txtSectoresInternos;
         public System.Windows.Forms.TextBox txtIdUsuario;
         public System.Windows.Forms.TextBox txtLegajoUsuario;
+        private System.Windows.Forms.Button btnGenerarExpediente;
     }
 }

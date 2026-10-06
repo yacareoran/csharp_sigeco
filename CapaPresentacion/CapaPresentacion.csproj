@@ -89,6 +89,12 @@
     <Compile Include="FrmEditarPedido.Designer.cs">
       <DependentUpon>FrmEditarPedido.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmGenerarExpedientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmGenerarExpedientes.Designer.cs">
+      <DependentUpon>FrmGenerarExpedientes.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmIngresarNotaPedido.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmEditarPedido.resx">
       <DependentUpon>FrmEditarPedido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmGenerarExpedientes.resx">
+      <DependentUpon>FrmGenerarExpedientes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmIngresarNotaPedido.resx">
       <DependentUpon>FrmIngresarNotaPedido.cs</DependentUpon>
