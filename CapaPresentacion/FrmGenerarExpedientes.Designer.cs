@@ -28,41 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cmbOrganismoExpediente = new System.Windows.Forms.ComboBox();
+            this.cmbSectorExpediente = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.comboBox5 = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.btnGenerarExpediente = new System.Windows.Forms.Button();
+            this.lblExpedienteInterno = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // comboBox1
+            // cmbOrganismoExpediente
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(45, 70);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(258, 21);
-            this.comboBox1.TabIndex = 0;
+            this.cmbOrganismoExpediente.FormattingEnabled = true;
+            this.cmbOrganismoExpediente.Location = new System.Drawing.Point(45, 70);
+            this.cmbOrganismoExpediente.Name = "cmbOrganismoExpediente";
+            this.cmbOrganismoExpediente.Size = new System.Drawing.Size(258, 21);
+            this.cmbOrganismoExpediente.TabIndex = 0;
+            this.cmbOrganismoExpediente.SelectedIndexChanged += new System.EventHandler(this.cmbOrganismoExpediente_SelectedIndexChanged);
             // 
-            // comboBox2
+            // cmbSectorExpediente
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(324, 69);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(273, 21);
-            this.comboBox2.TabIndex = 1;
+            this.cmbSectorExpediente.FormattingEnabled = true;
+            this.cmbSectorExpediente.Location = new System.Drawing.Point(324, 69);
+            this.cmbSectorExpediente.Name = "cmbSectorExpediente";
+            this.cmbSectorExpediente.Size = new System.Drawing.Size(273, 21);
+            this.cmbSectorExpediente.TabIndex = 1;
             // 
             // label1
             // 
@@ -95,6 +97,24 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccionar las categorías coeespondientes:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(826, 24);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(123, 15);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Tipo de Contratación:";
+            // 
+            // comboBox4
+            // 
+            this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Location = new System.Drawing.Point(826, 42);
+            this.comboBox4.Name = "comboBox4";
+            this.comboBox4.Size = new System.Drawing.Size(258, 23);
+            this.comboBox4.TabIndex = 9;
             // 
             // textBox1
             // 
@@ -132,14 +152,6 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Extracto:";
             // 
-            // comboBox4
-            // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(826, 42);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(258, 23);
-            this.comboBox4.TabIndex = 9;
-            // 
             // comboBox5
             // 
             this.comboBox5.FormattingEnabled = true;
@@ -147,16 +159,6 @@
             this.comboBox5.Name = "comboBox5";
             this.comboBox5.Size = new System.Drawing.Size(273, 21);
             this.comboBox5.TabIndex = 10;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(826, 24);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(123, 15);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Tipo de Contratación:";
             // 
             // label6
             // 
@@ -204,11 +206,23 @@
             this.btnGenerarExpediente.Text = "Generar Expediente";
             this.btnGenerarExpediente.UseVisualStyleBackColor = true;
             // 
+            // lblExpedienteInterno
+            // 
+            this.lblExpedienteInterno.AutoSize = true;
+            this.lblExpedienteInterno.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblExpedienteInterno.ForeColor = System.Drawing.Color.Green;
+            this.lblExpedienteInterno.Location = new System.Drawing.Point(323, 354);
+            this.lblExpedienteInterno.Name = "lblExpedienteInterno";
+            this.lblExpedienteInterno.Size = new System.Drawing.Size(117, 24);
+            this.lblExpedienteInterno.TabIndex = 17;
+            this.lblExpedienteInterno.Text = "Expediente";
+            // 
             // FrmGenerarExpedientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1172, 639);
+            this.Controls.Add(this.lblExpedienteInterno);
             this.Controls.Add(this.btnGenerarExpediente);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label7);
@@ -221,11 +235,12 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cmbSectorExpediente);
+            this.Controls.Add(this.cmbOrganismoExpediente);
             this.Controls.Add(this.groupBox1);
             this.Name = "FrmGenerarExpedientes";
             this.Text = "Generar Expedientes";
+            this.Load += new System.EventHandler(this.FrmGenerarExpedientes_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -235,8 +250,8 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cmbOrganismoExpediente;
+        private System.Windows.Forms.ComboBox cmbSectorExpediente;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -252,5 +267,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnGenerarExpediente;
+        private System.Windows.Forms.Label lblExpedienteInterno;
     }
 }

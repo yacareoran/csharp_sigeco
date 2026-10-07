@@ -61,6 +61,7 @@
     <Compile Include="DSectoresOrganismos.cs" />
     <Compile Include="DSesion.cs" />
     <Compile Include="DSubrubro.cs" />
+    <Compile Include="DTipoContratacion.cs" />
     <Compile Include="DUnidadMedida.cs" />
     <Compile Include="DUsuario.cs" />
     <Compile Include="DVentas.cs" />
