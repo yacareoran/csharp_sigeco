@@ -34,7 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.cmbTipoContratacion = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
@@ -89,7 +89,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.comboBox4);
+            this.groupBox1.Controls.Add(this.cmbTipoContratacion);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(39, 27);
             this.groupBox1.Name = "groupBox1";
@@ -108,13 +108,13 @@
             this.label5.TabIndex = 11;
             this.label5.Text = "Tipo de Contratación:";
             // 
-            // comboBox4
+            // cmbTipoContratacion
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(826, 42);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(258, 23);
-            this.comboBox4.TabIndex = 9;
+            this.cmbTipoContratacion.FormattingEnabled = true;
+            this.cmbTipoContratacion.Location = new System.Drawing.Point(826, 42);
+            this.cmbTipoContratacion.Name = "cmbTipoContratacion";
+            this.cmbTipoContratacion.Size = new System.Drawing.Size(258, 23);
+            this.cmbTipoContratacion.TabIndex = 9;
             // 
             // textBox1
             // 
@@ -259,7 +259,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox cmbTipoContratacion;
         private System.Windows.Forms.ComboBox comboBox5;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;

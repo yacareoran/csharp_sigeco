@@ -21,6 +21,7 @@ namespace CapaPresentacion
         private void FrmGenerarExpedientes_Load(object sender, EventArgs e)
         {
             this.LlenarComboOrganismo();
+            this.LlenarComboTipoContratacion();
         }
 
         //Metodos llenar combobox
@@ -48,6 +49,36 @@ namespace CapaPresentacion
                 // Opcional: Si no hay rubros, puedes limpiar el combo o dejarlo vacío
                 this.cmbOrganismoExpediente.DataSource = null;
                 this.cmbOrganismoExpediente.SelectedIndex = -1;
+            }
+
+
+
+
+        }
+
+        private void LlenarComboTipoContratacion()
+        {
+
+            DataTable dt2 = NTipoContratacion.Mostrar();
+
+            // 2. Validamos que la base de datos no haya devuelto algo vacío
+            if (dt2 != null && dt2.Rows.Count > 0)
+            {
+                // 3. Asignamos primero la fuente de datos
+                this.cmbTipoContratacion.DataSource = dt2;
+
+                // 4. Mapeamos las columnas de tu tabla SQL
+                this.cmbTipoContratacion.ValueMember = "id_tipo_contratacion";
+                this.cmbTipoContratacion.DisplayMember = "tipo_contratacion";
+
+                // 5. Arranca seleccionando el PRIMER elemento de la lista de forma segura
+                this.cmbTipoContratacion.SelectedIndex = 0;
+            }
+            else
+            {
+                // Opcional: Si no hay rubros, puedes limpiar el combo o dejarlo vacío
+                this.cmbTipoContratacion.DataSource = null;
+                this.cmbTipoContratacion.SelectedIndex = -1;
             }
 
 

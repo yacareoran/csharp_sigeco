@@ -58,6 +58,7 @@
     <Compile Include="NSectoresOrganismos.cs" />
     <Compile Include="NSesion.cs" />
     <Compile Include="NSubrubro.cs" />
+    <Compile Include="NTipoContratacion.cs" />
     <Compile Include="NUnidadMedida.cs" />
     <Compile Include="NUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

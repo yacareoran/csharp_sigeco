@@ -50,7 +50,7 @@ namespace CapaDatos
             //metodo mostrar
             public DataTable Mostrar()
             {//inicio mostrar
-                DataTable DtResultado = new DataTable("estado");
+                DataTable DtResultado = new DataTable("tipo_contratacion");
                 SqlConnection SqlCon = new SqlConnection();
                 try
                 {
@@ -58,7 +58,7 @@ namespace CapaDatos
                     SqlCommand SqlCmd = new SqlCommand();
                     SqlCmd.Connection = SqlCon;
                     SqlCmd.CommandType = CommandType.StoredProcedure;
-                    SqlCmd.CommandText = "sp_MostrarEstados";
+                    SqlCmd.CommandText = "sp_MostrarTipoContratacion";
                     //spmostrar_tipo_cliente
 
                     SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
