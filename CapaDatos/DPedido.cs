@@ -586,7 +586,7 @@ namespace CapaDatos
         }//fin insertar
 
         //metodo buscar 
-        public DataTable BuscarxTransaccion(DPedido Pedido)
+        /*public DataTable BuscarxTransaccion(DPedido Pedido)
         {//inicio buscar
             DataTable DtResultado = new DataTable("pedido");
             SqlConnection SqlCon = new SqlConnection();
@@ -611,13 +611,45 @@ namespace CapaDatos
 
 
             }
-            catch (Exception)
+            catch (Exception ex)
+            //catch (Exception)
             {
-
-                return null;
+                // LOGUEÁ EL ERROR O RE-LANZALO PARA QUE ROMPA Y PUEDAS VER QUÉ PASA
+                throw ex;
+                //return null;
             }
             return DtResultado;
-        }//fin metodo buscar 
+        }//fin metodo buscar*/
+
+        public DataTable BuscarxTransaccion(DPedido Pedido)
+        {
+            DataTable DtResultado = new DataTable("pedido");
+            SqlConnection SqlCon = new SqlConnection();
+            try
+            {
+                SqlCon.ConnectionString = Conexion.Cn;
+                SqlCommand SqlCmd = new SqlCommand();
+                SqlCmd.Connection = SqlCon;
+
+                SqlCmd.CommandType = CommandType.StoredProcedure;
+                SqlCmd.CommandText = "spmostrar_pedidos";
+
+                SqlParameter ParNumeroTransaccion = new SqlParameter();
+                ParNumeroTransaccion.ParameterName = "@num_transaccion";
+                ParNumeroTransaccion.SqlDbType = SqlDbType.Int;
+                ParNumeroTransaccion.Value = Pedido.Num_transaccion;
+                SqlCmd.Parameters.Add(ParNumeroTransaccion);
+
+                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
+                SqlDat.Fill(DtResultado);
+            }
+            catch (Exception ex)
+            {
+                // LOGUEÁ EL ERROR O RE-LANZALO PARA QUE ROMPA Y PUEDAS VER QUÉ PASA
+                throw ex;
+            }
+            return DtResultado;
+        }
 
         //metodo buscar x Id_pedido
         public DataTable BuscarxId(DPedido Pedido)
