@@ -26,6 +26,7 @@ namespace CapaDatos
         private string _Expediente_interno;
         private string _Expediente_externo;
         private string _Numero_nota;
+        private int _Numero;
         private string _Sector;
         private string _Caracter_pedido;
         private int _Estado_id;
@@ -223,6 +224,19 @@ namespace CapaDatos
             }
         }
 
+        public int Numero
+        {
+            get
+            {
+                return _Numero;
+            }
+
+            set
+            {
+                _Numero = value;
+            }
+        }
+
         public string Sector
         {
             get
@@ -405,7 +419,7 @@ namespace CapaDatos
 
         }
         //constructor con parametros
-        public DPedido(int id_pedido, string pedido, DateTime fecha_pedido, int num_seguimiento, int usuario_id, int num_transaccion, int caracter_pedido_id, int estado_pedido_id, int destino_id, int emisor_id, string extracto, decimal costo_total, int anio_actual, DateTime fecha_inicio, DateTime fecha_fin, int origen_id, string expediente_interno, string expediente_externo, string numero_nota, string sector, string caracter_pedido, int estado_id, string estado, string textobuscar, int sectores_id, int organismo_id, int sectores_internos_id, string sectores_internos)
+        public DPedido(int id_pedido, string pedido, DateTime fecha_pedido, int num_seguimiento, int usuario_id, int num_transaccion, int caracter_pedido_id, int estado_pedido_id, int destino_id, int emisor_id, string extracto, decimal costo_total, int anio_actual, DateTime fecha_inicio, DateTime fecha_fin, int origen_id, string expediente_interno, string expediente_externo, string numero_nota, int numero, string sector, string caracter_pedido, int estado_id, string estado, string textobuscar, int sectores_id, int organismo_id, int sectores_internos_id, string sectores_internos)
         {
             this.Id_pedido = id_pedido;
             this.Pedido = pedido;
@@ -426,6 +440,7 @@ namespace CapaDatos
             this.Expediente_interno = expediente_interno;
             this.Expediente_externo = expediente_externo;
             this.Numero_nota = numero_nota;
+            this.Numero = numero;
             this.Sector = sector;
             this.Caracter_pedido = caracter_pedido;
             this.Estado_id = estado_id;
@@ -972,6 +987,39 @@ namespace CapaDatos
         }
 
         //fin procedimeinto de prueba
+
+        //procedimiento maximo nuemro para expedientes
+        public int BuscarMaximoNumeroExpediente()
+        {
+            int num_transaccion = 0;
+            using (SqlConnection SqlCon = new SqlConnection(Conexion.Cn)) // El 'using' cierra la conexión solo
+            {
+                try
+                {
+                    SqlCommand SqlCmd = new SqlCommand("ObtenerNumeroMaximo", SqlCon);
+                    SqlCmd.CommandType = CommandType.StoredProcedure;
+
+                    // 1. IMPORTANTE: Declarar el parámetro de salida
+                    SqlParameter parMax = new SqlParameter();
+                    parMax.ParameterName = "@MaxNumero";
+                    parMax.SqlDbType = SqlDbType.Int;
+                    parMax.Direction = ParameterDirection.Output; // <--- Esto es clave
+                    SqlCmd.Parameters.Add(parMax);
+
+                    SqlCon.Open(); // 2. Abrir la conexión
+                    SqlCmd.ExecuteNonQuery(); // 3. Ejecutar el SP
+
+                    // 4. Recuperar el valor que el SP puso en el parámetro
+                    num_transaccion = Convert.ToInt32(SqlCmd.Parameters["@MaxNumero"].Value);
+                }
+                catch (Exception ex)
+                {
+                    // Debug: Podés poner MessageBox.Show(ex.Message) para ver el error real
+                    return 1000;
+                }
+            }
+            return num_transaccion;
+        }
     }
 
 }

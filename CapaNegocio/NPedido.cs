@@ -149,6 +149,15 @@ namespace CapaNegocio
             int num_transaccion;
             return Obj.BuscarNumeroTransaccion();
         }
+
+        //metodo retornar numero maximo para expedientes
+        public static int BuscarMaximoNumeroExpediente()
+        {
+            DPedido Obj = new DPedido();
+            //Obj.Textobuscar = textobuscar;
+            int num_transaccion;
+            return Obj.BuscarMaximoNumeroExpediente();
+        }
     }
 }
 

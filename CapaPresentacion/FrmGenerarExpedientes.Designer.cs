@@ -35,10 +35,10 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbTipoContratacion = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.comboBox5 = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -59,6 +59,7 @@
             this.dgvPedidoExpedientes = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnGuardarExpediente = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidoExpedientes)).BeginInit();
@@ -133,24 +134,6 @@
             this.cmbTipoContratacion.Size = new System.Drawing.Size(307, 23);
             this.cmbTipoContratacion.TabIndex = 9;
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(39, 140);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1230, 117);
-            this.textBox1.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(39, 122);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(54, 15);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Extracto:";
-            // 
             // comboBox3
             // 
             this.comboBox3.FormattingEnabled = true;
@@ -168,6 +151,24 @@
             this.label4.Size = new System.Drawing.Size(54, 15);
             this.label4.TabIndex = 8;
             this.label4.Text = "Extracto:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(39, 140);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(1230, 117);
+            this.textBox1.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(39, 122);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(54, 15);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Extracto:";
             // 
             // comboBox5
             // 
@@ -346,11 +347,22 @@
             this.Column2.Name = "Column2";
             this.Column2.Width = 500;
             // 
+            // btnGuardarExpediente
+            // 
+            this.btnGuardarExpediente.Location = new System.Drawing.Point(521, 721);
+            this.btnGuardarExpediente.Name = "btnGuardarExpediente";
+            this.btnGuardarExpediente.Size = new System.Drawing.Size(225, 23);
+            this.btnGuardarExpediente.TabIndex = 29;
+            this.btnGuardarExpediente.Text = "Generar Expediente";
+            this.btnGuardarExpediente.UseVisualStyleBackColor = true;
+            this.btnGuardarExpediente.Click += new System.EventHandler(this.btnGuardarExpediente_Click);
+            // 
             // FrmGenerarExpedientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1291, 769);
+            this.Controls.Add(this.btnGuardarExpediente);
             this.Controls.Add(this.dgvPedidoExpedientes);
             this.Controls.Add(this.dgvPedidos);
             this.Controls.Add(this.btnBuscarFechas);
@@ -421,5 +433,6 @@
         private System.Windows.Forms.DataGridView dgvPedidoExpedientes;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.Button btnGuardarExpediente;
     }
 }

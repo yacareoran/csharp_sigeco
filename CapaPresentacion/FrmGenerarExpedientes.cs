@@ -309,7 +309,15 @@ namespace CapaPresentacion
 
         private void btnGenerarExpediente_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Aqui se genera el num ero de expediente");
+            NPedido pedido = new NPedido();
+            int numero = NPedido.BuscarMaximoNumeroExpediente();
+            this.lblExpedienteInterno.Text = Convert.ToString("04") + "-" + Convert.ToString(numero); 
+            MessageBox.Show("maximo numero para expedioentre interno " + " " + numero );
+        }
+
+        private void btnGuardarExpediente_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("aqui se generan los numero de expediente");
         }
     }
 }
