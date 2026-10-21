@@ -68,7 +68,7 @@ namespace CapaNegocio
             Obj.Num_transaccion = num_transaccion;
             return Obj.BuscarxTransaccion(Obj);
         }
-
+      
         //metodo buscar por concepto
 
         //metodo buscar por Id 
@@ -130,6 +130,15 @@ namespace CapaNegocio
             Obj.Sectores_internos_id = sectores_internos_id;
             return Obj.BuscarxFechas(Obj);
 
+        }
+
+
+        //metodo buscar por Nota de Pedido
+        public static DataTable BuscarNotaPedido(string textobuscar)
+        {
+            DPedido Obj = new DPedido();
+            Obj.Textobuscar = textobuscar;
+            return Obj.BuscarNotaPedido(Obj);
         }
 
         //metodo retornar año 

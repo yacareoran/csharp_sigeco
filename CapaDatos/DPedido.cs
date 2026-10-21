@@ -738,73 +738,41 @@ namespace CapaDatos
             return DtResultado;
         }//fin metodo buscar 
 
-
-        //metodo editar
-        /*public string EditarPedido(DPedido Pedido)
-        {//inicio editar
-            string rpta = "";
+        //metodo buscar por Nota de Pedido
+        public DataTable BuscarNotaPedido(DPedido Pedido)
+        {//inicio buscar
+            DataTable DtResultado = new DataTable("pedido");
             SqlConnection SqlCon = new SqlConnection();
             try
             {
-                //conexion
                 SqlCon.ConnectionString = Conexion.Cn;
-                SqlCon.Open();
-                //establecer el comando
                 SqlCommand SqlCmd = new SqlCommand();
                 SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "sp_editarPedido";
+
                 SqlCmd.CommandType = CommandType.StoredProcedure;
+                SqlCmd.CommandText = "spbuscar_pedido_nota_pedido";
 
-                //parametros
-                SqlParameter ParId_Pedido = new SqlParameter();
-                ParId_Pedido.ParameterName = "@id_pedido";
-                ParId_Pedido.SqlDbType = SqlDbType.Int;
-                ParId_Pedido.Value = Pedido.Id_pedido;
-                SqlCmd.Parameters.Add(ParId_Pedido);
+                SqlParameter ParTextoBuscar = new SqlParameter();
+                ParTextoBuscar.ParameterName = "@textobuscar";
+                ParTextoBuscar.SqlDbType = SqlDbType.VarChar;
+                ParTextoBuscar.Size = 255;
+                ParTextoBuscar.Value = Pedido.Textobuscar;
+                SqlCmd.Parameters.Add(ParTextoBuscar);
 
-                SqlParameter ParPedido = new SqlParameter();
-                ParPedido.ParameterName = "@pedido";
-                ParPedido.SqlDbType = SqlDbType.VarChar;
-                ParPedido.Value = Pedido.Pedido;
-                SqlCmd.Parameters.Add(ParPedido);
-
-                SqlParameter ParEstadoId = new SqlParameter();
-                ParEstadoId.ParameterName = "@estado_id";
-                ParEstadoId.SqlDbType = SqlDbType.Int;
-                ParEstadoId.Value = Pedido.Estado_id;
-                SqlCmd.Parameters.Add(ParEstadoId);
-
-                SqlParameter ParCaracterPedidoId = new SqlParameter();
-                ParCaracterPedidoId.ParameterName = "@caracter_pedido_id";
-                ParCaracterPedidoId.SqlDbType = SqlDbType.Int;
-                ParCaracterPedidoId.Value = Pedido.Caracter_pedido_id;
-                SqlCmd.Parameters.Add(ParCaracterPedidoId);
-
-
-
-
-                //ejecutar el codigo
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "OK" : "HA FALLADO LA EDICION DEL REGISTRO";
+                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
+                SqlDat.Fill(DtResultado);
 
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                rpta = ex.Message + ex.StackTrace;
+                return null;
             }
-            finally
-            {
-                if (SqlCon.State == ConnectionState.Open)
-                {
-                    SqlCon.Close();
-                }
+            return DtResultado;
+        }//fin metodo buscar por Nota de Pedido
 
-            }
-            return rpta;
-        }//fin editar
-        */
 
         //metodo editar 
         public string EditarPedido(DPedido Pedido)

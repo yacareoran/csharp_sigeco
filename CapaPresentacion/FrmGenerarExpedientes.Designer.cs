@@ -35,7 +35,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbTipoContratacion = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.cmbSectorDestino = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -51,15 +51,18 @@
             this.label9 = new System.Windows.Forms.Label();
             this.dtpHoraFinal = new System.Windows.Forms.DateTimePicker();
             this.dtpHoraInicial = new System.Windows.Forms.DateTimePicker();
-            this.btnBuscarPedido = new System.Windows.Forms.Button();
             this.btnBuscarTransaccion = new System.Windows.Forms.Button();
             this.txtBuscarPedido = new System.Windows.Forms.TextBox();
-            this.txtBuscarTransaccion = new System.Windows.Forms.TextBox();
+            this.txtBuscarNotaPedido = new System.Windows.Forms.TextBox();
             this.dgvPedidos = new System.Windows.Forms.DataGridView();
             this.dgvPedidoExpedientes = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnGuardarExpediente = new System.Windows.Forms.Button();
+            this.cmbOrganismoDestino = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.lblMontoTotal = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidoExpedientes)).BeginInit();
@@ -70,16 +73,16 @@
             this.cmbOrganismoExpediente.FormattingEnabled = true;
             this.cmbOrganismoExpediente.Location = new System.Drawing.Point(45, 70);
             this.cmbOrganismoExpediente.Name = "cmbOrganismoExpediente";
-            this.cmbOrganismoExpediente.Size = new System.Drawing.Size(258, 21);
+            this.cmbOrganismoExpediente.Size = new System.Drawing.Size(242, 21);
             this.cmbOrganismoExpediente.TabIndex = 0;
             this.cmbOrganismoExpediente.SelectedIndexChanged += new System.EventHandler(this.cmbOrganismoExpediente_SelectedIndexChanged);
             // 
             // cmbSectorExpediente
             // 
             this.cmbSectorExpediente.FormattingEnabled = true;
-            this.cmbSectorExpediente.Location = new System.Drawing.Point(324, 69);
+            this.cmbSectorExpediente.Location = new System.Drawing.Point(254, 43);
             this.cmbSectorExpediente.Name = "cmbSectorExpediente";
-            this.cmbSectorExpediente.Size = new System.Drawing.Size(273, 21);
+            this.cmbSectorExpediente.Size = new System.Drawing.Size(273, 23);
             this.cmbSectorExpediente.TabIndex = 1;
             // 
             // label1
@@ -88,26 +91,30 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(45, 51);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 15);
+            this.label1.Size = new System.Drawing.Size(121, 15);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Organismo:";
+            this.label1.Text = "Organismo Iniciador:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(324, 50);
+            this.label2.Location = new System.Drawing.Point(265, 24);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 15);
+            this.label2.Size = new System.Drawing.Size(95, 15);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Sector:";
+            this.label2.Text = "Sector Iniciador:";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.cmbOrganismoDestino);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.cmbTipoContratacion);
-            this.groupBox1.Controls.Add(this.comboBox3);
+            this.groupBox1.Controls.Add(this.cmbSectorDestino);
             this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.cmbSectorExpediente);
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(39, 27);
             this.groupBox1.Name = "groupBox1";
@@ -120,7 +127,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(899, 21);
+            this.label5.Location = new System.Drawing.Point(1011, 24);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(123, 15);
             this.label5.TabIndex = 11;
@@ -129,28 +136,28 @@
             // cmbTipoContratacion
             // 
             this.cmbTipoContratacion.FormattingEnabled = true;
-            this.cmbTipoContratacion.Location = new System.Drawing.Point(902, 39);
+            this.cmbTipoContratacion.Location = new System.Drawing.Point(1014, 43);
             this.cmbTipoContratacion.Name = "cmbTipoContratacion";
-            this.cmbTipoContratacion.Size = new System.Drawing.Size(307, 23);
+            this.cmbTipoContratacion.Size = new System.Drawing.Size(207, 23);
             this.cmbTipoContratacion.TabIndex = 9;
             // 
-            // comboBox3
+            // cmbSectorDestino
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(667, 40);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(221, 23);
-            this.comboBox3.TabIndex = 7;
+            this.cmbSectorDestino.FormattingEnabled = true;
+            this.cmbSectorDestino.Location = new System.Drawing.Point(791, 43);
+            this.cmbSectorDestino.Name = "cmbSectorDestino";
+            this.cmbSectorDestino.Size = new System.Drawing.Size(217, 23);
+            this.cmbSectorDestino.TabIndex = 7;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(667, 21);
+            this.label4.Location = new System.Drawing.Point(788, 25);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 15);
+            this.label4.Size = new System.Drawing.Size(90, 15);
             this.label4.TabIndex = 8;
-            this.label4.Text = "Extracto:";
+            this.label4.Text = "Sector Destino:";
             // 
             // textBox1
             // 
@@ -166,9 +173,9 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(39, 122);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(54, 15);
+            this.label3.Size = new System.Drawing.Size(56, 15);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Extracto:";
+            this.label3.Text = "Caratula:";
             // 
             // comboBox5
             // 
@@ -209,9 +216,9 @@
             // 
             this.button1.Location = new System.Drawing.Point(327, 304);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(124, 23);
+            this.button1.Size = new System.Drawing.Size(157, 23);
             this.button1.TabIndex = 15;
-            this.button1.Text = "button1";
+            this.button1.Text = "Seleccionar Nota Pedido";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // btnGenerarExpediente
@@ -281,39 +288,30 @@
             this.dtpHoraInicial.Size = new System.Drawing.Size(99, 20);
             this.dtpHoraInicial.TabIndex = 22;
             // 
-            // btnBuscarPedido
-            // 
-            this.btnBuscarPedido.Location = new System.Drawing.Point(628, 428);
-            this.btnBuscarPedido.Name = "btnBuscarPedido";
-            this.btnBuscarPedido.Size = new System.Drawing.Size(82, 23);
-            this.btnBuscarPedido.TabIndex = 21;
-            this.btnBuscarPedido.Text = "button2";
-            this.btnBuscarPedido.UseVisualStyleBackColor = true;
-            // 
             // btnBuscarTransaccion
             // 
             this.btnBuscarTransaccion.Location = new System.Drawing.Point(206, 427);
             this.btnBuscarTransaccion.Name = "btnBuscarTransaccion";
-            this.btnBuscarTransaccion.Size = new System.Drawing.Size(81, 23);
+            this.btnBuscarTransaccion.Size = new System.Drawing.Size(133, 23);
             this.btnBuscarTransaccion.TabIndex = 20;
-            this.btnBuscarTransaccion.Text = "Buscar";
+            this.btnBuscarTransaccion.Text = "Buscar Nota Pedido";
             this.btnBuscarTransaccion.UseVisualStyleBackColor = true;
             this.btnBuscarTransaccion.Click += new System.EventHandler(this.btnBuscarTransaccion_Click);
             // 
             // txtBuscarPedido
             // 
-            this.txtBuscarPedido.Location = new System.Drawing.Point(293, 429);
+            this.txtBuscarPedido.Location = new System.Drawing.Point(355, 428);
             this.txtBuscarPedido.Name = "txtBuscarPedido";
             this.txtBuscarPedido.Size = new System.Drawing.Size(330, 20);
             this.txtBuscarPedido.TabIndex = 19;
             this.txtBuscarPedido.TextChanged += new System.EventHandler(this.txtBuscarPedido_TextChanged);
             // 
-            // txtBuscarTransaccion
+            // txtBuscarNotaPedido
             // 
-            this.txtBuscarTransaccion.Location = new System.Drawing.Point(23, 427);
-            this.txtBuscarTransaccion.Name = "txtBuscarTransaccion";
-            this.txtBuscarTransaccion.Size = new System.Drawing.Size(180, 20);
-            this.txtBuscarTransaccion.TabIndex = 18;
+            this.txtBuscarNotaPedido.Location = new System.Drawing.Point(23, 427);
+            this.txtBuscarNotaPedido.Name = "txtBuscarNotaPedido";
+            this.txtBuscarNotaPedido.Size = new System.Drawing.Size(180, 20);
+            this.txtBuscarNotaPedido.TabIndex = 18;
             // 
             // dgvPedidos
             // 
@@ -353,15 +351,56 @@
             this.btnGuardarExpediente.Name = "btnGuardarExpediente";
             this.btnGuardarExpediente.Size = new System.Drawing.Size(225, 23);
             this.btnGuardarExpediente.TabIndex = 29;
-            this.btnGuardarExpediente.Text = "Generar Expediente";
+            this.btnGuardarExpediente.Text = "Crear Expediente";
             this.btnGuardarExpediente.UseVisualStyleBackColor = true;
             this.btnGuardarExpediente.Click += new System.EventHandler(this.btnGuardarExpediente_Click);
+            // 
+            // cmbOrganismoDestino
+            // 
+            this.cmbOrganismoDestino.FormattingEnabled = true;
+            this.cmbOrganismoDestino.Location = new System.Drawing.Point(533, 43);
+            this.cmbOrganismoDestino.Name = "cmbOrganismoDestino";
+            this.cmbOrganismoDestino.Size = new System.Drawing.Size(252, 23);
+            this.cmbOrganismoDestino.TabIndex = 12;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(530, 24);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(116, 15);
+            this.label10.TabIndex = 30;
+            this.label10.Text = "Organismo Destino:";
+            // 
+            // lblMontoTotal
+            // 
+            this.lblMontoTotal.AutoSize = true;
+            this.lblMontoTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMontoTotal.ForeColor = System.Drawing.Color.Green;
+            this.lblMontoTotal.Location = new System.Drawing.Point(992, 354);
+            this.lblMontoTotal.Name = "lblMontoTotal";
+            this.lblMontoTotal.Size = new System.Drawing.Size(117, 24);
+            this.lblMontoTotal.TabIndex = 30;
+            this.lblMontoTotal.Text = "Expediente";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(911, 360);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(75, 15);
+            this.label12.TabIndex = 31;
+            this.label12.Text = "Monto Total:";
             // 
             // FrmGenerarExpedientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1291, 769);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.lblMontoTotal);
             this.Controls.Add(this.btnGuardarExpediente);
             this.Controls.Add(this.dgvPedidoExpedientes);
             this.Controls.Add(this.dgvPedidos);
@@ -370,10 +409,9 @@
             this.Controls.Add(this.label9);
             this.Controls.Add(this.dtpHoraFinal);
             this.Controls.Add(this.dtpHoraInicial);
-            this.Controls.Add(this.btnBuscarPedido);
             this.Controls.Add(this.btnBuscarTransaccion);
             this.Controls.Add(this.txtBuscarPedido);
-            this.Controls.Add(this.txtBuscarTransaccion);
+            this.Controls.Add(this.txtBuscarNotaPedido);
             this.Controls.Add(this.lblExpedienteInterno);
             this.Controls.Add(this.btnGenerarExpediente);
             this.Controls.Add(this.button1);
@@ -383,9 +421,7 @@
             this.Controls.Add(this.comboBox5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.cmbSectorExpediente);
             this.Controls.Add(this.cmbOrganismoExpediente);
             this.Controls.Add(this.groupBox1);
             this.Name = "FrmGenerarExpedientes";
@@ -409,7 +445,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox cmbSectorDestino;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cmbTipoContratacion;
         private System.Windows.Forms.ComboBox comboBox5;
@@ -425,14 +461,17 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.DateTimePicker dtpHoraFinal;
         private System.Windows.Forms.DateTimePicker dtpHoraInicial;
-        private System.Windows.Forms.Button btnBuscarPedido;
         private System.Windows.Forms.Button btnBuscarTransaccion;
         private System.Windows.Forms.TextBox txtBuscarPedido;
-        private System.Windows.Forms.TextBox txtBuscarTransaccion;
+        private System.Windows.Forms.TextBox txtBuscarNotaPedido;
         private System.Windows.Forms.DataGridView dgvPedidos;
         private System.Windows.Forms.DataGridView dgvPedidoExpedientes;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Button btnGuardarExpediente;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox cmbOrganismoDestino;
+        private System.Windows.Forms.Label lblMontoTotal;
+        private System.Windows.Forms.Label label12;
     }
 }

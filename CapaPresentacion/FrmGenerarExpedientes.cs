@@ -124,9 +124,9 @@ namespace CapaPresentacion
         {
             DataTable miDataTable = new DataTable();
             // 1. Guardamos el número en una variable para inspeccionarlo
-            int numeroBuscado = Convert.ToInt32(this.txtBuscarTransaccion.Text);
+            int numeroBuscado = Convert.ToInt32(this.txtBuscarNotaPedido.Text);
 
-            var listaPedidos = NPedido.BuscarxTransaccion(Convert.ToInt32(this.txtBuscarTransaccion.Text));
+            var listaPedidos = NPedido.BuscarxTransaccion(Convert.ToInt32(this.txtBuscarNotaPedido.Text));
             //decimal costoTotal = NDetalle.BuscarCostoTotal(Convert.ToInt32(1041));
             List<DPedido> listaResumen = new List<DPedido>();
             //if (listaPedidos.Rows.Count <= 1)
@@ -258,7 +258,38 @@ namespace CapaPresentacion
 
         private void btnBuscarTransaccion_Click(object sender, EventArgs e)
         {
-            this.BuscarPedidoxNumeroTransaccion();
+            try
+            {
+                
+                // 1. Primero traés los datos. Al hacer esto, el DataGridView genera automáticamente las columnas, [1], [2], etc.
+                this.dgvPedidos.DataSource = NPedido.BuscarNotaPedido(this.txtBuscarNotaPedido.Text);
+
+                // 2. Ahora que las columnas SÍ existen en memoria, las modificás y ocultás sin errores
+                this.dgvPedidos.Columns[0].Width = 60;
+                this.dgvPedidos.Columns[1].Visible = false;
+                this.dgvPedidos.Columns[2].Width = 400;
+                this.dgvPedidos.Columns[3].Visible = false;
+                this.dgvPedidos.Columns[4].Visible = false;
+                this.dgvPedidos.Columns[5].Visible = false;
+                this.dgvPedidos.Columns[6].Width = 80;
+                this.dgvPedidos.Columns[7].Visible = false;
+                this.dgvPedidos.Columns[8].Visible = false;
+                this.dgvPedidos.Columns[9].Visible = false;
+                this.dgvPedidos.Columns[10].Visible = false;
+
+                // Ojo: Recordá que tu procedimiento ahora devuelve más campos (hasta el índice 17).
+                // Si querés ocultar TODOS los demás automáticamente para que no aparezcan al final, podés sumar este bucle:
+                for (int i = 11; i < this.dgvPedidos.Columns.Count; i++)
+                {
+                    this.dgvPedidos.Columns[i].Visible = false;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Los productos no coinciden con las letras ingresadas, vuelva a ingresar el nombre del producto o agreguelo desde el boton nuevo producto" + "" + ex);
+            }
         }
 
         private void dgvPedidos_KeyDown(object sender, KeyEventArgs e)
@@ -286,20 +317,30 @@ namespace CapaPresentacion
         {
             try
             {
+                //this.dgvPedidos.DataSource = NPedido.BuscarConcepto(this.txtBuscarPedido.Text);
+                // 1. Primero traés los datos. Al hacer esto, el DataGridView genera automáticamente las columnas, [1], [2], etc.
                 this.dgvPedidos.DataSource = NPedido.BuscarConcepto(this.txtBuscarPedido.Text);
-                //this.lblStock.Text = "Stock: " + Convert.ToString(this.dataListadoProductos.CurrentRow.Cells["stock"].Value);
-                this.dgvPedidos.Columns[0].Visible = false;
+
+                // 2. Ahora que las columnas SÍ existen en memoria, las modificás y ocultás sin errores
+                this.dgvPedidos.Columns[0].Width = 60;
                 this.dgvPedidos.Columns[1].Visible = false;
+                this.dgvPedidos.Columns[2].Width = 425;
+                this.dgvPedidos.Columns[3].Visible = false;
+                this.dgvPedidos.Columns[4].Visible = false;
+                this.dgvPedidos.Columns[5].Width = 80;
                 this.dgvPedidos.Columns[6].Visible = false;
+                this.dgvPedidos.Columns[7].Visible = false;
                 this.dgvPedidos.Columns[8].Visible = false;
                 this.dgvPedidos.Columns[9].Visible = false;
                 this.dgvPedidos.Columns[10].Visible = false;
-                this.dgvPedidos.Columns[2].Width = 250;
-                this.dgvPedidos.Columns[3].Width = 80;
-                this.dgvPedidos.Columns[4].Width = 80;
-                this.dgvPedidos.Columns[5].Width = 80;
-                this.dgvPedidos.Columns[7].Width = 100;
-                
+
+                // Ojo: Recordá que tu procedimiento ahora devuelve más campos (hasta el índice 17).
+                // Si querés ocultar TODOS los demás automáticamente para que no aparezcan al final, podés sumar este bucle:
+                for (int i = 11; i < this.dgvPedidos.Columns.Count; i++)
+                {
+                    this.dgvPedidos.Columns[i].Visible = false;
+                }
+
             }
             catch (Exception ex)
             {
@@ -311,13 +352,20 @@ namespace CapaPresentacion
         {
             NPedido pedido = new NPedido();
             int numero = NPedido.BuscarMaximoNumeroExpediente();
-            this.lblExpedienteInterno.Text = Convert.ToString("04") + "-" + Convert.ToString(numero); 
-            MessageBox.Show("maximo numero para expedioentre interno " + " " + numero );
+            if (numero >= 0)
+            {
+                numero = numero + 1;
+                this.lblExpedienteInterno.Text = Convert.ToString("04") + "-" + Convert.ToString(numero);
+            }
+            else
+            {
+                MessageBox.Show("maximo numero para expedioentre interno " + " " + numero);
+            }  
         }
 
         private void btnGuardarExpediente_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("aqui se generan los numero de expediente");
+            MessageBox.Show("debe generar nuevamente en número de expediente o pongase en contacto con un administrador");
         }
     }
 }
