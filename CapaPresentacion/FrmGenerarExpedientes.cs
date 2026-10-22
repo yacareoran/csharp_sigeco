@@ -38,6 +38,7 @@ namespace CapaPresentacion
         }
 
         private List<DCargarPedidos> lst = new List<DCargarPedidos>();
+        private List<DCargarDetalles> lsd = new List<DCargarDetalles>();
         //Metodos llenar combobox
 
         private void LlenarComboOrganismo()
@@ -227,12 +228,8 @@ namespace CapaPresentacion
         public void CargarVentasGrillaPedidos(int id_pedido, string pedido)
         {//inicio metdo cargar ventas desde Grilla Productos 08/11/21
                    
-            //DFactura V = new DFactura();
+            
             DCargarPedidos cargarPedidos = new DCargarPedidos();
-            //DDetalle Detalle1 = new DDetalle();
-            //decimal Subtotal = 0;
-            //Esta instancia es para ver si se puede cargar desde el formulario frmGrillaProductos 02Noviembre 2021
-            //frmGrillaProductos grillaProducto = new frmGrillaProductos();
             try
             {
                 cargarPedidos.Id_pedido = id_pedido;
@@ -297,18 +294,81 @@ namespace CapaPresentacion
             //FrmVenta ventas = Owner as FrmVenta;
             if (e.KeyCode == Keys.Enter)
             {
+                
+                decimal monto_total = 0;
                 e.SuppressKeyPress = true;
+
+
                 CargarVentasGrillaPedidos(Convert.ToInt32(this.dgvPedidos.CurrentRow.Cells[0].Value.ToString()), this.dgvPedidos.CurrentRow.Cells[2].Value.ToString());
-
-
-                /*if (MessageBox.Show("Esta seguro que esta bien seleccionado el producto?", "Ingrese cantidad", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                MessageBox.Show("El id_pedido es: " + " " + this.dgvPedidos.CurrentRow.Cells[1].Value.ToString());
+                
+                // 1. Validar que el usuario haya ingresado un número válido
+                if (!int.TryParse(this.dgvPedidos.CurrentRow.Cells[0].Value.ToString(), out int idPedido))
                 {
-                    //txtPrueba.BackColor = Color.Yellow;
-                    //txtPrueba.Focus();
-                    MessageBox.Show("Aqui se debe seleccionar la fila para cargar la otra greilla");
-                    ventas.CargarVentasGrillaProductos(Convert.ToInt32(this.dataProductos.CurrentRow.Cells[0].Value.ToString()), this.dataProductos.CurrentRow.Cells[2].Value.ToString(), Convert.ToDecimal(this.txtPrueba.Text), Convert.ToDecimal(this.dataProductos.CurrentRow.Cells[5].Value.ToString()), 1097, Convert.ToDecimal(this.dataProductos.CurrentRow.Cells[3].Value.ToString()), Convert.ToDecimal(this.dataProductos.CurrentRow.Cells[4].Value.ToString()), Convert.ToInt32(this.dataProductos.CurrentRow.Cells[10].Value.ToString()));
-                    this.Close();
-                }*/
+                    MessageBox.Show("Por favor, ingresa un ID de pedido numérico y válido.",
+                                    "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
+                try
+                {
+                    // 2. Llamar a la Capa de Negocio pasando el ID limpio
+                    // Nota: Reemplaza 'N_Pedido' por el nombre real de tu clase de la Capa de Negocio
+                    DataTable dtDetalles = NPedido.BuscarDetallesxId(idPedido);
+                    //Decimal SumaSubTotall = 0; //Decimal Prueba = 0;
+                    Decimal CostoDetalless; Decimal CostoTotalDetalless = 0;
+
+
+                    //var listaCantidadDetalles = NPedido.BuscarDetallesxId(idPedido);
+                    //MessageBox.Show(Convert.ToString(row["id_pedido"]));
+                    //foreach (DataRow row1 in listaCantidadDetalles.Rows)
+                    //{
+                    //    SumaSubTotall += Convert.ToInt32(row1["cantidad"]) * Convert.ToDecimal(row1["precio"]);
+                    //}
+                    //Prueba = CostoTotalDetalles;
+
+                    // 1. OBLIGATORIO: Declarar e inicializar la variable como decimal antes del bucle
+                    decimal SumaSubTotall = 0;
+
+                    var listaCantidadDetalles = NPedido.BuscarDetallesxId(idPedido);
+
+                    // Verificamos que traiga datos para evitar un NullReferenceException
+                    if (listaCantidadDetalles != null)
+                    {
+                        foreach (DataRow row1 in listaCantidadDetalles.Rows)
+                        {
+                            MessageBox.Show("La cantidad es:" + " " + row1["cantidad"]);
+                            // 2. Controlamos que los campos no sean NULL en la Base de Datos
+                            if (row1["cantidad"] != DBNull.Value && row1["precio"] != DBNull.Value)
+                            {
+                                // 3. Multiplicamos y sumamos a nuestra variable decimal
+                                SumaSubTotall += Convert.ToInt32(row1["cantidad"]) * Convert.ToDecimal(row1["precio"]);
+                                MessageBox.Show("En el foreach de detalles el subtotal es:" + " " + SumaSubTotall);
+                            }
+                        }
+                        MessageBox.Show("afuera del foreach el subtrotal es: " + " " + SumaSubTotall);
+                        this.lblMontoTotal.Text = Convert.ToString(SumaSubTotall);
+                    }
+
+                    
+
+
+
+                    else
+                    {
+                        //dgvDetalles.DataSource = null; // Limpiamos el grid si no hay datos
+                        MessageBox.Show("No se encontraron detalles para el ID de pedido ingresado.",
+                                        "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 4. Capturar el error que escaló desde la Capa de Datos y mostrarlo amigablemente
+                    MessageBox.Show($"Ocurrió un error al consultar los datos: {ex.Message}",
+                                    "Error del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+
 
             }
         }

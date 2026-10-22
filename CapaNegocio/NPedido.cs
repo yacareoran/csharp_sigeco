@@ -60,6 +60,17 @@ namespace CapaNegocio
             return Obj.EditarPedido(Obj);
         }
 
+        // Método buscar detalles por id_pedido corregido
+        public static DataTable BuscarDetallesxId(int id_pedido)
+        {
+            // Creamos el objeto DPedido y le asignamos el ID que viene de la Presentación
+            DPedido obj = new DPedido();
+            obj.Id_pedido = id_pedido;
+
+            // CORRECCIÓN: Llamamos al método pasándole el objeto 'obj' que ya tiene el ID cargado.
+            // (Antes estabas haciendo Obj.BuscarDetallesxId(Obj) sobre sí mismo)
+            return obj.BuscarDetallesxId(obj);
+        }
 
         //metodo buscar por transaccion
         public static DataTable BuscarxTransaccion(int num_transaccion)

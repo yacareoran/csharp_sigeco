@@ -48,6 +48,7 @@
     <Compile Include="Conexion.cs" />
     <Compile Include="DBitacora.cs" />
     <Compile Include="DCaracterPedido.cs" />
+    <Compile Include="DCargarDetalles.cs" />
     <Compile Include="DCargarPedidos.cs" />
     <Compile Include="DDetalle.cs" />
     <Compile Include="DEstado.cs" />

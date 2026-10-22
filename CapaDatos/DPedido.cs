@@ -600,42 +600,7 @@ namespace CapaDatos
 
         }//fin insertar
 
-        //metodo buscar 
-        /*public DataTable BuscarxTransaccion(DPedido Pedido)
-        {//inicio buscar
-            DataTable DtResultado = new DataTable("pedido");
-            SqlConnection SqlCon = new SqlConnection();
-            try
-            {
-                SqlCon.ConnectionString = Conexion.Cn;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-
-                SqlCmd.CommandType = CommandType.StoredProcedure;
-                SqlCmd.CommandText = "spmostrar_pedidos"; 
-
-                SqlParameter ParNumeroTransaccion = new SqlParameter();
-                ParNumeroTransaccion.ParameterName = "@num_transaccion";
-                ParNumeroTransaccion.SqlDbType = SqlDbType.Int;
-                ParNumeroTransaccion.Value = Pedido.Num_transaccion;
-                SqlCmd.Parameters.Add(ParNumeroTransaccion);
-
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
-
-
-
-            }
-            catch (Exception ex)
-            //catch (Exception)
-            {
-                // LOGUEÁ EL ERROR O RE-LANZALO PARA QUE ROMPA Y PUEDAS VER QUÉ PASA
-                throw ex;
-                //return null;
-            }
-            return DtResultado;
-        }//fin metodo buscar*/
-
+       
         public DataTable BuscarxTransaccion(DPedido Pedido)
         {
             DataTable DtResultado = new DataTable("pedido");
@@ -664,6 +629,40 @@ namespace CapaDatos
                 throw ex;
             }
             return DtResultado;
+        }
+
+        // Método buscar detalles por Id_pedido optimizado
+        public DataTable BuscarDetallesxId(DPedido pedido)
+        {
+            DataTable dtResultado = new DataTable("pedido");
+
+            // Buenas prácticas: Instanciar la conexión y el comando dentro de bloques 'using'
+            // Esto garantiza que la conexión a SQL Server SE CIERRE siempre, incluso si hay un error.
+            using (SqlConnection sqlCon = new SqlConnection(Conexion.Cn))
+            using (SqlCommand sqlCmd = new SqlCommand("usp_ObtenerDetallesPorPedido", sqlCon))
+            {
+                try
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                    // Sintaxis más limpia y directa para agregar parámetros
+                    sqlCmd.Parameters.Add("@id_pedido", SqlDbType.Int).Value = pedido.Id_pedido;
+
+                    using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
+                    {
+                        sqlDat.Fill(dtResultado);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // BUENA PRÁCTICA: No silencies la excepción devolviendo null sin avisar.
+                    // Es mejor lanzar el error hacia la capa de Negocio para que te enteres de qué falló 
+                    // (ej. error de red, nombre de SP incorrecto, timeout, etc.)
+                    throw new Exception("Error al buscar los detalles del pedido en la Base de Datos.", ex);
+                }
+            }
+
+            return dtResultado;
         }
 
         //metodo buscar x Id_pedido
