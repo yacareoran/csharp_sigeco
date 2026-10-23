@@ -61,15 +61,26 @@ namespace CapaNegocio
         }
 
         // Método buscar detalles por id_pedido corregido
-        public static DataTable BuscarDetallesxId(int id_pedido)
+        public static decimal ObtenerTotalPedido(DPedido objPedido)
         {
-            // Creamos el objeto DPedido y le asignamos el ID que viene de la Presentación
-            DPedido obj = new DPedido();
-            obj.Id_pedido = id_pedido;
+            // 1. Creamos el objeto de la capa de datos (rompiendo la ambigüedad)
+            DPedido objetoDatos = new DPedido();
 
-            // CORRECCIÓN: Llamamos al método pasándole el objeto 'obj' que ya tiene el ID cargado.
-            // (Antes estabas haciendo Obj.BuscarDetallesxId(Obj) sobre sí mismo)
-            return obj.BuscarDetallesxId(obj);
+            // 2. Llamamos al método a través de la instancia creada
+            DataTable dt = objetoDatos.BuscarDetallesxId(objPedido);
+
+            decimal totalGeneral = 0;
+
+            // 3. Recorremos las filas para calcular la suma del subtotal
+            foreach (DataRow fila in dt.Rows)
+            {
+                if (fila["subtotal"] != DBNull.Value)
+                {
+                    totalGeneral += Convert.ToDecimal(fila["subtotal"]);
+                }
+            }
+
+            return totalGeneral;
         }
 
         //metodo buscar por transaccion

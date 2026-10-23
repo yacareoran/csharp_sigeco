@@ -291,85 +291,53 @@ namespace CapaPresentacion
 
         private void dgvPedidos_KeyDown(object sender, KeyEventArgs e)
         {
-            //FrmVenta ventas = Owner as FrmVenta;
             if (e.KeyCode == Keys.Enter)
             {
-                
-                decimal monto_total = 0;
                 e.SuppressKeyPress = true;
 
-
-                CargarVentasGrillaPedidos(Convert.ToInt32(this.dgvPedidos.CurrentRow.Cells[0].Value.ToString()), this.dgvPedidos.CurrentRow.Cells[2].Value.ToString());
-                MessageBox.Show("El id_pedido es: " + " " + this.dgvPedidos.CurrentRow.Cells[1].Value.ToString());
-                
-                // 1. Validar que el usuario haya ingresado un número válido
-                if (!int.TryParse(this.dgvPedidos.CurrentRow.Cells[0].Value.ToString(), out int idPedido))
+                // 1. Validar que la fila actual y la celda tengan datos válidos
+                if (this.dgvPedidos.CurrentRow == null || this.dgvPedidos.CurrentRow.Cells[0].Value == null)
                 {
-                    MessageBox.Show("Por favor, ingresa un ID de pedido numérico y válido.",
-                                    "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Selecciona un pedido válido en la grilla.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                
+
+                // 2. Intentar parsear el ID del pedido limpiamente
+                if (!int.TryParse(this.dgvPedidos.CurrentRow.Cells[0].Value.ToString(), out int idPedido))
+                {
+                    MessageBox.Show("Por favor, selecciona un ID de pedido numérico y válido.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Obtenemos los datos secundarios que ya usabas de la fila actual
+                string datoCelda2 = this.dgvPedidos.CurrentRow.Cells[2].Value?.ToString() ?? "";
+                string idPedidoMostrar = this.dgvPedidos.CurrentRow.Cells[1].Value?.ToString() ?? "";
+
+                // Llamamos a tu método existente para cargar la grilla secundaria si lo requieres
+                CargarVentasGrillaPedidos(idPedido, datoCelda2);
+                MessageBox.Show("El id_pedido seleccionado es: " + idPedidoMostrar, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 try
                 {
-                    // 2. Llamar a la Capa de Negocio pasando el ID limpio
-                    // Nota: Reemplaza 'N_Pedido' por el nombre real de tu clase de la Capa de Negocio
-                    DataTable dtDetalles = NPedido.BuscarDetallesxId(idPedido);
-                    //Decimal SumaSubTotall = 0; //Decimal Prueba = 0;
-                    Decimal CostoDetalless; Decimal CostoTotalDetalless = 0;
+                    // 1. Instanciamos la Entidad y le asignamos el ID del pedido
+                    DPedido pedidoEntidad = new DPedido();
+                    pedidoEntidad.Id_pedido = idPedido;
 
+                    // --- BLOQUE DE DIAGNÓSTICO EN PRESENTACIÓN REAL ---
+                    // Usamos el método correcto de tu Capa de Negocio para calcular el total
+                    decimal totalGeneral = NPedido.ObtenerTotalPedido(pedidoEntidad);
 
-                    //var listaCantidadDetalles = NPedido.BuscarDetallesxId(idPedido);
-                    //MessageBox.Show(Convert.ToString(row["id_pedido"]));
-                    //foreach (DataRow row1 in listaCantidadDetalles.Rows)
-                    //{
-                    //    SumaSubTotall += Convert.ToInt32(row1["cantidad"]) * Convert.ToDecimal(row1["precio"]);
-                    //}
-                    //Prueba = CostoTotalDetalles;
+                    // Mostramos el total directo que calculó la capa de negocio
+                    MessageBox.Show($"DIAGNÓSTICO: El método ObtenerTotalPedido devolvió: {totalGeneral}");
+                    // --- FIN DEL BLOQUE DE DIAGNÓSTICO ---
 
-                    // 1. OBLIGATORIO: Declarar e inicializar la variable como decimal antes del bucle
-                    decimal SumaSubTotall = 0;
-
-                    var listaCantidadDetalles = NPedido.BuscarDetallesxId(idPedido);
-
-                    // Verificamos que traiga datos para evitar un NullReferenceException
-                    if (listaCantidadDetalles != null)
-                    {
-                        foreach (DataRow row1 in listaCantidadDetalles.Rows)
-                        {
-                            MessageBox.Show("La cantidad es:" + " " + row1["cantidad"]);
-                            // 2. Controlamos que los campos no sean NULL en la Base de Datos
-                            if (row1["cantidad"] != DBNull.Value && row1["precio"] != DBNull.Value)
-                            {
-                                // 3. Multiplicamos y sumamos a nuestra variable decimal
-                                SumaSubTotall += Convert.ToInt32(row1["cantidad"]) * Convert.ToDecimal(row1["precio"]);
-                                MessageBox.Show("En el foreach de detalles el subtotal es:" + " " + SumaSubTotall);
-                            }
-                        }
-                        MessageBox.Show("afuera del foreach el subtrotal es: " + " " + SumaSubTotall);
-                        this.lblMontoTotal.Text = Convert.ToString(SumaSubTotall);
-                    }
-
-                    
-
-
-
-                    else
-                    {
-                        //dgvDetalles.DataSource = null; // Limpiamos el grid si no hay datos
-                        MessageBox.Show("No se encontraron detalles para el ID de pedido ingresado.",
-                                        "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    // 2. Mostramos el resultado final formateado en tu etiqueta de la pantalla
+                    this.lblMontoTotal.Text = totalGeneral.ToString("N2");
                 }
                 catch (Exception ex)
                 {
-                    // 4. Capturar el error que escaló desde la Capa de Datos y mostrarlo amigablemente
-                    MessageBox.Show($"Ocurrió un error al consultar los datos: {ex.Message}",
-                                    "Error del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Ocurrió un error al consultar los datos: {ex.Message}", "Error del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
-
-
             }
         }
 

@@ -636,16 +636,12 @@ namespace CapaDatos
         {
             DataTable dtResultado = new DataTable("pedido");
 
-            // Buenas prácticas: Instanciar la conexión y el comando dentro de bloques 'using'
-            // Esto garantiza que la conexión a SQL Server SE CIERRE siempre, incluso si hay un error.
             using (SqlConnection sqlCon = new SqlConnection(Conexion.Cn))
             using (SqlCommand sqlCmd = new SqlCommand("usp_ObtenerDetallesPorPedido", sqlCon))
             {
                 try
                 {
                     sqlCmd.CommandType = CommandType.StoredProcedure;
-
-                    // Sintaxis más limpia y directa para agregar parámetros
                     sqlCmd.Parameters.Add("@id_pedido", SqlDbType.Int).Value = pedido.Id_pedido;
 
                     using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
@@ -655,13 +651,9 @@ namespace CapaDatos
                 }
                 catch (Exception ex)
                 {
-                    // BUENA PRÁCTICA: No silencies la excepción devolviendo null sin avisar.
-                    // Es mejor lanzar el error hacia la capa de Negocio para que te enteres de qué falló 
-                    // (ej. error de red, nombre de SP incorrecto, timeout, etc.)
                     throw new Exception("Error al buscar los detalles del pedido en la Base de Datos.", ex);
                 }
             }
-
             return dtResultado;
         }
 
