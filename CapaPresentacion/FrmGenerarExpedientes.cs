@@ -15,6 +15,7 @@ namespace CapaPresentacion
 {
     public partial class FrmGenerarExpedientes : Form
     {
+        private decimal _totalGeneralAcumulado = 0;
         public FrmGenerarExpedientes()
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace CapaPresentacion
         private void FrmGenerarExpedientes_Load(object sender, EventArgs e)
         {
             this.LlenarComboOrganismo();
+            this.LlenarComboOrganismoDestino();
             this.LlenarComboTipoContratacion();
         }
 
@@ -65,12 +67,33 @@ namespace CapaPresentacion
                 this.cmbOrganismoExpediente.DataSource = null;
                 this.cmbOrganismoExpediente.SelectedIndex = -1;
             }
-
-
-
-
         }
 
+        private void LlenarComboOrganismoDestino()
+        {
+
+            DataTable dt = NOrganismo.Mostrar();
+
+            // 2. Validamos que la base de datos no haya devuelto algo vacío
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                // 3. Asignamos primero la fuente de datos
+                this.cmbOrganismoDestino.DataSource = dt;
+
+                // 4. Mapeamos las columnas de tu tabla SQL
+                this.cmbOrganismoDestino.ValueMember = "id_organismo";
+                this.cmbOrganismoDestino.DisplayMember = "organismo";
+
+                // 5. Arranca seleccionando el PRIMER elemento de la lista de forma segura
+                this.cmbOrganismoDestino.SelectedIndex = 0;
+            }
+            else
+            {
+                // Opcional: Si no hay rubros, puedes limpiar el combo o dejarlo vacío
+                this.cmbOrganismoDestino.DataSource = null;
+                this.cmbOrganismoDestino.SelectedIndex = -1;
+            }
+        }  
         private void LlenarComboTipoContratacion()
         {
 
@@ -103,21 +126,25 @@ namespace CapaPresentacion
 
         private void cmbOrganismoExpediente_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // 1. Limpiamos SIEMPRE el combo de sectores al inicio para borrar el organismo anterior
+            cmbSectorExpediente.DataSource = null;
+
             // Validamos que realmente haya un elemento seleccionado válido
             if (cmbOrganismoExpediente.SelectedValue != null && int.TryParse(cmbOrganismoExpediente.SelectedValue.ToString(), out int idOrganismo))
             {
-                // Buscamos los subrubros de ese ID en específico
-                //DataTable dtSubrubros = NSubrubro.BuscarSubrubroxRubro(idOrganismo);
+                // Buscamos los sectores de ese ID en específico
                 DataTable dtSectores = NSectores.BuscarSectoresxOrganismo(idOrganismo);
 
-                cmbSectorExpediente.DataSource = dtSectores;
-                cmbSectorExpediente.DisplayMember = "sector"; // Lo que el usuario VE
-                cmbSectorExpediente.ValueMember = "id_sector";       // El ID oculto
-            }
-            else
-            {
-                // Si el usuario deselecciona el rubro, limpiamos los subrubros anteriores
-                cmbSectorExpediente.DataSource = null;
+                // 2. Solo cargamos el combo si la base de datos realmente devolvió filas
+                if (dtSectores != null && dtSectores.Rows.Count > 0)
+                {
+                    cmbSectorExpediente.DataSource = dtSectores;
+                    cmbSectorExpediente.DisplayMember = "sector"; // Lo que el usuario VE
+                    cmbSectorExpediente.ValueMember = "id_sector"; // El ID oculto
+
+                    // Al no poner Index = -1, se preselecciona el primer sector automáticamente
+                }
+                // Si Rows.Count es 0, queda totalmente vacío y limpio
             }
         }
 
@@ -303,7 +330,8 @@ namespace CapaPresentacion
                 }
 
                 // 2. Intentar parsear el ID del pedido limpiamente
-                if (!int.TryParse(this.dgvPedidos.CurrentRow.Cells[0].Value.ToString(), out int idPedido))
+                //cambiamos 1 por 0
+                if (!int.TryParse(this.dgvPedidos.CurrentRow.Cells[1].Value.ToString(), out int idPedido))
                 {
                     MessageBox.Show("Por favor, selecciona un ID de pedido numérico y válido.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -333,6 +361,17 @@ namespace CapaPresentacion
 
                     // 2. Mostramos el resultado final formateado en tu etiqueta de la pantalla
                     this.lblMontoTotal.Text = totalGeneral.ToString("N2");
+
+
+                    // 3. ¡NUEVA LÓGICA! Acumulamos el total en el Gran Total global
+                    _totalGeneralAcumulado += totalGeneral;
+
+                    // 3. Mostramos el acumulado en el nuevo label lblTotalGral
+                    this.lblTotalGralAcumulado.Text = _totalGeneralAcumulado.ToString("N2");
+
+
+
+
                 }
                 catch (Exception ex)
                 {
@@ -394,6 +433,36 @@ namespace CapaPresentacion
         private void btnGuardarExpediente_Click(object sender, EventArgs e)
         {
             MessageBox.Show("debe generar nuevamente en número de expediente o pongase en contacto con un administrador");
+        }
+
+        private void cmbSectorDestino_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void cmbOrganismoDestino_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // 1. Limpiamos SIEMPRE el combo de sectores al inicio para borrar el organismo anterior
+            cmbSectorDestino.DataSource = null;
+
+            // Validamos que realmente haya un elemento seleccionado válido
+            if (cmbOrganismoDestino.SelectedValue != null && int.TryParse(cmbOrganismoDestino.SelectedValue.ToString(), out int idOrganismo))
+            {
+                // Buscamos los sectores de ese ID en específico
+                DataTable dtSectores = NSectores.BuscarSectoresxOrganismo(idOrganismo);
+
+                // 2. Solo cargamos el combo si la base de datos realmente devolvió filas
+                if (dtSectores != null && dtSectores.Rows.Count > 0)
+                {
+                    cmbSectorDestino.DataSource = dtSectores;
+                    cmbSectorDestino.DisplayMember = "sector"; // Lo que el usuario VE
+                    cmbSectorDestino.ValueMember = "id_sector"; // El ID oculto
+
+                    // ¡AL SACAR EL INDEX -1, SE SELECCIONA EL PRIMER SECTOR AUTOMÁTICAMENTE ACÁ!
+                }
+                // Si Rows.Count es 0, no entra al IF y el combo permanece totalmente vacío
+            }
+
         }
     }
 }

@@ -33,6 +33,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cmbOrganismoDestino = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbTipoContratacion = new System.Windows.Forms.ComboBox();
             this.cmbSectorDestino = new System.Windows.Forms.ComboBox();
@@ -59,10 +61,10 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnGuardarExpediente = new System.Windows.Forms.Button();
-            this.cmbOrganismoDestino = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.lblMontoTotal = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.lblTotalGralAcumulado = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidoExpedientes)).BeginInit();
@@ -123,6 +125,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccionar las categorías coeespondientes:";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(530, 24);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(116, 15);
+            this.label10.TabIndex = 30;
+            this.label10.Text = "Organismo Destino:";
+            // 
+            // cmbOrganismoDestino
+            // 
+            this.cmbOrganismoDestino.FormattingEnabled = true;
+            this.cmbOrganismoDestino.Location = new System.Drawing.Point(533, 43);
+            this.cmbOrganismoDestino.Name = "cmbOrganismoDestino";
+            this.cmbOrganismoDestino.Size = new System.Drawing.Size(252, 23);
+            this.cmbOrganismoDestino.TabIndex = 12;
+            this.cmbOrganismoDestino.SelectedIndexChanged += new System.EventHandler(this.cmbOrganismoDestino_SelectedIndexChanged);
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -148,6 +169,7 @@
             this.cmbSectorDestino.Name = "cmbSectorDestino";
             this.cmbSectorDestino.Size = new System.Drawing.Size(217, 23);
             this.cmbSectorDestino.TabIndex = 7;
+            this.cmbSectorDestino.SelectedIndexChanged += new System.EventHandler(this.cmbSectorDestino_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -318,7 +340,7 @@
             this.dgvPedidos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPedidos.Location = new System.Drawing.Point(23, 479);
             this.dgvPedidos.Name = "dgvPedidos";
-            this.dgvPedidos.Size = new System.Drawing.Size(600, 205);
+            this.dgvPedidos.Size = new System.Drawing.Size(600, 261);
             this.dgvPedidos.TabIndex = 27;
             this.dgvPedidos.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvPedidos_KeyDown);
             // 
@@ -331,7 +353,7 @@
             this.Column2});
             this.dgvPedidoExpedientes.Location = new System.Drawing.Point(643, 479);
             this.dgvPedidoExpedientes.Name = "dgvPedidoExpedientes";
-            this.dgvPedidoExpedientes.Size = new System.Drawing.Size(626, 205);
+            this.dgvPedidoExpedientes.Size = new System.Drawing.Size(626, 261);
             this.dgvPedidoExpedientes.TabIndex = 28;
             // 
             // Column1
@@ -347,7 +369,7 @@
             // 
             // btnGuardarExpediente
             // 
-            this.btnGuardarExpediente.Location = new System.Drawing.Point(521, 721);
+            this.btnGuardarExpediente.Location = new System.Drawing.Point(528, 763);
             this.btnGuardarExpediente.Name = "btnGuardarExpediente";
             this.btnGuardarExpediente.Size = new System.Drawing.Size(225, 23);
             this.btnGuardarExpediente.TabIndex = 29;
@@ -355,50 +377,55 @@
             this.btnGuardarExpediente.UseVisualStyleBackColor = true;
             this.btnGuardarExpediente.Click += new System.EventHandler(this.btnGuardarExpediente_Click);
             // 
-            // cmbOrganismoDestino
-            // 
-            this.cmbOrganismoDestino.FormattingEnabled = true;
-            this.cmbOrganismoDestino.Location = new System.Drawing.Point(533, 43);
-            this.cmbOrganismoDestino.Name = "cmbOrganismoDestino";
-            this.cmbOrganismoDestino.Size = new System.Drawing.Size(252, 23);
-            this.cmbOrganismoDestino.TabIndex = 12;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(530, 24);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(116, 15);
-            this.label10.TabIndex = 30;
-            this.label10.Text = "Organismo Destino:";
-            // 
             // lblMontoTotal
             // 
             this.lblMontoTotal.AutoSize = true;
             this.lblMontoTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMontoTotal.ForeColor = System.Drawing.Color.Green;
-            this.lblMontoTotal.Location = new System.Drawing.Point(992, 354);
+            this.lblMontoTotal.Location = new System.Drawing.Point(992, 348);
             this.lblMontoTotal.Name = "lblMontoTotal";
-            this.lblMontoTotal.Size = new System.Drawing.Size(117, 24);
+            this.lblMontoTotal.Size = new System.Drawing.Size(85, 24);
             this.lblMontoTotal.TabIndex = 30;
-            this.lblMontoTotal.Text = "Expediente";
+            this.lblMontoTotal.Text = "Subtotal";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(911, 360);
+            this.label12.Location = new System.Drawing.Point(849, 354);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(75, 15);
+            this.label12.Size = new System.Drawing.Size(138, 15);
             this.label12.TabIndex = 31;
-            this.label12.Text = "Monto Total:";
+            this.label12.Text = "Monto Total por Pedido:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(849, 383);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(140, 15);
+            this.label11.TabIndex = 32;
+            this.label11.Text = "Monto Total Acumulado:";
+            // 
+            // lblTotalGralAcumulado
+            // 
+            this.lblTotalGralAcumulado.AutoSize = true;
+            this.lblTotalGralAcumulado.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalGralAcumulado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblTotalGralAcumulado.Location = new System.Drawing.Point(995, 377);
+            this.lblTotalGralAcumulado.Name = "lblTotalGralAcumulado";
+            this.lblTotalGralAcumulado.Size = new System.Drawing.Size(100, 24);
+            this.lblTotalGralAcumulado.TabIndex = 33;
+            this.lblTotalGralAcumulado.Text = "Total Gral";
             // 
             // FrmGenerarExpedientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1291, 769);
+            this.ClientSize = new System.Drawing.Size(1291, 798);
+            this.Controls.Add(this.lblTotalGralAcumulado);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.lblMontoTotal);
             this.Controls.Add(this.btnGuardarExpediente);
@@ -473,5 +500,7 @@
         private System.Windows.Forms.ComboBox cmbOrganismoDestino;
         private System.Windows.Forms.Label lblMontoTotal;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lblTotalGralAcumulado;
     }
 }
