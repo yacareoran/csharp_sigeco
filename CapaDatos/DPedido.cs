@@ -947,6 +947,47 @@ namespace CapaDatos
 
         //fin procedimeinto de prueba
 
+
+        // Procedimiento asignar número de nota a un pedido (Capa de Datos)
+        public string AsignarNumeroNotaPedido(DPedido Pedido)
+        {
+            string rpta = "";
+
+            // El bloque 'using' asegura el cierre y liberación de la conexión automáticamente
+            using (SqlConnection SqlCon = new SqlConnection(Conexion.Cn))
+            {
+                try
+                {
+                    SqlCon.Open();
+
+                    using (SqlCommand SqlCmd = new SqlCommand("sp_ActualizarNumeroNota", SqlCon))
+                    {
+                        SqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        // Parámetros (Definiendo explícitamente el tamaño del VARCHAR)
+                        SqlCmd.Parameters.Add("@id_pedido", SqlDbType.Int).Value = Pedido.Id_pedido;
+                        SqlCmd.Parameters.Add("@num_nota", SqlDbType.VarChar, 50).Value = Pedido.Numero_nota;
+
+                        // Ejecutamos el procedimiento almacenado
+                        SqlCmd.ExecuteNonQuery();
+
+                        // Si no saltó al catch, la actualización fue un éxito
+                        rpta = "OK";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Captura errores de SQL (ej: fallos de red, problemas en el SP, etc.)
+                    rpta = ex.Message;
+                }
+            } // Aquí se cierra la conexión automáticamente, no hace falta el 'finally'
+
+            return rpta;
+        }
+        // Fin método asignar número de nota a un pedido
+
+
+
         //procedimiento maximo nuemro para expedientes
         public int BuscarMaximoNumeroExpediente()
         {

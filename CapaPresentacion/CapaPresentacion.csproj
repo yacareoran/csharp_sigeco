@@ -59,6 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="FrmAsignarNumeroNota.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAsignarNumeroNota.Designer.cs">
+      <DependentUpon>FrmAsignarNumeroNota.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmCompras.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,12 +112,6 @@
     </Compile>
     <Compile Include="FrmLogin.Designer.cs">
       <DependentUpon>FrmLogin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmModificarDetalleNotaPedido.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmModificarDetalleNotaPedido.Designer.cs">
-      <DependentUpon>FrmModificarDetalleNotaPedido.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmModificarEncabezadoNotaPedido.cs">
       <SubType>Form</SubType>
@@ -180,6 +180,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FrmAsignarNumeroNota.resx">
+      <DependentUpon>FrmAsignarNumeroNota.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmCompras.resx">
       <DependentUpon>FrmCompras.cs</DependentUpon>
     </EmbeddedResource>
@@ -203,9 +206,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmModificarDetalleNotaPedido.resx">
-      <DependentUpon>FrmModificarDetalleNotaPedido.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmModificarEncabezadoNotaPedido.resx">
       <DependentUpon>FrmModificarEncabezadoNotaPedido.cs</DependentUpon>
@@ -238,6 +238,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

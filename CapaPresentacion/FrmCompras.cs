@@ -60,8 +60,8 @@ namespace CapaPresentacion
 
         private void btnModificarNotaPedido_Click(object sender, EventArgs e)
         {
-            FrmModificarDetalleNotaPedido modificarDetalleNotaPedido = new FrmModificarDetalleNotaPedido();
-            modificarDetalleNotaPedido.Show();
+            FrmAsignarNumeroNota asignarNumeroNota = new FrmAsignarNumeroNota();
+            asignarNumeroNota.Show();
 
         }
 

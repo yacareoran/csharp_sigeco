@@ -34,6 +34,7 @@
             this.btnModificarNotaPedido = new System.Windows.Forms.Button();
             this.btnSeguimientoPedidos = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnGenerarExpediente = new System.Windows.Forms.Button();
             this.btnModificarPedidoCompras = new System.Windows.Forms.Button();
             this.btnModificarEncabezadoNotaPedido = new System.Windows.Forms.Button();
             this.btnNotasIngresadasModulo = new System.Windows.Forms.Button();
@@ -49,7 +50,6 @@
             this.txtSectoresInternos = new System.Windows.Forms.TextBox();
             this.txtIdUsuario = new System.Windows.Forms.TextBox();
             this.txtLegajoUsuario = new System.Windows.Forms.TextBox();
-            this.btnGenerarExpediente = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
@@ -89,7 +89,7 @@
             this.btnModificarNotaPedido.Name = "btnModificarNotaPedido";
             this.btnModificarNotaPedido.Size = new System.Drawing.Size(289, 23);
             this.btnModificarNotaPedido.TabIndex = 3;
-            this.btnModificarNotaPedido.Text = "Modificar Detalle de Notas de Pedido";
+            this.btnModificarNotaPedido.Text = "Asignar Número de Nota a Pedidos";
             this.btnModificarNotaPedido.UseVisualStyleBackColor = true;
             this.btnModificarNotaPedido.Visible = false;
             this.btnModificarNotaPedido.Click += new System.EventHandler(this.btnModificarNotaPedido_Click);
@@ -117,6 +117,17 @@
             this.panel2.Size = new System.Drawing.Size(342, 214);
             this.panel2.TabIndex = 5;
             this.panel2.Visible = false;
+            // 
+            // btnGenerarExpediente
+            // 
+            this.btnGenerarExpediente.Location = new System.Drawing.Point(49, 157);
+            this.btnGenerarExpediente.Name = "btnGenerarExpediente";
+            this.btnGenerarExpediente.Size = new System.Drawing.Size(289, 23);
+            this.btnGenerarExpediente.TabIndex = 14;
+            this.btnGenerarExpediente.Text = "Generar Expedientes";
+            this.btnGenerarExpediente.UseVisualStyleBackColor = true;
+            this.btnGenerarExpediente.Visible = false;
+            this.btnGenerarExpediente.Click += new System.EventHandler(this.btnGenerarExpediente_Click);
             // 
             // btnModificarPedidoCompras
             // 
@@ -252,17 +263,6 @@
             this.txtLegajoUsuario.Name = "txtLegajoUsuario";
             this.txtLegajoUsuario.Size = new System.Drawing.Size(19, 20);
             this.txtLegajoUsuario.TabIndex = 16;
-            // 
-            // btnGenerarExpediente
-            // 
-            this.btnGenerarExpediente.Location = new System.Drawing.Point(49, 157);
-            this.btnGenerarExpediente.Name = "btnGenerarExpediente";
-            this.btnGenerarExpediente.Size = new System.Drawing.Size(289, 23);
-            this.btnGenerarExpediente.TabIndex = 14;
-            this.btnGenerarExpediente.Text = "Generar Expedientes";
-            this.btnGenerarExpediente.UseVisualStyleBackColor = true;
-            this.btnGenerarExpediente.Visible = false;
-            this.btnGenerarExpediente.Click += new System.EventHandler(this.btnGenerarExpediente_Click);
             // 
             // FrmCompras
             // 

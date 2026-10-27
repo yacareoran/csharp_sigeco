@@ -181,6 +181,22 @@ namespace CapaNegocio
             return Obj.BuscarNumeroTransaccion();
         }
 
+        // Método asignar número de nota (Capa de Negocio)
+        public static string AsignarNumeroNotaPedido(int id_pedido, string numero_nota)
+        {
+            // 1. Instanciamos el objeto de la Capa de Datos
+            DPedido Obj = new DPedido();
+
+            // 2. Le asignamos los valores que vienen desde la Presentación
+            Obj.Id_pedido = id_pedido;
+            Obj.Numero_nota = numero_nota;
+
+            // CORRECCIÓN: Llamamos al método específico para la nota, no al Editar general
+            return Obj.AsignarNumeroNotaPedido(Obj);
+        }
+        // Fin método asignar número de nota
+
+
         //metodo retornar numero maximo para expedientes
         public static int BuscarMaximoNumeroExpediente()
         {

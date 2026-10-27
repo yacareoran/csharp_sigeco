@@ -58,13 +58,14 @@
             this.txtBuscarNotaPedido = new System.Windows.Forms.TextBox();
             this.dgvPedidos = new System.Windows.Forms.DataGridView();
             this.dgvPedidoExpedientes = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnGuardarExpediente = new System.Windows.Forms.Button();
             this.lblMontoTotal = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.lblTotalGralAcumulado = new System.Windows.Forms.Label();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidoExpedientes)).BeginInit();
@@ -350,22 +351,12 @@
             this.dgvPedidoExpedientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPedidoExpedientes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
-            this.Column2});
+            this.Column2,
+            this.Column3});
             this.dgvPedidoExpedientes.Location = new System.Drawing.Point(643, 479);
             this.dgvPedidoExpedientes.Name = "dgvPedidoExpedientes";
-            this.dgvPedidoExpedientes.Size = new System.Drawing.Size(626, 261);
+            this.dgvPedidoExpedientes.Size = new System.Drawing.Size(655, 261);
             this.dgvPedidoExpedientes.TabIndex = 28;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Numero Transaccion";
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Pedido";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 500;
             // 
             // btnGuardarExpediente
             // 
@@ -419,11 +410,28 @@
             this.lblTotalGralAcumulado.TabIndex = 33;
             this.lblTotalGralAcumulado.Text = "Total Gral";
             // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Numero Transaccion";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Pedido";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 400;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Número de Nota";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 150;
+            // 
             // FrmGenerarExpedientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1291, 798);
+            this.ClientSize = new System.Drawing.Size(1330, 798);
             this.Controls.Add(this.lblTotalGralAcumulado);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label12);
@@ -493,8 +501,6 @@
         private System.Windows.Forms.TextBox txtBuscarNotaPedido;
         private System.Windows.Forms.DataGridView dgvPedidos;
         private System.Windows.Forms.DataGridView dgvPedidoExpedientes;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Button btnGuardarExpediente;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox cmbOrganismoDestino;
@@ -502,5 +508,8 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lblTotalGralAcumulado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     }
 }
