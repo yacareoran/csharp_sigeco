@@ -93,159 +93,80 @@ namespace CapaPresentacion
 
         private void btnEditarPedido_Click(object sender, EventArgs e)
         {
-            FrmEditarPedido editarPedido = new FrmEditarPedido();
-            editarPedido.txtNumeroTransaccion.Text = Convert.ToString(this.dgvBuscarPedidos.CurrentRow.Cells[1].Value.ToString());
-            editarPedido.txtIdPedido.Text = Convert.ToString(this.dgvBuscarPedidos.CurrentRow.Cells[0].Value.ToString());
-            editarPedido.txtPasarFechaPedido.Text = Convert.ToString(this.dgvBuscarPedidos.CurrentRow.Cells[2].Value.ToString());
-            editarPedido.txtPasarObservaciones.Text = Convert.ToString(this.dgvBuscarPedidos.CurrentRow.Cells[5].Value.ToString());
-            editarPedido.txtPrecioTotalEstimado.Text = Convert.ToString(this.dgvBuscarPedidos.CurrentRow.Cells[7].Value.ToString());
-            editarPedido.txtLegajo.Text = this.txtLegajoUsuario.Text;
-            // 1. Obtener el ID de la fila seleccionada (suponiendo que está en la columna 0)
-            //int idCaracterPedidoGrid = Convert.ToInt32(this.dgvBuscarPedidos.CurrentRow.Cells[4].Value);
-            int idCaracterPedidoGrid = Convert.ToInt32(1);
-            // 3. Pasar el valor a la propiedad pública
-            //editarPedido.cmbCaracterPedido.SelectedIndex = idSexoGrid;
-            //frm.IdSexoRecibido = idSexoGrid;
+            // ==========================================
+            // VALIDACIÓN PROFESIONAL DE SELECCIÓN
+            // ==========================================
+            if (this.dgvBuscarPedidos.CurrentRow == null || this.dgvBuscarPedidos.CurrentRow.Index < 0)
+            {
+                MessageBox.Show("Por favor, seleccione el pedido que desea editar de la lista.",
+                                "Atención",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return; // Frenamos el método de forma segura. El programa ya no se cae.
+            }
 
+            // Si el programa llega aquí, es 100% seguro que hay una fila seleccionada.
+            FrmEditarPedido editarPedido = new FrmEditarPedido();
+
+            // NOTA: Limpié los Convert.ToString(this...Value.ToString()) que estaban redundantes
+            editarPedido.txtNumeroTransaccion.Text = this.dgvBuscarPedidos.CurrentRow.Cells[1].Value?.ToString() ?? "";
+            editarPedido.txtIdPedido.Text = this.dgvBuscarPedidos.CurrentRow.Cells[0].Value?.ToString() ?? "";
+            editarPedido.txtPasarFechaPedido.Text = this.dgvBuscarPedidos.CurrentRow.Cells[2].Value?.ToString() ?? "";
+            editarPedido.txtPasarObservaciones.Text = this.dgvBuscarPedidos.CurrentRow.Cells[5].Value?.ToString() ?? "";
+            editarPedido.txtPrecioTotalEstimado.Text = this.dgvBuscarPedidos.CurrentRow.Cells[7].Value?.ToString() ?? "";
+            editarPedido.txtLegajo.Text = this.txtLegajoUsuario.Text;
+
+            int idCaracterPedidoGrid = Convert.ToInt32(1);
 
             DataTable miDataTable = new DataTable();
             List<DDetalle> listaResumen = new List<DDetalle>();
 
-                
-            var listaCantidadDetalle = NDetalle.BuscarDetalles(Convert.ToInt32(this.dgvBuscarPedidos.CurrentRow.Cells[0].Value.ToString()));
-            // Suponiendo que tu DataTable se llama 'miDataTable'
+            // Capa de Negocio llamando al SP de la Capa de Datos de forma segura
+            var listaCantidadDetalle = NDetalle.BuscarDetalles(Convert.ToInt32(this.dgvBuscarPedidos.CurrentRow.Cells[0].Value));
+
             foreach (DataColumn columnna in listaCantidadDetalle.Columns)
             {
                 columnna.ReadOnly = false;
             }
-           
+
             foreach (DataRow row in listaCantidadDetalle.Rows)
-                {
+            {
                 listaResumen.Add(new DDetalle
                 {
                     Renglon = Convert.ToInt32(row["renglon"]),
                     Id_detalle = Convert.ToInt32(row["id_Detalle"]),
                     Detalle = row["detalle"].ToString(),
-                    //Detalle = Convert.ToString(row["detalle"]),
                     Cantidad = Convert.ToInt32(row["cantidad"]),
                     Precio = Convert.ToDecimal(row["precio"]),
-                    
-                    
                 });
+            }
 
-                }
-
-
-            // 1. Evitas que el grid cree columnas por su cuenta
+            // Configuración del DataGridView secundario
             editarPedido.dgvDetalles.AutoGenerateColumns = false;
-
-            // 2. Limpias columnas existentes (por si acaso)
             editarPedido.dgvDetalles.Columns.Clear();
 
-            // 3. Agregas manualmente solo las que necesitas
-            //editarPedido.dgvDetalles.Columns.Add(new DataGridViewTextBoxColumn { 
-            // DataPropertyName = "Id_detalle", HeaderText = "ID" 
-            //});
-            //var colId = new DataGridViewTextBoxColumn { DataPropertyName = "Id_detalle", HeaderText = "ID" };
-            //colId.Width = 50; // Un ID suele ser pequeño
-            //editarPedido.dgvDetalles.Columns.Add(colId);
-
-
-            // 3. Creas y agregas cada columna UNA sola vez configurando sus propiedades
-            var colRenglon = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Renglon",
-                HeaderText = "Renglón",
-                Width = 80
-            };
+            var colRenglon = new DataGridViewTextBoxColumn { DataPropertyName = "Renglon", HeaderText = "Renglón", Width = 80 };
             editarPedido.dgvDetalles.Columns.Add(colRenglon);
 
-            var colId = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Id_detalle",
-                HeaderText = "ID",
-                Width = 50
-            };
+            var colId = new DataGridViewTextBoxColumn { DataPropertyName = "Id_detalle", HeaderText = "ID", Width = 50 };
             editarPedido.dgvDetalles.Columns.Add(colId);
 
-
-
-
-
-
-            //editarPedido.dgvDetalles.Columns.Add(new DataGridViewTextBoxColumn { 
-            //    DataPropertyName = "Detalle", HeaderText = "Producto/Detalle" 
-            //});
-            //var colDetalle = new DataGridViewTextBoxColumn { DataPropertyName = "Detalle", HeaderText = "Producto/Detalle" };
-            //colDetalle.Width = 250; // El detalle necesita más espacio
-            //editarPedido.dgvDetalles.Columns.Add(colDetalle);
-            var colDetalle = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Detalle",
-                HeaderText = "Producto/Detalle",
-                Width = 800
-            };
+            var colDetalle = new DataGridViewTextBoxColumn { DataPropertyName = "Detalle", HeaderText = "Producto/Detalle", Width = 800 };
             editarPedido.dgvDetalles.Columns.Add(colDetalle);
 
-            //editarPedido.dgvDetalles.Columns.Add(new DataGridViewTextBoxColumn { 
-            //DataPropertyName = "Cantidad", HeaderText = "Cant." 
-            //});
-            //var colCantidad = new DataGridViewTextBoxColumn { DataPropertyName = "Cantidad", HeaderText = "Cant." };
-            //colCantidad.Width = 80;
-            //editarPedido.dgvDetalles.Columns.Add(colCantidad);
-            var colCantidad = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Cantidad",
-                HeaderText = "Cant.",
-                Width = 80
-            };
+            var colCantidad = new DataGridViewTextBoxColumn { DataPropertyName = "Cantidad", HeaderText = "Cant.", Width = 80 };
             editarPedido.dgvDetalles.Columns.Add(colCantidad);
 
-            //editarPedido.dgvDetalles.Columns.Add(new DataGridViewTextBoxColumn { 
-            //DataPropertyName = "Precio", HeaderText = "Precio Unit." 
-            //});
-            //var colPrecio = new DataGridViewTextBoxColumn { DataPropertyName = "Precio", HeaderText = "Precio Unit." };
-            //colPrecio.Width = 100;
-            //editarPedido.dgvDetalles.Columns.Add(colPrecio);
-            var colPrecio = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Precio",
-                HeaderText = "Precio Unit.",
-                Width = 100
-            };
-            // Opcional: Formato de moneda para la columna precio
+            var colPrecio = new DataGridViewTextBoxColumn { DataPropertyName = "Precio", HeaderText = "Precio Unit.", Width = 100 };
             colPrecio.DefaultCellStyle.Format = "N2";
             editarPedido.dgvDetalles.Columns.Add(colPrecio);
 
-            // 4. Asignas los datos
-            //editarPedido.dgvDetalles.DataSource = new BindingList<DDetalle>(datosfiltrados);
-
-
-            // 1.Obtenés tu lista de objetos DPedido(como ya hacías)
-            // ... (el foreach donde llenás listaResumen)
-
-            // 2. En lugar de proyectar a un tipo anónimo, filtrá/ordená la lista original
-            var datosfiltrados = listaResumen
-            .OrderBy(c => c.Detalle) // Ejemplo de ordenamiento
-            .ToList();
-
-            // 3. Lo convertís a BindingList para que sea editable
+            var datosfiltrados = listaResumen.OrderBy(c => c.Detalle).ToList();
             editarPedido.dgvDetalles.DataSource = new BindingList<DDetalle>(datosfiltrados);
 
-
-
-            //dgvBuscarPedidos.DataSource = datosfiltrados;
-            // Las columnas se ajustan para mostrar todo el contenido del texto
-
-            //Esto funciona bien
-            //editarPedido.dgvDetalles.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            //editarPedido.ShowDialog();
-
             editarPedido.dgvDetalles.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-
             editarPedido.ShowDialog();
-
-
         }
+
     }
 }

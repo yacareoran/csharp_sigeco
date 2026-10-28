@@ -1,4 +1,5 @@
-﻿using CapaNegocio;
+﻿using CapaDatos;
+using CapaNegocio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +20,7 @@ namespace CapaPresentacion
             this.LlenarComboCaracterPedido();
             this.LlenarComboEstado();
         }
-
+        
         private void FrmEditarPedido_Load(object sender, EventArgs e)
         {
             
@@ -40,30 +41,41 @@ namespace CapaPresentacion
             this.cmbEstadoPedido.DisplayMember = "estado";
             this.cmbEstadoPedido.SelectedIndex = 1;
         }
+
         private void CalcularTotalEstimado()
         {
-            decimal totalGeneral = 0;
+            // Forzamos a la grilla a cerrar cualquier edición pendiente
+            dgvDetalles.EndEdit();
 
-            foreach (DataGridViewRow fila in dgvDetalles.Rows)
+            if (dgvDetalles.DataSource is BindingList<DDetalle> listaDetalles)
             {
-                // Ignoramos la fila vacía del final si la grilla permite agregar filas manualmente
-                if (fila.IsNewRow) continue;
+                // Suma ultra rápida en memoria RAM (eficiencia pura)
+                decimal totalGeneral = listaDetalles.Sum(item => item.Cantidad * item.Precio);
 
-                // Reemplaza "Cant." y "Precio Unit." por los nombres reales (Name) de tus columnas
-                if (fila.Cells[2].Value != null && fila.Cells[3].Value != null)
-                {
-                    // Usamos decimal.TryParse por seguridad para evitar caídas si el usuario escribe letras
-                   
-                    decimal.TryParse(fila.Cells[2].Value.ToString(), out decimal cantidad);
-                    decimal.TryParse(fila.Cells[3].Value.ToString(), out decimal precioUnitario);
-
-                    // Sumamos el subtotal de esta fila al total general
-                    totalGeneral += (cantidad * precioUnitario);
-                }
+                // Mostramos el resultado en la caja de texto
+                txtPrecioTotalEstimado.Text = totalGeneral.ToString("N2");
             }
+        }
 
-            // Mostramos el resultado en tu TextBox con formato de dos decimales
-            txtPrecioTotalEstimado.Text = totalGeneral.ToString("F2");
+        // 1. Este evento detecta el cambio apenas el usuario escribe o edita la celda
+        private void dgvDetalles_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            // Si la celda actual está en estado "sucia" (modificada), confirmamos el cambio inmediatamente
+            if (dgvDetalles.IsCurrentCellDirty)
+            {
+                dgvDetalles.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        // 2. Al hacer el CommitEdit arriba, este evento se va a disparar AL TOQUE
+        private void dgvDetalles_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            // Validamos que el cambio sea en las columnas de Cantidad (3) o Precio (4)
+            if (e.ColumnIndex == 3 || e.ColumnIndex == 4)
+            {
+                // Llamamos a tu método centralizado
+                this.CalcularTotalEstimado();
+            }
         }
 
         private void btnModificarPedido_Click(object sender, EventArgs e)
@@ -162,15 +174,16 @@ namespace CapaPresentacion
             }
         }
 
-        private void dgvDetalles_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
+        //private void dgvDetalles_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        //{
             // Validamos que el cambio haya sido en las columnas de Cantidad o Precio
             // Reemplaza por el índice o el nombre de tus columnas
-            if (e.ColumnIndex == 2 || e.ColumnIndex == 3)
-            {
-                CalcularTotalEstimado();
-            }
+            //if (e.ColumnIndex == 3 || e.ColumnIndex == 4)
+            //{
+            //    MessageBox.Show("Precionó la coliumna cantidad o precio");
+            //    //this.CalcularTotalEstimado();
+            //}
              
-        }
+        //}
     }
 }
