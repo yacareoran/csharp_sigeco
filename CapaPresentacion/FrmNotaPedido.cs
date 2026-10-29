@@ -66,52 +66,136 @@ namespace CapaPresentacion
         //metodo cargar unidad medida
         private void CargarUnidad_Medida()
         {
-            
-                //inicio cargar clase lista
-                //DFactura V = new DFactura();
-                DPedido P = new DPedido();
-                DVentas Ventas = new DVentas();
-                DDetalle Detalle1 = new DDetalle();
-                decimal Subtotal = 0;
+            // ------------------------------------------------------------------------
+            // 1. VALIDACIONES DE CAMPOS VACÍOS (Obligatorios)
+            // ------------------------------------------------------------------------
 
-                try
-                {
-                    Ventas.Cantidad = Convert.ToInt32(this.txtCantidad.Text);
-                    
-                    Ventas.Unidad = this.cmbUnidadMedida.Text;
-                    
-                    Ventas.Concepto = this.txtConcepto.Text;
-                    Ventas.Precio_unitario = Convert.ToDecimal(this.txtPrecioUnitario.Text);
-                    
-                    
-                    Ventas.Rubro = this.cmbRubro.Text;
-                    Ventas.Subrubro = this.cmbSubrubro.Text;
+            // Validar que txtCantidad no esté vacío (necesario para las conversiones de abajo)
+            if (string.IsNullOrWhiteSpace(this.txtCantidad.Text))
+            {
+                MessageBox.Show("Por favor, ingrese la cantidad.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.txtCantidad.Focus();
+                return;
+            }
 
+            // Validar que txtConcepto no esté vacío
+            if (string.IsNullOrWhiteSpace(this.txtConcepto.Text))
+            {
+                MessageBox.Show("Por favor, ingrese el concepto.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.txtConcepto.Focus();
+                return; // Frena la ejecución del método
+            }
+
+            // Validar que txtPrecioUnitario no esté vacío
+            if (string.IsNullOrWhiteSpace(this.txtPrecioUnitario.Text))
+            {
+                MessageBox.Show("Por favor, ingrese el precio unitario.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.txtPrecioUnitario.Focus();
+                return;
+            }
+                        
+            // Validar que cmbSector tenga algo seleccionado (asumiendo que si SelectedIndex es -1, está vacío)
+            if (this.cmbSector.SelectedIndex == -1 || string.IsNullOrWhiteSpace(this.cmbSector.Text))
+            {
+                MessageBox.Show("Por favor, seleccione un Sector.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.cmbSector.Focus();
+                return;
+            }
+
+            // Validar que cmbSubrubro tenga algo seleccionado
+            if (this.cmbSubrubro.SelectedIndex == -1 || string.IsNullOrWhiteSpace(this.cmbSubrubro.Text))
+            {
+                MessageBox.Show("Por favor, seleccione un Subrubro.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.cmbSubrubro.Focus();
+                return;
+            }
+
+
+            // ------------------------------------------------------------------------
+            // 2. PREGUNTAS DE CONFIRMACIÓN (¿Está seguro?)
+            // ------------------------------------------------------------------------
+
+            // Confirmación de Unidad de Medida
+            DialogResult resultUnidad = MessageBox.Show(
+                $"¿Está seguro que desea elegir la unidad de medida '{this.cmbUnidadMedida.Text}'?",
+                "Confirmar Unidad",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (resultUnidad == DialogResult.No)
+            {
+                this.cmbUnidadMedida.Focus();
+                return; // El usuario dijo que no, frenamos todo para que corrija
+            }
+
+            // Confirmación de Sector
+            DialogResult resultSector = MessageBox.Show(
+                $"¿Está seguro que el Sector seleccionado '{this.cmbSector.Text}' es el correcto?",
+                "Confirmar Sector",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (resultSector == DialogResult.No)
+            {
+                this.cmbSector.Focus();
+                return;
+            }
+
+            // Confirmación de Subrubro
+            DialogResult resultSubrubro = MessageBox.Show(
+                $"¿Está seguro que el Subrubro seleccionado '{this.cmbSubrubro.Text}' es el correcto?",
+                "Confirmar Subrubro",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (resultSubrubro == DialogResult.No)
+            {
+                this.cmbSubrubro.Focus();
+                return;
+            }
+
+
+            // ------------------------------------------------------------------------
+            // 3. PROCESAMIENTO DE LOS DATOS (Tu código original optimizado)
+            // ------------------------------------------------------------------------
+            DPedido P = new DPedido();
+            DVentas Ventas = new DVentas();
+            DDetalle Detalle1 = new DDetalle();
+            decimal Subtotal = 0;
+
+            try
+            {
+                Ventas.Cantidad = Convert.ToInt32(this.txtCantidad.Text.Trim());
+                Ventas.Unidad = this.cmbUnidadMedida.Text;
+                Ventas.Concepto = this.txtConcepto.Text.Trim();
+                Ventas.Precio_unitario = Convert.ToDecimal(this.txtPrecioUnitario.Text.Trim());
+
+                Ventas.Rubro = this.cmbRubro.Text;
+                Ventas.Subrubro = this.cmbSubrubro.Text;
+
+                // Validamos que los SelectedValue no sean nulos antes de convertir
+                if (this.cmbRubro.SelectedValue != null)
                     Ventas.Rubro_id = Convert.ToInt32(this.cmbRubro.SelectedValue);
+
+                if (this.cmbSubrubro.SelectedValue != null)
                     Ventas.Subrubro_id = Convert.ToInt32(this.cmbSubrubro.SelectedValue);
 
-                    //MessageBox.Show("el valor del id del combo es: " + " " + Convert.ToInt32(this.cmbRubro.ValueMember));
+                // Uso de InvariantCulture para evitar problemas con puntos y comas según la región de la PC
+                decimal precio = decimal.Parse(this.txtPrecioUnitario.Text.Trim(), CultureInfo.InvariantCulture);
+                Ventas.Subtotal = precio * Convert.ToInt32(this.txtCantidad.Text.Trim());
 
-                    //decimal valor = decimal.Parse(entrada, CultureInfo.InvariantCulture);
-                    decimal precio = decimal.Parse(this.txtPrecioUnitario.Text, CultureInfo.InvariantCulture);
-                    Ventas.Subtotal = (Convert.ToDecimal(precio) * (Convert.ToInt32(this.txtCantidad.Text)));
+                lst.Add(Ventas);
+                LlenarGrilla();
 
-
-                
-
-                    lst.Add(Ventas);
-                    LlenarGrilla();
-                MessageBox.Show("Paso sin errores, se comento LlenarGrilla()");
-                }
-                catch
-                {
-                    MessageBox.Show("Entro por el Catch");
-                    //MessageBox.Show("el valor del id del combo es: " + " " + Convert.ToInt32(this.cmbRubro.ValueMember));
-                }
-
-                //fin cargar clase lista
-            
+                MessageBox.Show("¡Producto cargado con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Te agregué 'ex.Message' para que si falla el bloque, sepas exactamente por qué saltó el catch
+                MessageBox.Show("Ocurrió un error al procesar los datos: " + ex.Message, "Error Interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         //Imprimir Pedido
         private void ImprimirPedido(int id_pedido)
