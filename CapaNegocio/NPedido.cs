@@ -10,31 +10,33 @@ namespace CapaNegocio
 {
     public class NPedido
     {
-        //metodo insertar
+        // Método insertar optimizado para la capa de negocio
         public static string Insertar(int id_pedido, string pedido, string fecha_pedido, int num_seguimiento, int usuario_id, int num_transaccion, int caracter_pedido_id, int estado_pedido_id, int destino_id, int emisor_id, string extracto, int sectores_id, int organismo_id, int sectores_internos_id)
         {
-           
             DPedido Obj = new DPedido();
             Obj.Id_pedido = id_pedido;
             Obj.Pedido = pedido;
-            if (fecha_pedido != string.Empty)
+
+            // Control de fecha seguro: evita caídas por formatos regionales del servidor
+            if (!string.IsNullOrWhiteSpace(fecha_pedido))
             {
-                try
+                // Intenta convertir la fecha usando el formato del sistema actual
+                if (DateTime.TryParse(fecha_pedido, out DateTime fechaConvertida))
                 {
-                    Obj.Fecha_pedido = Convert.ToDateTime(fecha_pedido);
+                    Obj.Fecha_pedido = fechaConvertida;
                 }
-                catch (Exception)
+                else
                 {
-
-                    Obj.Fecha_pedido = System.DateTime.Parse("1900-01-01");
-
+                    // Fecha por defecto si el formato enviado es inválido
+                    Obj.Fecha_pedido = new DateTime(1900, 1, 1);
                 }
             }
             else
             {
-                Obj.Fecha_pedido = System.DateTime.Parse("1900-01-01");
+                // Fecha por defecto si viene vacío o nulo
+                Obj.Fecha_pedido = new DateTime(1900, 1, 1);
             }
-            
+
             Obj.Num_seguimiento = num_seguimiento;
             Obj.Usuario_id = usuario_id;
             Obj.Num_transaccion = num_transaccion;
@@ -46,8 +48,11 @@ namespace CapaNegocio
             Obj.Sectores_id = sectores_id;
             Obj.Organismo_id = organismo_id;
             Obj.Sectores_internos_id = sectores_internos_id;
+
+            // Envía el objeto limpio hacia la capa de datos
             return Obj.Insertar(Obj);
         }
+
 
         //metodo editar
         public static string EditarPedido(int id_pedido, string pedido, int estado_id, int caracter_pedido_id)

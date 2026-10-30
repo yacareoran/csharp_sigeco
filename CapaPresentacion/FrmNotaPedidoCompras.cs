@@ -306,7 +306,6 @@ namespace CapaPresentacion
         }
         private void btnRegistrarPedido_Click(object sender, EventArgs e)
         {//inicio boton registrar pedido 
-            
             ArrayList productos_cantidades = new ArrayList();
             int posicion;
             int l = 0;
@@ -320,80 +319,70 @@ namespace CapaPresentacion
             string rptaFactura = "";
             int k = 0;
 
-
-
             if (dgvAgregarNotaPedido.Rows.Count > 0)
-            {//boton productos
+            {
+                // ELIMINADO: Ya no calculamos el número de transacción desde C# porque lo hace el SP.
+                // Pasamos un '0' en el parámetro correspondiente (el 6to parámetro) ya que el SP se encarga.
+                rptaFactura = NPedido.Insertar(
+                    500,
+                    Convert.ToString(this.txtPedido.Text),
+                    "12/10/2005",
+                    1,
+                    Convert.ToInt32(this.txtIdUsuario.Text),
+                    0, // <-- Mandamos 0 aquí. El SP generará el número real.
+                    Convert.ToInt32(this.cmbCaracterCompra.SelectedValue),
+                    1,
+                    Convert.ToInt32(this.cmbSector.SelectedValue),
+                    Convert.ToInt32(this.txtIdUsuario.Text),
+                    Convert.ToString(this.txtObservaciones.Text),
+                    Convert.ToInt32(this.cmbSector.SelectedValue),
+                    Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue),
+                    Convert.ToInt32(this.txtIdSectoresInternos.Text)
+                );
 
-                
-                DateTime fechaEspecifica = new DateTime(2025, 12, 25); // Año, mes, día
-                string id_pedido;
-                int numero_transaccion_maxima = NPedido.BuscarNumeroTransaccion(); 
-                int numero_transaccion = numero_transaccion_maxima;
-                numero_transaccion = numero_transaccion_maxima + 1;
-                //int renglon = 1;
-                MessageBox.Show("numero maximo de transaccion es: " + " " + numero_transaccion_maxima);
-                if (dgvAgregarNotaPedido.Rows.Count < 0)
+                int legajo_usuario = Convert.ToInt32(this.txtLegajo.Text);
+
+                rpta_bitacora = NBitacora.Insertar_bitacora(legajo_usuario, 1, "Insertar pedido desde Procesamiento de Datos. ID Generado: " + rptaFactura);
+
+                if (rptaFactura != "no_insertado" && !rptaFactura.Contains("Exception"))
                 {
-                    MessageBox.Show("No se cargó el pedido, Revise los datos cargados en los renglones.");
-                    //LimpiarPedido();
+                    int idPedidoGenerado = Convert.ToInt32(rptaFactura);
+                    int renglon = 0;
+
+                    for (int i = 0; i < dgvAgregarNotaPedido.Rows.Count; i++)
+                    {
+                        renglon++;
+
+                        // Mapeo de celdas (Verificar índices de tu DataGridView)
+                        string detalleProd = Convert.ToString(dgvAgregarNotaPedido.Rows[i].Cells[2].Value);
+                        int cantidad = Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[0].Value);
+                        int unidadMedida = Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[5].Value);
+                        decimal precio = Convert.ToDecimal(dgvAgregarNotaPedido.Rows[i].Cells[3].Value);
+
+                        int idArticulo = Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[0].Value);
+                        int idExtra = Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[0].Value);
+
+                        rpta = NDetalle.Insertar(detalleProd, cantidad, unidadMedida, precio, idPedidoGenerado, renglon, idArticulo, idExtra);
+                    }
+
+                    MessageBox.Show("Se realizó correctamente la venta del pedido N°: " + idPedidoGenerado);
+
+                    LimpiarPedido();
+                    ImprimirPedido(idPedidoGenerado);
                 }
                 else
                 {
-                    id_pedido = Convert.ToString(this.txtPedido.Text);
-                    rptaFactura = NPedido.Insertar(500, Convert.ToString(this.txtPedido.Text), "12/10/2005", 1, Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToInt32(numero_transaccion), Convert.ToInt32(this.cmbCaracterCompra.SelectedValue), 1, Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToString(this.txtObservaciones.Text), Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue), Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.txtIdSectoresInternos.Text));
-                    int legajo_usuario = Convert.ToInt32(this.txtLegajo.Text);
-                    MessageBox.Show("El id del sector es: " + " " + Convert.ToInt32(this.cmbSector.SelectedValue));
-                    MessageBox.Show("La repuesta factura es : " + " " + rptaFactura);
-                    rpta_bitacora = NBitacora.Insertar_bitacora(legajo_usuario, 1, "Insertar pedido desde Procesamiento de Datos" + " " + rptaFactura);
-                    MessageBox.Show("La repuesta bitacora es : " + " " + rptaFactura);
-                    //int legajo_usuario = FrmLogin.usuario.Legajo;
-                    //rpta_bitacora = NBitacora.Insertar_bitacora(legajo_usuario, 1, "Insertar nueva venta");
-                    if (rptaFactura != "no_insertado")
-                    {
-                        //crearTicket ticket = new crearTicket();
-                        //productos p = new productos();
-                        int renglon = 0;
-                        for (int i = 0; i <= dgvAgregarNotaPedido.Rows.Count - 1; i++)
-                        {
-                            renglon = renglon + 1;
-                            rpta = NDetalle.Insertar(Convert.ToString(dgvAgregarNotaPedido.Rows[i].Cells[2].Value), Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[0].Value), Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[5].Value), Convert.ToDecimal(dgvAgregarNotaPedido.Rows[i].Cells[3].Value), Convert.ToInt32(rptaFactura), Convert.ToInt32(renglon), Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[0].Value), Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[0].Value));
-                        //MessageBox.Show("Valor del parametro i: " + " " + i);
-                        //MessageBox.Show("Valor del renglon: " + " " + renglon);
-                        MessageBox.Show("El valor de la columna es 2 y del detalle es: " + " " + Convert.ToString(dgvAgregarNotaPedido.Rows[i].Cells[2].Value));
-                            MessageBox.Show("El valor de la columna es 0 y la cantidad es: " + " " + Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[0].Value));
-                            MessageBox.Show("El valor de la columna es 5 y la unidad_medida_id es: " + " " + Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[5].Value));
-                            MessageBox.Show("El valor de la columna es 3 y el precio es: " + " " + Convert.ToDecimal(dgvAgregarNotaPedido.Rows[i].Cells[3].Value));
-
-                        }
-
-                        MessageBox.Show("Se realizó correctamente la venta." + Convert.ToInt32(rptaFactura));
-
-                        LimpiarPedido();
-                        ImprimirPedido(Convert.ToInt32(rptaFactura));
-                    }
-
-                    else
-                    {
-                        MessageBox.Show("No se guardo el pedido, pongase en contacto con el Administrador de base de datos de Procesamiento de Datos.");
-                        LimpiarPedido();
-                    }
-                    //}//fin ciclo for
-
+                    MessageBox.Show("No se guardó el pedido. Error: " + rptaFactura);
+                    LimpiarPedido();
                 }
-
-            }//boton productos
-
+            }
             else
             {
-                MessageBox.Show("Debe ingresar nuevamente la clave de Vendedor");
-              
+                MessageBox.Show("No se cargó el pedido. Revise los datos cargados en los renglones.");
             }
+        }
 
-
-        }//fin boton registrar pedido
-
-        private void cmbUnidadMedida_TextChanged(object sender, EventArgs e)
+            private void cmbUnidadMedida_TextChanged(object sender, EventArgs e)
         {
             //this.CargarUnidad_Medida();
         }

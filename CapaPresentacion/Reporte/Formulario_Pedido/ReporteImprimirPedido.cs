@@ -25,66 +25,21 @@ namespace CapaPresentacion.Reporte.Formulario_Pedido
             DPedido pedido = new DPedido();
             DReportes reportes = new DReportes();
 
-            
-            /*if (pedidox.Rows.Count > 0)
-            {
-                DataRow row = pedidox.Rows[0];
-                               
-
-                pedido.Id_pedido = Convert.ToInt32(row["Id_pedido"]);
-                pedido.Pedido = row["Pedido"].ToString();
-                pedido.Fecha_pedido = Convert.ToDateTime(row["Fecha_pedido"]);
-                //pedido.Num_seguimiento = Convert.ToInt32(row["Num_seguimiento"]);
-                pedido.Usuario_id = Convert.ToInt32(row["Usuario_id"]);
-                pedido.Num_transaccion = Convert.ToInt32(row["Num_transaccion"]);
-                pedido.Caracter_pedido_id = Convert.ToInt32(row["Caracter_pedido_id"]);
-                //pedido.Estado_pedido_id = Convert.ToInt32(row["Estado_pedido_id"]);
-                pedido.Destino_id = Convert.ToInt32(row["Destino_id"]);
-                //pedido.Emisor_id = Convert.ToInt32(row["Emisor_id"]);
-                pedido.Origen_id = Convert.ToInt32(row["Origen_id"]);
-                pedido.Extracto = row["Extracto"].ToString();
-                //pedido.Expediente_interno = row["Expediente_interno"].ToString();
-                //pedido.Expediente_externo = row["Expediente_externo"].ToString();
-                //pedido.Numero_nota = row["Numero_nota"].ToString();
-                pedido.Sector = row["Sector"].ToString();
-                pedido.Caracter_pedido = row["Caracter_pedido"].ToString();
-                //pedido.Estado_id = Convert.ToInt32(row["Estado_id"]);
-                //pedido.Origen = row["Origen"].ToString();
-                pedido.Estado = row["Estado"].ToString();
-                //pedido.Costo_total = Convert.ToDecimal(row["Costo_total"]);
-
-            }*/
-
-
-
             if (pedidox.Rows.Count > 0)
             {
                 DataRow row = pedidox.Rows[0];
 
-
                 reportes.Id_pedido = Convert.ToInt32(row["Id_pedido"]);
                 reportes.Pedido = row["Pedido"].ToString();
                 reportes.Fecha_pedido = Convert.ToDateTime(row["Fecha_pedido"]);
-                //pedido.Num_seguimiento = Convert.ToInt32(row["Num_seguimiento"]);
                 reportes.Usuario_id = Convert.ToInt32(row["Usuario_id"]);
                 reportes.Num_transaccion = Convert.ToInt32(row["Num_transaccion"]);
                 reportes.Caracter_pedido_id = Convert.ToInt32(row["Caracter_pedido_id"]);
-                //pedido.Estado_pedido_id = Convert.ToInt32(row["Estado_pedido_id"]);
-                //reportes.Destino_id = Convert.ToInt32(row["Sector_id"]);
-                //pedido.Emisor_id = Convert.ToInt32(row["Emisor_id"]);
-                //reportes.Origen_id = Convert.ToInt32(row["Origen_id"]);
                 reportes.Extracto = row["Extracto"].ToString();
-                //pedido.Expediente_interno = row["Expediente_interno"].ToString();
-                //pedido.Expediente_externo = row["Expediente_externo"].ToString();
-                //pedido.Numero_nota = row["Numero_nota"].ToString();
                 reportes.Sector = row["Sector"].ToString();
                 reportes.Caracter_pedido = row["Caracter_pedido"].ToString();
-                //pedido.Estado_id = Convert.ToInt32(row["Estado_id"]);
-                //pedido.Origen = row["Origen"].ToString();
                 reportes.Estado = row["Estado"].ToString();
                 reportes.Origen = row["Origen"].ToString();
-                //pedido.Costo_total = Convert.ToDecimal(row["Costo_total"]);
-
             }
 
 

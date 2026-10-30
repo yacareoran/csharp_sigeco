@@ -452,155 +452,73 @@ namespace CapaDatos
             this.Sectores_internos = sectores_internos;
         }
 
-        //metodo insertar   
         public string Insertar(DPedido Pedido)
-        {//inicio insertar
+        {
             string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+
             try
             {
-                //conexion
-                SqlCon.ConnectionString = Conexion.Cn;
-                SqlCon.Open();
-                //establecer el comando
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "spinsertar_pedido";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
-
-                //parametros
-                SqlParameter ParId_Pedido = new SqlParameter();
-                ParId_Pedido.ParameterName = "@id_pedido";
-                ParId_Pedido.SqlDbType = SqlDbType.Int;
-                ParId_Pedido.Direction = ParameterDirection.Output;
-                SqlCmd.Parameters.Add(ParId_Pedido);
-
-                SqlParameter ParPedido = new SqlParameter();
-                ParPedido.ParameterName = "@pedido";
-                ParPedido.SqlDbType = SqlDbType.VarChar;
-                ParPedido.Size = 250;
-                ParPedido.Value = Pedido.Pedido;
-                SqlCmd.Parameters.Add(ParPedido);
-
-                SqlParameter ParFecha_Pedido = new SqlParameter();
-                ParFecha_Pedido.ParameterName = "@fecha_pedido";
-                ParFecha_Pedido.SqlDbType = SqlDbType.VarChar;
-                ParFecha_Pedido.Size = 50;
-                ParFecha_Pedido.Value = Pedido.Fecha_pedido;
-                SqlCmd.Parameters.Add(ParFecha_Pedido);
-
-                SqlParameter ParNumSeguimiento = new SqlParameter();
-                ParNumSeguimiento.ParameterName = "@num_seguimiento";
-                ParNumSeguimiento.SqlDbType = SqlDbType.Int;
-                ParNumSeguimiento.Value = Pedido.Num_seguimiento;
-                SqlCmd.Parameters.Add(ParNumSeguimiento);
-
-                SqlParameter ParUsuarioId = new SqlParameter();
-                ParUsuarioId.ParameterName = "@usuario_id";
-                ParUsuarioId.SqlDbType = SqlDbType.Int;
-                ParUsuarioId.Value = Pedido.Usuario_id;
-                SqlCmd.Parameters.Add(ParUsuarioId);
-
-                SqlParameter ParNumTransaccion = new SqlParameter();
-                ParNumTransaccion.ParameterName = "@num_transaccion";
-                ParNumTransaccion.SqlDbType = SqlDbType.Int;
-                ParNumTransaccion.Value = Pedido.Num_transaccion;
-                SqlCmd.Parameters.Add(ParNumTransaccion);
-
-                SqlParameter ParCaracterPedidoId = new SqlParameter();
-                ParCaracterPedidoId.ParameterName = "@caracter_pedido_id";
-                ParCaracterPedidoId.SqlDbType = SqlDbType.Int;
-                ParCaracterPedidoId.Value = Pedido.Caracter_pedido_id;
-                SqlCmd.Parameters.Add(ParCaracterPedidoId);
-
-                SqlParameter ParEstadoPedidoId = new SqlParameter();
-                ParEstadoPedidoId.ParameterName = "@estado_pedido_id";
-                ParEstadoPedidoId.SqlDbType = SqlDbType.Int;
-                ParEstadoPedidoId.Value = Pedido.Estado_pedido_id;
-                SqlCmd.Parameters.Add(ParEstadoPedidoId);
-
-                SqlParameter ParDestinoId = new SqlParameter();
-                ParDestinoId.ParameterName = "@destino_id";
-                ParDestinoId.SqlDbType = SqlDbType.Int;
-                ParDestinoId.Value = Pedido.Destino_id;
-                SqlCmd.Parameters.Add(ParDestinoId);
-
-                SqlParameter ParEmisorId = new SqlParameter();
-                ParEmisorId.ParameterName = "@emisor_id";
-                ParEmisorId.SqlDbType = SqlDbType.Int;
-                ParEmisorId.Value = Pedido.Emisor_id;
-                SqlCmd.Parameters.Add(ParEmisorId);
-
-                SqlParameter ParExtracto = new SqlParameter();
-                ParExtracto.ParameterName = "@extracto";
-                ParExtracto.SqlDbType = SqlDbType.VarChar;
-                ParExtracto.Size = 250;
-                ParExtracto.Value = Pedido.Extracto;
-                SqlCmd.Parameters.Add(ParExtracto);
-
-                SqlParameter ParOrigenId = new SqlParameter();
-                ParOrigenId.ParameterName = "@origen_id";
-                ParOrigenId.SqlDbType = SqlDbType.Int;
-                ParOrigenId.Value = Pedido.Usuario_id;
-                SqlCmd.Parameters.Add(ParOrigenId);
-
-                SqlParameter ParSectoresId = new SqlParameter();
-                ParSectoresId.ParameterName = "@sectores_id";
-                ParSectoresId.SqlDbType = SqlDbType.Int;
-                ParSectoresId.Value = Pedido.Sectores_id;
-                SqlCmd.Parameters.Add(ParSectoresId);
-
-                SqlParameter ParOrganismoId = new SqlParameter();
-                ParOrganismoId.ParameterName = "@organismo_id";
-                ParOrganismoId.SqlDbType = SqlDbType.Int;
-                ParOrganismoId.Value = Pedido.Organismo_id;
-                SqlCmd.Parameters.Add(ParOrganismoId);
-
-                SqlParameter ParSectoresInternosId = new SqlParameter();
-                ParSectoresInternosId.ParameterName = "@sectores_internos_id";
-                ParSectoresInternosId.SqlDbType = SqlDbType.Int;
-                ParSectoresInternosId.Value = Pedido.Sectores_internos_id;
-                SqlCmd.Parameters.Add(ParSectoresInternosId);
-
-
-                //ejecutar el codigo
-                //rpta = SqlCmd.ExecuteNonQuery() == 1 ? "OK" : "EL REGISTRO NO HA SIDO AGREGADO";
-
-                var resultado = SqlCmd.ExecuteNonQuery();
-
-                if (resultado == 1)
+                // El bloque using asegura el cierre y liberación de la conexión automáticamente
+                using (SqlConnection SqlCon = new SqlConnection(Conexion.Cn))
                 {
-                    rpta = Convert.ToString(SqlCmd.Parameters["@id_pedido"].Value.ToString());
+                    SqlCon.Open();
+
+                    using (SqlCommand SqlCmd = new SqlCommand("spinsertar_pedido", SqlCon))
+                    {
+                        SqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        // Parámetro de Salida (Output)
+                        SqlParameter ParId_Pedido = new SqlParameter("@id_pedido", SqlDbType.Int);
+                        ParId_Pedido.Direction = ParameterDirection.Output;
+                        SqlCmd.Parameters.Add(ParId_Pedido);
+
+                        // Parámetros de Entrada optimizados en sintaxis
+                        SqlCmd.Parameters.Add("@pedido", SqlDbType.VarChar, 250).Value = Pedido.Pedido;
+
+                        // CORRECCIÓN CRÍTICA: Se cambia VarChar por Date/DateTime para coincidir con el objeto C#
+                        SqlCmd.Parameters.Add("@fecha_pedido", SqlDbType.DateTime).Value = Pedido.Fecha_pedido;
+
+                        SqlCmd.Parameters.Add("@num_seguimiento", SqlDbType.Int).Value = Pedido.Num_seguimiento;
+                        SqlCmd.Parameters.Add("@usuario_id", SqlDbType.Int).Value = Pedido.Usuario_id;
+                        SqlCmd.Parameters.Add("@num_transaccion", SqlDbType.Int).Value = Pedido.Num_transaccion;
+                        SqlCmd.Parameters.Add("@caracter_pedido_id", SqlDbType.Int).Value = Pedido.Caracter_pedido_id;
+                        SqlCmd.Parameters.Add("@estado_pedido_id", SqlDbType.Int).Value = Pedido.Estado_pedido_id;
+                        SqlCmd.Parameters.Add("@destino_id", SqlDbType.Int).Value = Pedido.Destino_id;
+                        SqlCmd.Parameters.Add("@emisor_id", SqlDbType.Int).Value = Pedido.Emisor_id;
+                        SqlCmd.Parameters.Add("@extracto", SqlDbType.VarChar, 250).Value = Pedido.Extracto;
+
+                        // ALERTA: Verifica si realmente va Usuario_id aquí
+                        SqlCmd.Parameters.Add("@origen_id", SqlDbType.Int).Value = Pedido.Usuario_id;
+
+                        SqlCmd.Parameters.Add("@sectores_id", SqlDbType.Int).Value = Pedido.Sectores_id;
+                        SqlCmd.Parameters.Add("@organismo_id", SqlDbType.Int).Value = Pedido.Organismo_id;
+                        SqlCmd.Parameters.Add("@sectores_internos_id", SqlDbType.Int).Value = Pedido.Sectores_internos_id;
+
+                        // Ejecución
+                        int resultado = SqlCmd.ExecuteNonQuery();
+
+                        // Si el procedimiento afecta filas, recuperamos el ID generado
+                        if (resultado > 0 || SqlCmd.Parameters["@id_pedido"].Value != DBNull.Value)
+                        {
+                            rpta = SqlCmd.Parameters["@id_pedido"].Value.ToString();
+                        }
+                        else
+                        {
+                            rpta = "no_insertado";
+                        }
+                    }
                 }
-                else
-                {
-                    rpta = "no_insertado";
-                }
-
-
-
-
-
-
             }
             catch (Exception ex)
             {
-
                 rpta = ex.Message + ex.StackTrace;
             }
-            finally
-            {
-                if (SqlCon.State == ConnectionState.Open)
-                {
-                    SqlCon.Close();
-                }
 
-            }
             return rpta;
+        }
 
-        }//fin insertar
 
-       
+
         public DataTable BuscarxTransaccion(DPedido Pedido)
         {
             DataTable DtResultado = new DataTable("pedido");
