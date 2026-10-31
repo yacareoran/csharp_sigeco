@@ -471,11 +471,17 @@ namespace CapaPresentacion
 
                         }
 
-                        MessageBox.Show("Se realizó correctamente la venta." + Convert.ToInt32(rptaFactura));
+                        //MessageBox.Show("Se realizó correctamente la venta." + Convert.ToInt32(rptaFactura));
 
                         LimpiarPedido();
                         //esto es para ver si guarda bien.....
                         ImprimirPedido(Convert.ToInt32(rptaFactura));
+
+
+                       
+
+
+
                     }
 
                     else

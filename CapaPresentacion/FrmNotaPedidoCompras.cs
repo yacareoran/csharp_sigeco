@@ -365,10 +365,29 @@ namespace CapaPresentacion
                         rpta = NDetalle.Insertar(detalleProd, cantidad, unidadMedida, precio, idPedidoGenerado, renglon, idArticulo, idExtra);
                     }
 
-                    MessageBox.Show("Se realizó correctamente la venta del pedido N°: " + idPedidoGenerado);
+                    //MessageBox.Show("Se realizó correctamente la venta del pedido N°: " + idPedidoGenerado);
+                    //ImprimirPedido(idPedidoGenerado);
+                    //LimpiarPedido();
 
+                    // Forzamos la firma exacta de MessageBox.Show (Texto, Título, Botones, Icono)
+                    DialogResult resultado = MessageBox.Show(
+                        "Se cargó correctamente el pedido N°: " + idPedidoGenerado.ToString() + ".\n\n¿Desea imprimir el reporte del pedido?",
+                        "Venta Exitosa",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
+
+                    // Evaluamos de forma estricta que la respuesta haya sido "Yes"
+                    if (resultado == DialogResult.Yes)
+                    {
+                        ImprimirPedido(idPedidoGenerado);
+                    }
+
+                    // Fuera del bloque IF para limpiar la pantalla después de la decisión
                     LimpiarPedido();
-                    ImprimirPedido(idPedidoGenerado);
+
+
+
                 }
                 else
                 {
