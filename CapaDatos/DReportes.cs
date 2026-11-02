@@ -36,6 +36,7 @@ namespace CapaDatos
         private DateTime _Fecha_fin;
         private int _Origen_id;
         private string _Origen;
+        private string _Sector_destino;
 
         public int Id_pedido
         {
@@ -360,6 +361,18 @@ namespace CapaDatos
                 _Origen = value;
             }
         }
+        public string Sector_destino
+        {
+            get
+            {
+                return _Sector_destino;
+            }
+
+            set
+            {
+                _Sector_destino = value;
+            }
+        }
 
         //constructor vacio
         public DReportes()
@@ -367,7 +380,7 @@ namespace CapaDatos
 
         }
         //constructor con parametros
-        public DReportes(int id_pedido, string pedido, DateTime fecha_pedido, int num_seguimiento, int usuario_id, int num_transaccion, int caracter_pedido_id, int estado_pedido_id, int destino_id, int emisor_id, string extracto, decimal costo_total, int anio_actual, DateTime fecha_inicio, DateTime fecha_fin, int origen_id, string origen)
+        public DReportes(int id_pedido, string pedido, DateTime fecha_pedido, int num_seguimiento, int usuario_id, int num_transaccion, int caracter_pedido_id, int estado_pedido_id, int destino_id, int emisor_id, string extracto, decimal costo_total, int anio_actual, DateTime fecha_inicio, DateTime fecha_fin, int origen_id, string origen, string sector_destino)
         {
             this.Id_pedido = id_pedido;
             this.Pedido = pedido;
@@ -386,6 +399,7 @@ namespace CapaDatos
             this.Fecha_fin = fecha_fin;
             this.Origen_id = origen_id;
             this.Origen = origen;
+            this.Sector_destino = sector_destino;
 
         }
 

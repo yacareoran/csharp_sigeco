@@ -13,6 +13,7 @@ using System.Drawing.Printing;
 //using System.Drawing;
 using System.Xml.Linq;
 using System.Data;
+using System.Windows.Forms;
 
 namespace CapaPresentacion.Reporte.Formulario_Pedido
 {
@@ -36,7 +37,9 @@ namespace CapaPresentacion.Reporte.Formulario_Pedido
                 reportes.Num_transaccion = Convert.ToInt32(row["Num_transaccion"]);
                 reportes.Caracter_pedido_id = Convert.ToInt32(row["Caracter_pedido_id"]);
                 reportes.Extracto = row["Extracto"].ToString();
-                reportes.Sector = row["Sector"].ToString();
+                MessageBox.Show("El sector en la parte de impresion es: " + " " + row["Sector_destino"].ToString());
+                reportes.Sector = row["Sector_destino"].ToString();
+                
                 reportes.Caracter_pedido = row["Caracter_pedido"].ToString();
                 reportes.Estado = row["Estado"].ToString();
                 reportes.Origen = row["Origen"].ToString();

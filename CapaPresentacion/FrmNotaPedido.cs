@@ -447,8 +447,9 @@ namespace CapaPresentacion
                 else
                 {
                     id_pedido = Convert.ToString(this.txtPedido.Text);
-                    rptaFactura = NPedido.Insertar(500, Convert.ToString(this.txtPedido.Text), "12/10/2005", 1, Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToInt32(numero_transaccion), Convert.ToInt32(this.cmbCaracterCompra.SelectedValue), 1, Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToString(this.txtObservaciones.Text), Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue), Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.txtIdSectoresInternos.Text));
+                    rptaFactura = NPedido.Insertar(500, Convert.ToString(this.txtPedido.Text), "12/10/2005", 1, Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToInt32(numero_transaccion), Convert.ToInt32(this.cmbCaracterCompra.SelectedValue), 1, Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToString(this.txtObservaciones.Text), Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue), Convert.ToInt32(this.cmbSector.SelectedValue));
                     int legajo_usuario = Convert.ToInt32(this.txtLegajo.Text);
+                    MessageBox.Show("El id del organismo es: " + " " + Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue));
                     MessageBox.Show("El id del sector es: " + " " + Convert.ToInt32(this.cmbSector.SelectedValue));
                     MessageBox.Show("La repuesta factura es : " + " " + rptaFactura);
                     rpta_bitacora = NBitacora.Insertar_bitacora(legajo_usuario, 1, "Insertar pedido desde Procesamiento de Datos" + " " + rptaFactura);
