@@ -20,6 +20,7 @@ namespace CapaDatos
         private int _Caracter_pedido_id;
         private int _Estado_pedido_id;
         private int _Destino_id;
+        private string _Destino;
         private int _Emisor_id;
         private string _Extracto;
         private string _Expediente_interno;
@@ -152,6 +153,19 @@ namespace CapaDatos
             set
             {
                 _Destino_id = value;
+            }
+        }
+
+        public string Destino
+        {
+            get
+            {
+                return _Destino;
+            }
+
+            set
+            {
+                _Destino = value;
             }
         }
 
@@ -380,7 +394,7 @@ namespace CapaDatos
 
         }
         //constructor con parametros
-        public DReportes(int id_pedido, string pedido, DateTime fecha_pedido, int num_seguimiento, int usuario_id, int num_transaccion, int caracter_pedido_id, int estado_pedido_id, int destino_id, int emisor_id, string extracto, decimal costo_total, int anio_actual, DateTime fecha_inicio, DateTime fecha_fin, int origen_id, string origen, string sector_destino)
+        public DReportes(int id_pedido, string pedido, DateTime fecha_pedido, int num_seguimiento, int usuario_id, int num_transaccion, int caracter_pedido_id, int estado_pedido_id, int destino_id, string destino, int emisor_id, string extracto, decimal costo_total, int anio_actual, DateTime fecha_inicio, DateTime fecha_fin, int origen_id, string origen, string sector_destino)
         {
             this.Id_pedido = id_pedido;
             this.Pedido = pedido;
@@ -391,6 +405,7 @@ namespace CapaDatos
             this.Caracter_pedido_id = caracter_pedido_id;
             this.Estado_pedido_id = estado_pedido_id;
             this.Destino_id = destino_id;
+            this.Destino = destino;
             this.Emisor_id = emisor_id;
             this.Extracto = extracto;
             this.Costo_total = costo_total;

@@ -94,14 +94,7 @@ namespace CapaPresentacion
                 return;
             }
                         
-            // Validar que cmbSector tenga algo seleccionado (asumiendo que si SelectedIndex es -1, está vacío)
-            if (this.cmbSector.SelectedIndex == -1 || string.IsNullOrWhiteSpace(this.cmbSector.Text))
-            {
-                MessageBox.Show("Por favor, seleccione un Sector.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                this.cmbSector.Focus();
-                return;
-            }
-
+            
             // Validar que cmbSubrubro tenga algo seleccionado
             if (this.cmbSubrubro.SelectedIndex == -1 || string.IsNullOrWhiteSpace(this.cmbSubrubro.Text))
             {
@@ -125,19 +118,7 @@ namespace CapaPresentacion
             if (resultUnidad == DialogResult.No)
             {
                 this.cmbUnidadMedida.Focus();
-                return; // El usuario dijo que no, frenamos todo para que corrija
-            }
-
-            // Confirmación de Sector
-            DialogResult resultSector = MessageBox.Show(
-                $"¿Está seguro que el Sector seleccionado '{this.cmbSector.Text}' es el correcto?",
-                "Confirmar Sector",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (resultSector == DialogResult.No)
-            {
-                this.cmbSector.Focus();
+                this.cmbUnidadMedida.Select(); // <-- Asegura el foco visual
                 return;
             }
 
@@ -150,10 +131,16 @@ namespace CapaPresentacion
 
             if (resultSubrubro == DialogResult.No)
             {
+                // 1. Le asignamos la selección activa del control
+                this.cmbSubrubro.Select();
                 this.cmbSubrubro.Focus();
+
+                // 2. OBLIGAMOS a que se abra la lista desplegable (Esencial para DropDownList)
+                // Al abrirse, el usuario verá inmediatamente el cambio de foco y sabrá que debe corregirlo aquí
+                this.cmbSubrubro.DroppedDown = true;
+
                 return;
             }
-
 
             // ------------------------------------------------------------------------
             // 3. PROCESAMIENTO DE LOS DATOS (Tu código original optimizado)
