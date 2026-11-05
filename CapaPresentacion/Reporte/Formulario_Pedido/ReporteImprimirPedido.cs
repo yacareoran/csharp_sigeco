@@ -9,7 +9,17 @@ using System.Data;
 using System.Windows.Forms;
 
 namespace CapaPresentacion.Reporte.Formulario_Pedido
-{
+{//inicio clase
+    using CapaDatos;
+    using iTextSharp.text.pdf;
+    using iTextSharp.text;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Data;
+    using System.Windows.Forms;
+
     public class ReporteImprimirPedido
     {
         public static MemoryStream RepPdfInternosVinculados(ImprimirPedido imprimirPedidox, DataTable pedidox, DataTable dDetallexPedido)
@@ -46,20 +56,78 @@ namespace CapaPresentacion.Reporte.Formulario_Pedido
             doc.Open();
 
             var fuenteLogo = FontFactory.GetFont(FontFactory.TIMES, 9, BaseColor.BLACK);
-            var fuenteTitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
-            var fuenteNormal = FontFactory.GetFont(FontFactory.HELVETICA, 11, BaseColor.BLACK);
+            //var fuenteTitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
+            //var fuenteNormal = FontFactory.GetFont(FontFactory.HELVETICA, 11, BaseColor.BLACK);
+            var fuenteTitulo = FontFactory.GetFont(FontFactory.TIMES_ROMAN, 12, BaseColor.BLACK);
+            var fuenteNormal = FontFactory.GetFont(FontFactory.TIMES_ROMAN, 12, BaseColor.BLACK);
 
             doc.Add(new Paragraph(" "));
 
-            // Encabezado del Servicio Penitenciario
-            PdfPTable tablaEncabezado = new PdfPTable(1);
-            tablaEncabezado.WidthPercentage = 50;
-            tablaEncabezado.HorizontalAlignment = Element.ALIGN_LEFT;
-            tablaEncabezado.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            tablaEncabezado.DefaultCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            tablaEncabezado.DefaultCell.Border = Rectangle.NO_BORDER;
-            tablaEncabezado.AddCell(new Paragraph("  SERVICIO PENITENCIARIO DE LA PROVINCIA DE SALTA", fuenteLogo));
-            doc.Add(tablaEncabezado);
+
+            // =========================================================================
+            // ENCABEZADO CON LOGOTIPO COMPAÑÍA (Texto debajo del Logo) - CORREGIDO Y LIMPIO
+            // =========================================================================
+            // =========================================================================
+            // ENCABEZADO: LOGOTIPO Y TEXTO CENTRADOS (Modelo Oficial de la Imagen)
+            // =========================================================================
+            // 1. Ruta física hacia la imagen
+            string rutaImagen = Path.Combine(Application.StartupPath, "Resources", "Img-reportes", "logo_spps2.png");
+
+            // Validamos si la imagen existe antes de dibujar
+            if (!File.Exists(rutaImagen))
+            {
+                MessageBox.Show("Falta el logotipo. Por favor, guarde la imagen 'logo_spps2.png' en la carpeta: \n" +
+                                Path.Combine(Application.StartupPath, "Resources", "Img-reportes\\"),
+                                "Aviso de Sistema", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return ms;
+            }
+
+            // 2. Cargamos y convertimos la imagen para iTextSharp
+            System.Drawing.Image logoImg = System.Drawing.Image.FromFile(rutaImagen);
+            iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(logoImg, System.Drawing.Imaging.ImageFormat.Png);
+
+            // 3. Ajustamos el tamaño del logo (Ancho: 45f, Alto: 45f para que coincida con la proporción de la imagen)
+            logo.ScaleAbsolute(45f, 45f);
+            logo.Alignment = Element.ALIGN_CENTER; // Centrado dentro de su celda
+
+            // 4. Creamos una mini-tabla de 1 sola columna para agrupar y centrar el bloque
+            PdfPTable tablaLogoBloque = new PdfPTable(1);
+            tablaLogoBloque.WidthPercentage = 40; // 40% le da el ancho perfecto para que el texto entre cómodo sin cortarse
+            tablaLogoBloque.HorizontalAlignment = Element.ALIGN_LEFT; // Mantiene todo el bloque a la izquierda de la hoja
+            tablaLogoBloque.DefaultCell.Border = Rectangle.NO_BORDER;
+
+            // --- Fila 1: Añadimos el Logo (Se centrará automáticamente) ---
+            PdfPCell celdaImagen = new PdfPCell(logo);
+            celdaImagen.Border = Rectangle.NO_BORDER;
+            celdaImagen.HorizontalAlignment = Element.ALIGN_CENTER;
+            tablaLogoBloque.AddCell(celdaImagen);
+
+            // --- Fila 2: Añadimos el Texto en dos líneas compactas y perfectamente centradas ---
+            // Usamos HELVETICA con tamaño 7.5f para lograr la tipografía fina y prolija de la imagen
+            var fuenteMembrete = FontFactory.GetFont(FontFactory.HELVETICA, 7.5f, BaseColor.BLACK);
+            Paragraph textoInstitucional = new Paragraph("SERVICIO PENITENCIARIO DE LA\nPROVINCIA DE SALTA", fuenteMembrete);
+
+            textoInstitucional.Leading = 9f; // Mantiene las dos líneas bien juntas
+            textoInstitucional.Alignment = Element.ALIGN_CENTER; // Centra el texto con respecto al logo
+
+            PdfPCell celdaTextoCentrado = new PdfPCell(textoInstitucional);
+            celdaTextoCentrado.Border = Rectangle.NO_BORDER;
+            celdaTextoCentrado.HorizontalAlignment = Element.ALIGN_CENTER;
+            celdaTextoCentrado.PaddingTop = 5f; // Separación justa entre el pie del escudo y las letras
+
+            tablaLogoBloque.AddCell(celdaTextoCentrado);
+
+            // 5. Agregamos el bloque unificado al documento
+            doc.Add(tablaLogoBloque);
+
+            // Un espacio controlado antes de que empiece la fecha
+            doc.Add(new Paragraph(" ") { Leading = 5f });
+            // =========================================================================
+
+           
+            //FIN UBICACION: ENCABEZADO CON LOGOTIPO
+            // =========================================================================
+
 
             doc.Add(new Paragraph(" "));
 
@@ -101,11 +169,10 @@ namespace CapaPresentacion.Reporte.Formulario_Pedido
             tablaVinculos.AddCell("Cantidad");
             tablaVinculos.AddCell("Concepto");
             tablaVinculos.AddCell("Precio Unitario");
-            tablaVinculos.AddCell("Precio Total");
+            tablaVinculos.AddCell("Subtotal");
 
             foreach (DataRow fila in dDetallexPedido.Rows)
             {
-                // Carga de celdas iterativas del grid de productos
                 tablaVinculos.AddCell(fila["renglon"].ToString());
                 tablaVinculos.AddCell(fila["cantidad"].ToString());
                 tablaVinculos.AddCell(fila["detalle"].ToString());
@@ -119,14 +186,15 @@ namespace CapaPresentacion.Reporte.Formulario_Pedido
             doc.Add(tablaVinculos);
 
             // =========================================================================
-            // NUEVA UBICACIÓN: EL BLOQUE INFERIOR DE DATOS SE PEGA JUSTO AQUÍ DEBAJO
+            // EL BLOQUE INFERIOR DE DATOS SE MANTIENE DEBAJO DE LA TABLA (CORREGIDO)
             // =========================================================================
             PdfPTable tablaDatosInferior = new PdfPTable(2);
             tablaDatosInferior.WidthPercentage = 100;
             tablaDatosInferior.HorizontalAlignment = Element.ALIGN_CENTER;
-            tablaDatosInferior.SpacingBefore = 15f; // Espaciado con respecto a la tabla de productos
+            tablaDatosInferior.SpacingBefore = 15f;
 
-            float[] anchosColumnasInferior = new float[] { 65f, 35f };
+            // 1. PORCIÓN DE CÓDIGO 1: Cambiamos a 55% y 45% para dar más ancho al precio
+            float[] anchosColumnasInferior = new float[] { 55f, 45f };
             tablaDatosInferior.SetWidths(anchosColumnasInferior);
 
             // Celda Izquierda: Datos del Pedido agrupados limpiamente
@@ -140,11 +208,15 @@ namespace CapaPresentacion.Reporte.Formulario_Pedido
             celdaIzquierda.HorizontalAlignment = Element.ALIGN_LEFT;
             tablaDatosInferior.AddCell(celdaIzquierda);
 
-            // Celda Derecha: Precio Estimado alineado al ras derecho
-            PdfPCell celdaDerechaPrecio = new PdfPCell(new Paragraph("Precio Estimado: " + precio_estimado.ToString("F2"), fuenteNormal));
+            // 2. PORCIÓN DE CÓDIGO 2: Agregamos el signo '$' y activamos el 'NoWrap'
+            PdfPCell celdaDerechaPrecio = new PdfPCell(new Paragraph("Precio Total Estimado: $" + precio_estimado.ToString("F2"), fuenteNormal));
             celdaDerechaPrecio.Border = Rectangle.NO_BORDER;
             celdaDerechaPrecio.HorizontalAlignment = Element.ALIGN_RIGHT;
             celdaDerechaPrecio.VerticalAlignment = Element.ALIGN_TOP;
+
+            // Forzamos a iTextSharp a mantener todo el precio estrictamente en una sola fila
+            celdaDerechaPrecio.NoWrap = true;
+
             tablaDatosInferior.AddCell(celdaDerechaPrecio);
 
             // Agregamos la estructura inferior debajo de la tabla principal

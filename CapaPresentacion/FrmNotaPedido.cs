@@ -96,10 +96,20 @@ namespace CapaPresentacion
                         
             
             // Validar que cmbSubrubro tenga algo seleccionado
+            //if (this.cmbSubrubro.SelectedIndex == -1 || string.IsNullOrWhiteSpace(this.cmbSubrubro.Text))
+            //{
+            //    MessageBox.Show("Por favor, seleccione un Subrubro.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    this.cmbSubrubro.Focus();
+            //    return;
+            //}
+
+            // Validar que cmbSubrubro tenga algo seleccionado
             if (this.cmbSubrubro.SelectedIndex == -1 || string.IsNullOrWhiteSpace(this.cmbSubrubro.Text))
             {
                 MessageBox.Show("Por favor, seleccione un Subrubro.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                this.cmbSubrubro.Focus();
+                this.cmbRubro.Select();
+                this.cmbRubro.Focus();
+                if (this.cmbSector.DropDownStyle == ComboBoxStyle.DropDownList) this.cmbRubro.DroppedDown = true;
                 return;
             }
 
@@ -174,7 +184,7 @@ namespace CapaPresentacion
                 lst.Add(Ventas);
                 LlenarGrilla();
 
-                MessageBox.Show("¡Producto cargado con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("¡Detalle cargado con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -290,7 +300,7 @@ namespace CapaPresentacion
 
 
 
-        MessageBox.Show("Ingreso al metodo LlenarGrilla()");
+        //MessageBox.Show("Ingreso al metodo LlenarGrilla()");
         }//fin metodo llenar grilla
         private void FrmNotaPedido_Load(object sender, EventArgs e)
         {
@@ -399,7 +409,7 @@ namespace CapaPresentacion
         }
         private void btnRegistrarPedido_Click(object sender, EventArgs e)
         {//inicio boton registrar pedido 
-            
+
             ArrayList productos_cantidades = new ArrayList();
             int posicion;
             int l = 0;
@@ -413,84 +423,165 @@ namespace CapaPresentacion
             string rptaFactura = "";
             int k = 0;
 
+            // =========================================================================
+            // 0. VALIDACIÓN DE SEGURIDAD: VERIFICAR QUE LA GRILLA TENGA PRODUCTOS
+            // =========================================================================
+            if (this.dgvAgregarNotaPedido.Rows.Count == 0)
+            {
+                MessageBox.Show("No se puede registrar el pedido porque la lista de pruductos está vacía. Por favor, cargue al menos un artículo antes de continuar.",
+                                "Lista de Productos Vacía",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
 
+                // Mandamos el foco al primer campo de la carga para ayudar al usuario
+                this.txtCantidad.Focus();
+                return; // Frena y evita que el programa intente guardar nada
+            }
 
-            if (dgvAgregarNotaPedido.Rows.Count > 0)
-            {//boton productos
+            // =========================================================================
+            // 1. PRIMERA VALIDACIÓN: CAMPOS VACÍOS O SELECCIONES INVÁLIDAS
+            // =========================================================================
 
-                
-                DateTime fechaEspecifica = new DateTime(2025, 12, 25); // Año, mes, día
-                string id_pedido;
-                int numero_transaccion_maxima = NPedido.BuscarNumeroTransaccion(); 
-                int numero_transaccion = numero_transaccion_maxima;
-                numero_transaccion = numero_transaccion_maxima + 1;
-                //int renglon = 1;
-                MessageBox.Show("numero maximo de transaccion es: " + " " + numero_transaccion_maxima);
-                if (dgvAgregarNotaPedido.Rows.Count < 0)
+            // Validar Nombre/Número de Pedido
+            if (string.IsNullOrWhiteSpace(this.txtPedido.Text))
+            {
+                MessageBox.Show("El campo de Pedido no puede estar vacío.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.txtPedido.Focus();
+                return;
+            }
+
+            // Validar ComboBox del Sector (Asegura que haya seleccionado algo real)
+            if (this.cmbSector.SelectedIndex == -1 || this.cmbSector.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un Sector válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.cmbOrganismoPedido.Select();
+                this.cmbOrganismoPedido.Focus();
+                if (this.cmbOrganismoPedido.DropDownStyle == ComboBoxStyle.DropDownList) this.cmbOrganismoPedido.DroppedDown = true;
+                return;
+            }
+
+            // Validar ComboBox del Carácter de Compra
+            if (this.cmbCaracterCompra.SelectedIndex == -1 || this.cmbCaracterCompra.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un Carácter de Compra válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.cmbCaracterCompra.Select();
+                this.cmbCaracterCompra.Focus();
+                if (this.cmbCaracterCompra.DropDownStyle == ComboBoxStyle.DropDownList) this.cmbCaracterCompra.DroppedDown = true;
+                return;
+            }
+
+            // Validar Observaciones Vacías (Pregunta al usuario)
+            if (string.IsNullOrWhiteSpace(this.txtObservaciones.Text))
+            {
+                DialogResult resultObs = MessageBox.Show(
+                    "El campo de Observaciones está vacío. ¿Desea ingresar una observación?",
+                    "Observaciones Vacías",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (resultObs == DialogResult.No)
                 {
-                    MessageBox.Show("No se cargó el pedido, Revise los datos cargados en los renglones.");
-                    //LimpiarPedido();
+                    // Si elige NO, autocompletamos con "sin observaciones"
+                    this.txtObservaciones.Text = "sin observaciones";
                 }
                 else
                 {
-                    id_pedido = Convert.ToString(this.txtPedido.Text);
-                    rptaFactura = NPedido.Insertar(500, Convert.ToString(this.txtPedido.Text), "12/10/2005", 1, Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToInt32(numero_transaccion), Convert.ToInt32(this.cmbCaracterCompra.SelectedValue), 1, Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToString(this.txtObservaciones.Text), Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue), Convert.ToInt32(this.cmbSector.SelectedValue));
-                    int legajo_usuario = Convert.ToInt32(this.txtLegajo.Text);
-                    MessageBox.Show("El id del organismo es: " + " " + Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue));
-                    MessageBox.Show("El id del sector es: " + " " + Convert.ToInt32(this.cmbSector.SelectedValue));
-                    MessageBox.Show("La repuesta factura es : " + " " + rptaFactura);
-                    rpta_bitacora = NBitacora.Insertar_bitacora(legajo_usuario, 1, "Insertar pedido desde Procesamiento de Datos" + " " + rptaFactura);
-                    MessageBox.Show("La repuesta bitacora es : " + " " + rptaFactura);
-                    //int legajo_usuario = FrmLogin.usuario.Legajo;
-                    //rpta_bitacora = NBitacora.Insertar_bitacora(legajo_usuario, 1, "Insertar nueva venta");
-                    if (rptaFactura != "no_insertado")
-                    {
-                        //crearTicket ticket = new crearTicket();
-                        //productos p = new productos();
-                        int renglon = 0;
-                        for (int i = 0; i <= dgvAgregarNotaPedido.Rows.Count - 1; i++)
-                        {
-                            renglon = renglon + 1;
-                            rpta = NDetalle.Insertar(Convert.ToString(dgvAgregarNotaPedido.Rows[i].Cells[2].Value), Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[0].Value), 1, Convert.ToDecimal(dgvAgregarNotaPedido.Rows[i].Cells[3].Value), Convert.ToInt32(rptaFactura), Convert.ToInt32(renglon), Convert.ToInt32(renglon), Convert.ToInt32(renglon));
-                            MessageBox.Show("Valor del parametro i: " + " " + i);
-                            MessageBox.Show("Valor del renglon: " + " " + renglon);
-                            MessageBox.Show("Valor del parametro rubro en este caso detalle: " + " " + Convert.ToString(dgvAgregarNotaPedido.Rows[i].Cells[2].Value));
-                            MessageBox.Show("Valor del subrubro en este caso cantidad: " + " " + Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[0].Value));
-
-                        }
-
-                        //MessageBox.Show("Se realizó correctamente la venta." + Convert.ToInt32(rptaFactura));
-
-                        LimpiarPedido();
-                        //esto es para ver si guarda bien.....
-                        ImprimirPedido(Convert.ToInt32(rptaFactura));
-
-
-                       
-
-
-
-                    }
-
-                    else
-                    {
-                        MessageBox.Show("No se guardo el pedido, pongase en contacto con el Administrador de base de datos de Procesamiento de Datos.");
-                        LimpiarPedido();
-                    }
-                    //}//fin ciclo for
-
+                    // Si elige SÍ, mandamos el foco para que escriba y detenemos la ejecución
+                    this.txtObservaciones.Focus();
+                    return;
                 }
+            }
 
-            }//boton productos
+            // =========================================================================
+            // 2. SEGUNDA VALIDACIÓN: CONFIRMACIÓN DE VALORES CORRECTOS (UX CON FOCO CORREGIDO)
+            // =========================================================================
 
-            else
+            // Confirmar Carácter de Compra
+            DialogResult confCaracter = MessageBox.Show(
+                $"¿Está seguro que el Carácter de Compra '{this.cmbCaracterCompra.Text}' es el correcto?",
+                "Confirmar Carácter de Compra",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confCaracter == DialogResult.No)
             {
-                MessageBox.Show("Debe ingresar nuevamente la clave de Vendedor");
-              
+                this.cmbCaracterCompra.Select();
+                this.cmbCaracterCompra.Focus();
+                if (this.cmbCaracterCompra.DropDownStyle == ComboBoxStyle.DropDownList) this.cmbCaracterCompra.DroppedDown = true;
+                return;
+            }
+
+            // Confirmar Sector
+            DialogResult confSector = MessageBox.Show(
+                $"¿Está seguro que el Sector seleccionado '{this.cmbSector.Text}' es el correcto?",
+                "Confirmar Sector",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confSector == DialogResult.No)
+            {
+                this.cmbSector.Select();
+                this.cmbSector.Focus();
+                if (this.cmbSector.DropDownStyle == ComboBoxStyle.DropDownList) this.cmbSector.DroppedDown = true;
+                return;
             }
 
 
+            // =========================================================================
+            // 3. PROCESAMIENTO GENERAL DE LA SOLICITUD (Tu código lógico original)
+            // =========================================================================
+            if (dgvAgregarNotaPedido.Rows.Count > 0)
+            {//boton productos
+
+                DateTime fechaEspecifica = new DateTime(2025, 12, 25); // Año, mes, día
+                string id_pedido;
+                int numero_transaccion_maxima = NPedido.BuscarNumeroTransaccion();
+                int numero_transaccion = numero_transaccion_maxima + 1;
+
+                MessageBox.Show("numero maximo de transaccion es: " + " " + numero_transaccion_maxima);
+
+                id_pedido = Convert.ToString(this.txtPedido.Text);
+
+                // Se envía el texto de observaciones (que si vino vacío, ya vale "sin observaciones")
+                rptaFactura = NPedido.Insertar(500, Convert.ToString(this.txtPedido.Text), "12/10/2005", 1, Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToInt32(numero_transaccion), Convert.ToInt32(this.cmbCaracterCompra.SelectedValue), 1, Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToString(this.txtObservaciones.Text), Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue), Convert.ToInt32(this.cmbSector.SelectedValue));
+
+                int legajo_usuario = Convert.ToInt32(this.txtLegajo.Text);
+                //MessageBox.Show("El id del organismo es: " + " " + Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue));
+                //MessageBox.Show("El id del sector es: " + " " + Convert.ToInt32(this.cmbSector.SelectedValue));
+                //MessageBox.Show("La repuesta factura es : " + " " + rptaFactura);
+
+                rpta_bitacora = NBitacora.Insertar_bitacora(legajo_usuario, 1, "Insertar pedido desde Procesamiento de Datos" + " " + rptaFactura);
+                MessageBox.Show("La repuesta bitacora es : " + " " + rptaFactura);
+
+                if (rptaFactura != "no_insertado")
+                {
+                    int renglon = 0;
+                    for (int i = 0; i <= dgvAgregarNotaPedido.Rows.Count - 1; i++)
+                    {
+                        renglon = renglon + 1;
+                        rpta = NDetalle.Insertar(Convert.ToString(dgvAgregarNotaPedido.Rows[i].Cells[2].Value), Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[0].Value), 1, Convert.ToDecimal(dgvAgregarNotaPedido.Rows[i].Cells[3].Value), Convert.ToInt32(rptaFactura), Convert.ToInt32(renglon), Convert.ToInt32(renglon), Convert.ToInt32(renglon));
+                        //MessageBox.Show("Valor del parametro i: " + " " + i);
+                        //MessageBox.Show("Valor del renglon: " + " " + renglon);
+                        //MessageBox.Show("Valor del parametro rubro en este caso detalle: " + " " + Convert.ToString(dgvAgregarNotaPedido.Rows[i].Cells[2].Value));
+                        //MessageBox.Show("Valor del subrubro en este caso cantidad: " + " " + Convert.ToInt32(dgvAgregarNotaPedido.Rows[i].Cells[0].Value));
+                    }
+
+                    LimpiarPedido();
+                    ImprimirPedido(Convert.ToInt32(rptaFactura));
+                }
+                else
+                {
+                    MessageBox.Show("No se guardo el pedido, pongase en contacto con el Administrador de base de datos de Procesamiento de Datos.");
+                    LimpiarPedido();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe ingresar elementos en la tabla de notas de pedido antes de registrar.");
+            }
+
         }//fin boton registrar pedido
+
 
         private void cmbUnidadMedida_TextChanged(object sender, EventArgs e)
         {
