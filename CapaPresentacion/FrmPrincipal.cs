@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +16,26 @@ namespace CapaPresentacion
         public FrmPrincipal()
         {
             InitializeComponent();
+            // --- TU LÍNEA DE COLOR CONFIGURADA EN EL INICIO ---
+            this.BackColor = Color.FromArgb(240, 244, 250);
+
+            // --- BORDES ELEGANTES PARA TUS BOTONES ---
+            Color colorGrisBorde = Color.FromArgb(160, 180, 210);
+
+            // Botón Usuarios
+            this.btnUsuarios.FlatStyle = FlatStyle.Flat;
+            this.btnUsuarios.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Compras
+            this.btnCompras.FlatStyle = FlatStyle.Flat;
+            this.btnCompras.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Cargar Pedidos
+            this.btnUsuarios.FlatStyle = FlatStyle.Flat;
+            this.btnUsuarios.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // (Repite estas dos líneas para cada botón de tu menú principal...)
+
         }
 
         private void btnUsuarios_Click(object sender, EventArgs e)

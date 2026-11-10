@@ -34,6 +34,7 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.barraTituloRibbon1 = new CapaPresentacion.BarraTituloRibbon();
             this.SuspendLayout();
             // 
             // txtUsuario
@@ -95,11 +96,20 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Contraseña";
             // 
+            // barraTituloRibbon1
+            // 
+            this.barraTituloRibbon1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barraTituloRibbon1.Location = new System.Drawing.Point(0, 0);
+            this.barraTituloRibbon1.Name = "barraTituloRibbon1";
+            this.barraTituloRibbon1.Size = new System.Drawing.Size(410, 40);
+            this.barraTituloRibbon1.TabIndex = 6;
+            // 
             // FrmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(410, 202);
+            this.Controls.Add(this.barraTituloRibbon1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancelar);
@@ -107,7 +117,7 @@
             this.Controls.Add(this.txtPasword);
             this.Controls.Add(this.txtUsuario);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmLogin";
             this.Text = "Inicio de Sesión Sistema Sigeco ";
             this.ResumeLayout(false);
@@ -123,5 +133,6 @@
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private BarraTituloRibbon barraTituloRibbon1;
     }
 }

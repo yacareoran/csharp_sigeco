@@ -67,7 +67,9 @@ namespace CapaPresentacion
 
         private void btnIngresarNotasPedido_Click(object sender, EventArgs e)
         {
-            FrmNotaPedidoCompras notaPedido = new FrmNotaPedidoCompras();
+            //FrmNotaPedidoCompras notaPedido = new FrmNotaPedidoCompras();
+            FrmNotaPedido notaPedido = new FrmNotaPedido();
+            notaPedido.Text = "Formulario agregar de pedido División Compras Dir. Administración";
             notaPedido.txtUsuario.Text = this.txtUsuario.Text;
             notaPedido.txtIdUsuario.Text = this.txtIdUsuario.Text;
             notaPedido.txtLegajo.Text = this.txtLegajoUsuario.Text;

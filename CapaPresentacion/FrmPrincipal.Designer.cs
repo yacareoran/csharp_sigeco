@@ -45,6 +45,7 @@
             this.btnComunicaciones = new System.Windows.Forms.Button();
             this.txtIdSectoresInternos = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.barraTituloRibbon1 = new CapaPresentacion.BarraTituloRibbon();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,9 +53,9 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(2, 3);
+            this.panel1.Location = new System.Drawing.Point(2, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(765, 72);
+            this.panel1.Size = new System.Drawing.Size(765, 63);
             this.panel1.TabIndex = 0;
             // 
             // label1
@@ -70,11 +71,11 @@
             // btnUsuarios
             // 
             this.btnUsuarios.BackColor = System.Drawing.Color.White;
-            this.btnUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUsuarios.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUsuarios.Image = ((System.Drawing.Image)(resources.GetObject("btnUsuarios.Image")));
             this.btnUsuarios.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnUsuarios.Location = new System.Drawing.Point(148, 106);
+            this.btnUsuarios.Location = new System.Drawing.Point(148, 145);
             this.btnUsuarios.Name = "btnUsuarios";
             this.btnUsuarios.Size = new System.Drawing.Size(150, 64);
             this.btnUsuarios.TabIndex = 1;
@@ -89,7 +90,7 @@
             this.btnCompras.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCompras.Image = ((System.Drawing.Image)(resources.GetObject("btnCompras.Image")));
             this.btnCompras.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCompras.Location = new System.Drawing.Point(302, 106);
+            this.btnCompras.Location = new System.Drawing.Point(302, 145);
             this.btnCompras.Name = "btnCompras";
             this.btnCompras.Size = new System.Drawing.Size(150, 64);
             this.btnCompras.TabIndex = 2;
@@ -104,7 +105,7 @@
             this.btnProcesamiento.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnProcesamiento.Image = ((System.Drawing.Image)(resources.GetObject("btnProcesamiento.Image")));
             this.btnProcesamiento.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnProcesamiento.Location = new System.Drawing.Point(457, 106);
+            this.btnProcesamiento.Location = new System.Drawing.Point(457, 145);
             this.btnProcesamiento.Name = "btnProcesamiento";
             this.btnProcesamiento.Size = new System.Drawing.Size(147, 64);
             this.btnProcesamiento.TabIndex = 3;
@@ -119,7 +120,7 @@
             this.btnIndustriales.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnIndustriales.Image = ((System.Drawing.Image)(resources.GetObject("btnIndustriales.Image")));
             this.btnIndustriales.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnIndustriales.Location = new System.Drawing.Point(148, 176);
+            this.btnIndustriales.Location = new System.Drawing.Point(148, 215);
             this.btnIndustriales.Name = "btnIndustriales";
             this.btnIndustriales.Size = new System.Drawing.Size(150, 64);
             this.btnIndustriales.TabIndex = 4;
@@ -134,7 +135,7 @@
             this.btnIntendencia.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnIntendencia.Image = ((System.Drawing.Image)(resources.GetObject("btnIntendencia.Image")));
             this.btnIntendencia.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnIntendencia.Location = new System.Drawing.Point(302, 176);
+            this.btnIntendencia.Location = new System.Drawing.Point(302, 215);
             this.btnIntendencia.Name = "btnIntendencia";
             this.btnIntendencia.Size = new System.Drawing.Size(150, 64);
             this.btnIntendencia.TabIndex = 5;
@@ -149,7 +150,7 @@
             this.btnContable.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnContable.Image = ((System.Drawing.Image)(resources.GetObject("btnContable.Image")));
             this.btnContable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnContable.Location = new System.Drawing.Point(457, 176);
+            this.btnContable.Location = new System.Drawing.Point(457, 215);
             this.btnContable.Name = "btnContable";
             this.btnContable.Size = new System.Drawing.Size(146, 63);
             this.btnContable.TabIndex = 6;
@@ -195,7 +196,7 @@
             this.btnTransporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTransporte.Image = ((System.Drawing.Image)(resources.GetObject("btnTransporte.Image")));
             this.btnTransporte.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnTransporte.Location = new System.Drawing.Point(148, 246);
+            this.btnTransporte.Location = new System.Drawing.Point(148, 285);
             this.btnTransporte.Name = "btnTransporte";
             this.btnTransporte.Size = new System.Drawing.Size(150, 63);
             this.btnTransporte.TabIndex = 11;
@@ -209,7 +210,7 @@
             this.btnComunicaciones.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnComunicaciones.Image = ((System.Drawing.Image)(resources.GetObject("btnComunicaciones.Image")));
             this.btnComunicaciones.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnComunicaciones.Location = new System.Drawing.Point(302, 246);
+            this.btnComunicaciones.Location = new System.Drawing.Point(302, 285);
             this.btnComunicaciones.Name = "btnComunicaciones";
             this.btnComunicaciones.Size = new System.Drawing.Size(150, 63);
             this.btnComunicaciones.TabIndex = 12;
@@ -228,18 +229,26 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(605, 78);
+            this.label2.Location = new System.Drawing.Point(605, 119);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(150, 13);
             this.label2.TabIndex = 14;
             this.label2.Text = "CIGECO 24AGOSTO2026";
             // 
+            // barraTituloRibbon1
+            // 
+            this.barraTituloRibbon1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barraTituloRibbon1.Location = new System.Drawing.Point(0, 0);
+            this.barraTituloRibbon1.Name = "barraTituloRibbon1";
+            this.barraTituloRibbon1.Size = new System.Drawing.Size(767, 45);
+            this.barraTituloRibbon1.TabIndex = 15;
+            // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(767, 444);
+            this.Controls.Add(this.barraTituloRibbon1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtIdSectoresInternos);
             this.Controls.Add(this.btnComunicaciones);
@@ -255,6 +264,7 @@
             this.Controls.Add(this.btnCompras);
             this.Controls.Add(this.btnUsuarios);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmPrincipal";
             this.Text = "Formulario Principal";
             this.panel1.ResumeLayout(false);
@@ -282,5 +292,6 @@
         public System.Windows.Forms.Button btnComunicaciones;
         public System.Windows.Forms.Button btnProcesamiento;
         private System.Windows.Forms.Label label2;
+        private BarraTituloRibbon barraTituloRibbon1;
     }
 }
