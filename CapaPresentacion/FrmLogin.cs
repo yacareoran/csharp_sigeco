@@ -26,6 +26,26 @@ namespace CapaPresentacion
         public FrmLogin()
         {
             InitializeComponent();
+            // Sacamos el boton restaurar del formulario
+            this.barraTituloRibbon1.MostrarMaximizar = false;
+
+            // Sacamos el boton restaurar del formulario
+            this.barraTituloRibbon1.MostrarMaximizar = false;
+
+            // --- TU LÍNEA DE COLOR CONFIGURADA EN EL INICIO ---
+            this.BackColor = Color.FromArgb(240, 244, 250);
+
+            // --- BORDES ELEGANTES PARA TUS BOTONES ---
+            Color colorGrisBorde = Color.FromArgb(160, 180, 210);
+
+            // Botón Acceder
+            this.btnAcceder.FlatStyle = FlatStyle.Flat;
+            this.btnAcceder.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Caneclar
+            this.btnCancelar.FlatStyle = FlatStyle.Flat;
+            this.btnCancelar.FlatAppearance.BorderColor = colorGrisBorde;
+
         }
 
         private void btnAcceder_Click(object sender, EventArgs e)
@@ -53,7 +73,7 @@ namespace CapaPresentacion
                         int miSectoresInternos = Datos.Rows[0].Field<int>("sectores_internos_id");
                         MessageBox.Show(Convert.ToString(miSectoresInternos));
 
-                        /*int idSectoresInternos = Datos.Rows[0].Field<int>("sectores_internos_id");
+                        int idSectoresInternos = Datos.Rows[0].Field<int>("sectores_internos_id");
 
                         switch (idSectoresInternos)
                         {
@@ -105,7 +125,7 @@ namespace CapaPresentacion
                             default: // El "si no es ninguno de los anteriores"
                                 MessageBox.Show("Estado desconocido.");
                                 break;
-                        }*/
+                        }
 
 
 

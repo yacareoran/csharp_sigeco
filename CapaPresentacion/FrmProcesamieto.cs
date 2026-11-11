@@ -18,6 +18,34 @@ namespace CapaPresentacion
         public FrmProcesamieto()
         {
             InitializeComponent();
+
+            // Sacamos el boton restaurar del formulario
+            this.barraTituloRibbon1.MostrarMaximizar = false;
+
+            // --- TU LÍNEA DE COLOR CONFIGURADA EN EL INICIO ---
+            this.BackColor = Color.FromArgb(240, 244, 250);
+
+            // --- BORDES ELEGANTES PARA TUS BOTONES ---
+            Color colorGrisBorde = Color.FromArgb(160, 180, 210);
+
+            // Botón Buscar
+            this.btnBuscar.FlatStyle = FlatStyle.Flat;
+            this.btnBuscar.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Agregar Pedido
+            this.btnAgregarPedido.FlatStyle = FlatStyle.Flat;
+            this.btnAgregarPedido.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Editar Pedido
+            this.btnEditarPedido.FlatStyle = FlatStyle.Flat;
+            this.btnEditarPedido.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Ver Detalles Pedido
+            this.btnVerDetalle.FlatStyle = FlatStyle.Flat;
+            this.btnVerDetalle.FlatAppearance.BorderColor = colorGrisBorde;
+
+            
+            // (Repite estas dos líneas para cada botón de tu menú principal...)
         }
 
         private void btnAgregarPedido_Click(object sender, EventArgs e)
@@ -34,23 +62,34 @@ namespace CapaPresentacion
 
         private void BuscarPedidoxFechas()
         {
-            DataTable miDataTable = new DataTable();
-            var listaPedidos = NPedido.BuscarxFechas(this.dtpHoraInicial.Value.ToString("yyyy-MM-dd"), this.dtpHoraFinal.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(this.txtIdSectoresInternos.Text));
-            //decimal costoTotal = NDetalle.BuscarCostoTotal(Convert.ToInt32(1041));
+            if (string.IsNullOrWhiteSpace(this.txtIdSectoresInternos.Text))
+            {
+                MessageBox.Show("No se detectó el ID del sector interno.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var listaPedidos = NPedido.BuscarxFechas(
+                this.dtpHoraInicial.Value.ToString("yyyy-MM-dd"),
+                this.dtpHoraFinal.Value.ToString("yyyy-MM-dd"),
+                Convert.ToInt32(this.txtIdSectoresInternos.Text)
+            );
+
+            if (listaPedidos == null) return;
+
             List<DPedido> listaResumen = new List<DPedido>();
 
             foreach (DataRow row in listaPedidos.Rows)
             {
-                Decimal SumaSubTotal = 0; Decimal Prueba = 0;
-                Decimal CostoDetalles; Decimal CostoTotalDetalles = 0;
-                //SumaSubTotal += listaResumen[i].Id_pedido;
+                decimal CostoTotalDetalles = 0;
                 var listaCantidadDetalle = NDetalle.BuscarCantidadPrecio(Convert.ToInt32(row["id_pedido"]));
-                MessageBox.Show(Convert.ToString(row["id_pedido"]));
-                foreach (DataRow row1 in listaCantidadDetalle.Rows)
+
+                if (listaCantidadDetalle != null)
                 {
-                    CostoTotalDetalles += Convert.ToInt32(row1["cantidad"]) * Convert.ToDecimal(row1["precio"]);
+                    foreach (DataRow row1 in listaCantidadDetalle.Rows)
+                    {
+                        CostoTotalDetalles += Convert.ToInt32(row1["cantidad"]) * Convert.ToDecimal(row1["precio"]);
+                    }
                 }
-                Prueba = CostoTotalDetalles;
 
                 listaResumen.Add(new DPedido
                 {
@@ -58,13 +97,11 @@ namespace CapaPresentacion
                     Num_transaccion = Convert.ToInt32(row["num_transaccion"]),
                     Fecha_pedido = Convert.ToDateTime(row["fecha_pedido"]),
                     Sectores_internos = row["sectores_internos"].ToString(),
-                    //Extracto = row["extracto"].ToString(),
                     Caracter_pedido = row["caracter_pedido"].ToString(),
                     Pedido = row["pedido"].ToString(),
                     Estado = row["estado"].ToString(),
-                    Costo_total = Prueba
+                    Costo_total = CostoTotalDetalles
                 });
-
             }
 
             var datosfiltrados = listaResumen
@@ -73,7 +110,7 @@ namespace CapaPresentacion
                    Id_Pedido = c.Id_pedido,
                    Num_Transaccion = c.Num_transaccion,
                    FechaPedido = c.Fecha_pedido,
-                   Sector = c.Sector,
+                   Sector = c.Sectores_internos, // Corregido para que muestre el nombre del sector
                    CaracterPedido = c.Caracter_pedido,
                    Pedido = c.Pedido,
                    Estado = c.Estado,
@@ -81,11 +118,10 @@ namespace CapaPresentacion
                })
                .ToList();
 
-                dgvBuscarPedidos.DataSource = datosfiltrados;
-                // Las columnas se ajustan para mostrar todo el contenido del texto
-                dgvBuscarPedidos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
+            dgvBuscarPedidos.DataSource = datosfiltrados;
+            dgvBuscarPedidos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
+
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             this.BuscarPedidoxFechas();

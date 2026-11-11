@@ -15,6 +15,8 @@ namespace CapaPresentacion
         public FrmCompras()
         {
             InitializeComponent();
+            // Sacamos el boton restaurar del formulario
+            this.barraTituloRibbon1.MostrarMaximizar = false;
         }
 
         private void btnNotasPedido_Click(object sender, EventArgs e)

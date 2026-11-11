@@ -747,17 +747,29 @@ namespace CapaDatos
                 SqlCmd.CommandType = CommandType.StoredProcedure;
                 SqlCmd.CommandText = "sp_BuscarPedidosPorFechas";
 
-                SqlParameter ParFecha_Inicio = new SqlParameter();
+                /*SqlParameter ParFecha_Inicio = new SqlParameter();
                 ParFecha_Inicio.ParameterName = "@fecha_inicio";
                 ParFecha_Inicio.SqlDbType = SqlDbType.VarChar;
                 ParFecha_Inicio.Size = 50;
+                ParFecha_Inicio.Value = Pedido.Fecha_inicio;
+                SqlCmd.Parameters.Add(ParFecha_Inicio);*/
+
+                /*SqlParameter ParFecha_Fin = new SqlParameter();
+                ParFecha_Fin.ParameterName = "@fecha_fin";
+                ParFecha_Fin.SqlDbType = SqlDbType.VarChar;
+                ParFecha_Fin.Size = 50;
+                ParFecha_Fin.Value = Pedido.Fecha_fin;
+                SqlCmd.Parameters.Add(ParFecha_Fin);*/
+
+                SqlParameter ParFecha_Inicio = new SqlParameter();
+                ParFecha_Inicio.ParameterName = "@fecha_inicio";
+                ParFecha_Inicio.SqlDbType = SqlDbType.Date;
                 ParFecha_Inicio.Value = Pedido.Fecha_inicio;
                 SqlCmd.Parameters.Add(ParFecha_Inicio);
 
                 SqlParameter ParFecha_Fin = new SqlParameter();
                 ParFecha_Fin.ParameterName = "@fecha_fin";
-                ParFecha_Fin.SqlDbType = SqlDbType.VarChar;
-                ParFecha_Fin.Size = 50;
+                ParFecha_Fin.SqlDbType = SqlDbType.Date;
                 ParFecha_Fin.Value = Pedido.Fecha_fin;
                 SqlCmd.Parameters.Add(ParFecha_Fin);
 

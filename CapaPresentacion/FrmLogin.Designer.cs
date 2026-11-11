@@ -57,7 +57,7 @@
             // btnAcceder
             // 
             this.btnAcceder.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAcceder.Location = new System.Drawing.Point(46, 157);
+            this.btnAcceder.Location = new System.Drawing.Point(75, 157);
             this.btnAcceder.Name = "btnAcceder";
             this.btnAcceder.Size = new System.Drawing.Size(131, 23);
             this.btnAcceder.TabIndex = 2;
@@ -68,7 +68,7 @@
             // btnCancelar
             // 
             this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelar.Location = new System.Drawing.Point(183, 157);
+            this.btnCancelar.Location = new System.Drawing.Point(212, 157);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(131, 23);
             this.btnCancelar.TabIndex = 3;
@@ -101,7 +101,7 @@
             this.barraTituloRibbon1.Dock = System.Windows.Forms.DockStyle.Top;
             this.barraTituloRibbon1.Location = new System.Drawing.Point(0, 0);
             this.barraTituloRibbon1.Name = "barraTituloRibbon1";
-            this.barraTituloRibbon1.Size = new System.Drawing.Size(410, 40);
+            this.barraTituloRibbon1.Size = new System.Drawing.Size(410, 58);
             this.barraTituloRibbon1.TabIndex = 6;
             // 
             // FrmLogin

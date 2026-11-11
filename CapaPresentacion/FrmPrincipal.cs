@@ -16,6 +16,9 @@ namespace CapaPresentacion
         public FrmPrincipal()
         {
             InitializeComponent();
+            // Sacamos el boton restaurar del formulario
+            this.barraTituloRibbon1.MostrarMaximizar = false;
+
             // --- TU LÍNEA DE COLOR CONFIGURADA EN EL INICIO ---
             this.BackColor = Color.FromArgb(240, 244, 250);
 
@@ -33,6 +36,30 @@ namespace CapaPresentacion
             // Botón Cargar Pedidos
             this.btnUsuarios.FlatStyle = FlatStyle.Flat;
             this.btnUsuarios.FlatAppearance.BorderColor = colorGrisBorde;
+            
+            // Botón Cargar Pedidos Industriales
+            this.btnIndustriales.FlatStyle = FlatStyle.Flat;
+            this.btnIndustriales.FlatAppearance.BorderColor = colorGrisBorde;
+            
+            // Botón Cargar Pedidos Intendencia
+            this.btnIntendencia.FlatStyle = FlatStyle.Flat;
+            this.btnIntendencia.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Cargar Pedidos Procesamiento
+            this.btnProcesamiento.FlatStyle = FlatStyle.Flat;
+            this.btnProcesamiento.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Contable
+            this.btnContable.FlatStyle = FlatStyle.Flat;
+            this.btnContable.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Cargar Pedidos Transporte
+            this.btnTransporte.FlatStyle = FlatStyle.Flat;
+            this.btnTransporte.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Cargar Pedidos Comunicaciones
+            this.btnComunicaciones.FlatStyle = FlatStyle.Flat;
+            this.btnComunicaciones.FlatAppearance.BorderColor = colorGrisBorde;
 
             // (Repite estas dos líneas para cada botón de tu menú principal...)
 

@@ -29,6 +29,30 @@ namespace CapaPresentacion
         public FrmNotaPedido()
         {
             InitializeComponent();
+            // Sacamos el boton restaurar del formulario
+            this.barraTituloRibbon1.MostrarMaximizar = false;
+
+            // --- TU LÍNEA DE COLOR CONFIGURADA EN EL INICIO ---
+            this.BackColor = Color.FromArgb(240, 244, 250);
+
+            // --- BORDES ELEGANTES PARA TUS BOTONES ---
+            Color colorGrisBorde = Color.FromArgb(160, 180, 210);
+
+            // Botón Cargar
+            this.btnCargarUnidadMedida.FlatStyle = FlatStyle.Flat;
+            this.btnCargarUnidadMedida.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Quitar renglón
+            this.btnQuitarRenglon.FlatStyle = FlatStyle.Flat;
+            this.btnQuitarRenglon.FlatAppearance.BorderColor = colorGrisBorde;
+
+            // Botón Registrar Pedido
+            this.btnRegistrarPedido.FlatStyle = FlatStyle.Flat;
+            this.btnRegistrarPedido.FlatAppearance.BorderColor = colorGrisBorde;
+
+
+            // (Repite estas dos líneas para cada botón de tu menú principal...)
+
             this.LlenarComboUnidadMedida();
             this.LlenarComboRubro();
             this.LlenarComboCaracterPedido();
@@ -543,7 +567,8 @@ namespace CapaPresentacion
                 id_pedido = Convert.ToString(this.txtPedido.Text);
 
                 // Se envía el texto de observaciones (que si vino vacío, ya vale "sin observaciones")
-                rptaFactura = NPedido.Insertar(500, Convert.ToString(this.txtPedido.Text), "12/10/2005", 1, Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToInt32(numero_transaccion), Convert.ToInt32(this.cmbCaracterCompra.SelectedValue), 1, Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToString(this.txtObservaciones.Text), Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue), Convert.ToInt32(this.cmbSector.SelectedValue));
+                //rptaFactura = NPedido.Insertar(500, Convert.ToString(this.txtPedido.Text), "12/10/2005", 1, Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToInt32(numero_transaccion), Convert.ToInt32(this.cmbCaracterCompra.SelectedValue), 1, Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToString(this.txtObservaciones.Text), Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue), Convert.ToInt32(this.cmbSector.SelectedValue));
+                rptaFactura = NPedido.Insertar(500, Convert.ToString(this.txtPedido.Text), "12/10/2005", 1, Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToInt32(numero_transaccion), Convert.ToInt32(this.cmbCaracterCompra.SelectedValue), 1, Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.txtIdUsuario.Text), Convert.ToString(this.txtObservaciones.Text), Convert.ToInt32(this.cmbSector.SelectedValue), Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue), Convert.ToInt32(this.txtIdSectoresInternos.Text));
 
                 int legajo_usuario = Convert.ToInt32(this.txtLegajo.Text);
                 //MessageBox.Show("El id del organismo es: " + " " + Convert.ToInt32(this.cmbOrganismoPedido.SelectedValue));

@@ -33,6 +33,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblNombreFormulario = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtIdSectoresInternos = new System.Windows.Forms.TextBox();
             this.txtLegajoUsuario = new System.Windows.Forms.TextBox();
             this.btnEditarPedido = new System.Windows.Forms.Button();
             this.txtIdUsuario = new System.Windows.Forms.TextBox();
@@ -47,7 +48,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dtpHoraFinal = new System.Windows.Forms.DateTimePicker();
             this.dtpHoraInicial = new System.Windows.Forms.DateTimePicker();
-            this.txtIdSectoresInternos = new System.Windows.Forms.TextBox();
+            this.barraTituloRibbon1 = new CapaPresentacion.BarraTituloRibbon();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBuscarPedidos)).BeginInit();
@@ -59,9 +60,9 @@
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.lblNombreFormulario);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(0, 53);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1082, 54);
+            this.panel1.Size = new System.Drawing.Size(1082, 42);
             this.panel1.TabIndex = 1;
             // 
             // groupBox2
@@ -94,12 +95,19 @@
             this.groupBox1.Controls.Add(this.btnVerDetalle);
             this.groupBox1.Controls.Add(this.btnAgregarPedido);
             this.groupBox1.Controls.Add(this.dgvBuscarPedidos);
-            this.groupBox1.Location = new System.Drawing.Point(4, 158);
+            this.groupBox1.Location = new System.Drawing.Point(0, 196);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1090, 344);
+            this.groupBox1.Size = new System.Drawing.Size(1090, 347);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Notas de Pedido";
+            // 
+            // txtIdSectoresInternos
+            // 
+            this.txtIdSectoresInternos.Location = new System.Drawing.Point(864, 305);
+            this.txtIdSectoresInternos.Name = "txtIdSectoresInternos";
+            this.txtIdSectoresInternos.Size = new System.Drawing.Size(32, 20);
+            this.txtIdSectoresInternos.TabIndex = 8;
             // 
             // txtLegajoUsuario
             // 
@@ -198,7 +206,7 @@
             this.groupBox3.Controls.Add(this.dtpHoraFinal);
             this.groupBox3.Controls.Add(this.dtpHoraInicial);
             this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox3.Location = new System.Drawing.Point(5, 60);
+            this.groupBox3.Location = new System.Drawing.Point(5, 99);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(1077, 92);
             this.groupBox3.TabIndex = 3;
@@ -256,12 +264,13 @@
             this.dtpHoraInicial.Size = new System.Drawing.Size(116, 20);
             this.dtpHoraInicial.TabIndex = 0;
             // 
-            // txtIdSectoresInternos
+            // barraTituloRibbon1
             // 
-            this.txtIdSectoresInternos.Location = new System.Drawing.Point(864, 305);
-            this.txtIdSectoresInternos.Name = "txtIdSectoresInternos";
-            this.txtIdSectoresInternos.Size = new System.Drawing.Size(32, 20);
-            this.txtIdSectoresInternos.TabIndex = 8;
+            this.barraTituloRibbon1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barraTituloRibbon1.Location = new System.Drawing.Point(0, 0);
+            this.barraTituloRibbon1.Name = "barraTituloRibbon1";
+            this.barraTituloRibbon1.Size = new System.Drawing.Size(1091, 45);
+            this.barraTituloRibbon1.TabIndex = 4;
             // 
             // FrmProcesamieto
             // 
@@ -269,9 +278,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(1091, 550);
+            this.Controls.Add(this.barraTituloRibbon1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmProcesamieto";
             this.Text = "Formulario cargar pedidos Procesamiento de Datos";
             this.panel1.ResumeLayout(false);
@@ -306,5 +317,6 @@
         public System.Windows.Forms.TextBox txtLegajoUsuario;
         public System.Windows.Forms.TextBox txtIdSectoresInternos;
         public System.Windows.Forms.Label lblNombreFormulario;
+        private BarraTituloRibbon barraTituloRibbon1;
     }
 }

@@ -50,6 +50,7 @@
             this.txtSectoresInternos = new System.Windows.Forms.TextBox();
             this.txtIdUsuario = new System.Windows.Forms.TextBox();
             this.txtLegajoUsuario = new System.Windows.Forms.TextBox();
+            this.barraTituloRibbon1 = new CapaPresentacion.BarraTituloRibbon();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
@@ -57,7 +58,7 @@
             // btnNotasPedido
             // 
             this.btnNotasPedido.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNotasPedido.Location = new System.Drawing.Point(70, 2);
+            this.btnNotasPedido.Location = new System.Drawing.Point(70, 41);
             this.btnNotasPedido.Name = "btnNotasPedido";
             this.btnNotasPedido.Size = new System.Drawing.Size(339, 23);
             this.btnNotasPedido.TabIndex = 0;
@@ -67,14 +68,14 @@
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(50, 0);
+            this.panel1.Location = new System.Drawing.Point(50, 39);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(362, 29);
             this.panel1.TabIndex = 1;
             // 
             // btnIngresarNotasPedido
             // 
-            this.btnIngresarNotasPedido.Location = new System.Drawing.Point(120, 36);
+            this.btnIngresarNotasPedido.Location = new System.Drawing.Point(120, 75);
             this.btnIngresarNotasPedido.Name = "btnIngresarNotasPedido";
             this.btnIngresarNotasPedido.Size = new System.Drawing.Size(289, 23);
             this.btnIngresarNotasPedido.TabIndex = 2;
@@ -85,7 +86,7 @@
             // 
             // btnModificarNotaPedido
             // 
-            this.btnModificarNotaPedido.Location = new System.Drawing.Point(120, 138);
+            this.btnModificarNotaPedido.Location = new System.Drawing.Point(120, 177);
             this.btnModificarNotaPedido.Name = "btnModificarNotaPedido";
             this.btnModificarNotaPedido.Size = new System.Drawing.Size(289, 23);
             this.btnModificarNotaPedido.TabIndex = 3;
@@ -96,7 +97,7 @@
             // 
             // btnSeguimientoPedidos
             // 
-            this.btnSeguimientoPedidos.Location = new System.Drawing.Point(120, 163);
+            this.btnSeguimientoPedidos.Location = new System.Drawing.Point(120, 202);
             this.btnSeguimientoPedidos.Name = "btnSeguimientoPedidos";
             this.btnSeguimientoPedidos.Size = new System.Drawing.Size(289, 23);
             this.btnSeguimientoPedidos.TabIndex = 4;
@@ -112,7 +113,7 @@
             this.panel2.Controls.Add(this.btnModificarPedidoCompras);
             this.panel2.Controls.Add(this.btnModificarEncabezadoNotaPedido);
             this.panel2.Controls.Add(this.btnNotasIngresadasModulo);
-            this.panel2.Location = new System.Drawing.Point(70, 31);
+            this.panel2.Location = new System.Drawing.Point(70, 70);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(342, 214);
             this.panel2.TabIndex = 5;
@@ -163,7 +164,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(488, 91);
+            this.button5.Location = new System.Drawing.Point(488, 130);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(258, 23);
             this.button5.TabIndex = 10;
@@ -173,7 +174,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(488, 63);
+            this.button6.Location = new System.Drawing.Point(488, 102);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(258, 23);
             this.button6.TabIndex = 9;
@@ -183,7 +184,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(488, 36);
+            this.button7.Location = new System.Drawing.Point(488, 75);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(258, 23);
             this.button7.TabIndex = 8;
@@ -193,7 +194,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(446, 2);
+            this.button8.Location = new System.Drawing.Point(446, 41);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(302, 23);
             this.button8.TabIndex = 6;
@@ -202,7 +203,7 @@
             // 
             // panel3
             // 
-            this.panel3.Location = new System.Drawing.Point(418, 0);
+            this.panel3.Location = new System.Drawing.Point(418, 39);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(333, 29);
             this.panel3.TabIndex = 7;
@@ -211,7 +212,7 @@
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.button1);
-            this.panel4.Location = new System.Drawing.Point(436, 32);
+            this.panel4.Location = new System.Drawing.Point(436, 71);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(313, 109);
             this.panel4.TabIndex = 11;
@@ -264,11 +265,20 @@
             this.txtLegajoUsuario.Size = new System.Drawing.Size(19, 20);
             this.txtLegajoUsuario.TabIndex = 16;
             // 
+            // barraTituloRibbon1
+            // 
+            this.barraTituloRibbon1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barraTituloRibbon1.Location = new System.Drawing.Point(0, 0);
+            this.barraTituloRibbon1.Name = "barraTituloRibbon1";
+            this.barraTituloRibbon1.Size = new System.Drawing.Size(1325, 58);
+            this.barraTituloRibbon1.TabIndex = 17;
+            // 
             // FrmCompras
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1325, 583);
+            this.Controls.Add(this.barraTituloRibbon1);
             this.Controls.Add(this.txtLegajoUsuario);
             this.Controls.Add(this.txtIdUsuario);
             this.Controls.Add(this.txtSectoresInternos);
@@ -286,6 +296,7 @@
             this.Controls.Add(this.btnNotasPedido);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmCompras";
             this.Text = "CIGECO";
             this.Load += new System.EventHandler(this.FrmCompras_Load);
@@ -320,5 +331,6 @@
         public System.Windows.Forms.TextBox txtIdUsuario;
         public System.Windows.Forms.TextBox txtLegajoUsuario;
         private System.Windows.Forms.Button btnGenerarExpediente;
+        private BarraTituloRibbon barraTituloRibbon1;
     }
 }
