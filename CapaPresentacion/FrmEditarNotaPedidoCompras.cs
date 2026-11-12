@@ -110,53 +110,17 @@ namespace CapaPresentacion
                 string cantidad = fila.Cells["cantidad"].Value.ToString();
                 string precio = fila.Cells["precio"].Value.ToString();
                 string id_detalle = fila.Cells["id_detalle"].Value.ToString();
-                this.txtModificarDetelle.Text = detalle;
-                this.txtModificarCantidad.Text = cantidad;
-                this.txtModificarPrecio.Text = precio;
-                this.txtModificarIdDetalle.Text = id_detalle;
+                //this.txtModificarDetelle.Text = detalle;
+                //this.txtModificarCantidad.Text = cantidad;
+                //this.txtModificarPrecio.Text = precio;
+                //this.txtModificarIdDetalle.Text = id_detalle;
                 //MessageBox.Show("Seleccionaste: " + valor);
             }
         }
         
         private void btnModificarDetalle_Click(object sender, EventArgs e)
         {
-             // Asegurar selección de fila completa (se puede hacer en el diseñador)
-            dgvDetalles.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            MessageBox.Show("Aqui se editan los datos");
-            if (dgvDetalles.SelectedRows.Count > 0) // Validar que hay una fila seleccionada [13]
-            {
-                // Obtener la fila seleccionada
-                DataGridViewRow fila = dgvDetalles.CurrentRow;
-
-                string rptaDetalle = "";
-                string rpta = "";
-                MessageBox.Show("Este formulario es para editar pedidos");
-                rptaDetalle = NDetalle.EditarDetallexIdDetalle(Convert.ToInt32(this.txtModificarIdDetalle.Text), Convert.ToString(this.txtModificarDetelle.Text), Convert.ToInt32(this.txtModificarCantidad.Text), Convert.ToDecimal(this.txtModificarPrecio.Text));
-                //rptaDetalle = NDetalle.EditarDetallexIdDetalle(1142, "revisar", 5, 4500);
-                //if (rptaDetalle == "no_se_edito_detalle")
-                if (rptaDetalle == "OK")
-                {
-
-                    //MessageBox.Show("El id de detalle es:  " + " " + Convert.ToInt32(this.txtModificarIdDetalle.Text) + " " + Convert.ToString(this.txtModificarDetelle.Text) + " " + Convert.ToInt32(this.txtModificarCantidad.Text) + " " + Convert.ToDecimal(this.txtModificarPrecio.Text));
-                    MessageBox.Show("Se realizo correctamente la edicion de la tabla Detalle." + Convert.ToInt32(rptaDetalle));
-
-                    // LimpiarPedido();
-                }
-
-                else
-                {
-                    //MessageBox.Show("No se cargó la venta, pongase en contacto con el Administrador de base de datos de Procesamiento de Datos.");
-                    MessageBox.Show("Se realizó correctamente la venta." + Convert.ToInt32(rptaDetalle));
-                    //LimpiarPedido();
-                }
-
-
-
-            }
-            else
-            {
-                MessageBox.Show("Por favor, seleccione una fila.");
-            }
+            
         }
 
         private void dgvDetalles_CellValueChanged(object sender, DataGridViewCellEventArgs e)

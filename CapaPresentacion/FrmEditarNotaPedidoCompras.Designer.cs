@@ -29,7 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEditarPedido));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEditarNotaPedidoCompras));
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -47,21 +47,11 @@
             this.btnModificarPedido = new System.Windows.Forms.Button();
             this.dgvDetalles = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtModificarIdDetalle = new System.Windows.Forms.TextBox();
-            this.btnModificarDetalle = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtModificarPrecio = new System.Windows.Forms.TextBox();
-            this.txtModificarCantidad = new System.Windows.Forms.TextBox();
-            this.txtModificarDetelle = new System.Windows.Forms.TextBox();
+            this.txtUsuario = new System.Windows.Forms.TextBox();
             this.txtIdPedido = new System.Windows.Forms.TextBox();
             this.txtLegajo = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtPrecioTotalEstimado = new System.Windows.Forms.TextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.txtUsuario = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalles)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -235,22 +225,12 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.txtUsuario);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.txtModificarIdDetalle);
-            this.groupBox2.Controls.Add(this.btnModificarDetalle);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.txtModificarPrecio);
-            this.groupBox2.Controls.Add(this.txtModificarCantidad);
-            this.groupBox2.Controls.Add(this.txtModificarDetelle);
             this.groupBox2.Controls.Add(this.txtIdPedido);
             this.groupBox2.Controls.Add(this.txtLegajo);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.txtPrecioTotalEstimado);
             this.groupBox2.Controls.Add(this.dgvDetalles);
             this.groupBox2.Controls.Add(this.btnModificarPedido);
-            this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(12, 192);
@@ -260,89 +240,12 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Detalle Nota de Pedido";
             // 
-            // label8
+            // txtUsuario
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(986, 388);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(14, 16);
-            this.label8.TabIndex = 17;
-            this.label8.Text = "0";
-            // 
-            // txtModificarIdDetalle
-            // 
-            this.txtModificarIdDetalle.Location = new System.Drawing.Point(989, 408);
-            this.txtModificarIdDetalle.Name = "txtModificarIdDetalle";
-            this.txtModificarIdDetalle.ReadOnly = true;
-            this.txtModificarIdDetalle.Size = new System.Drawing.Size(180, 22);
-            this.txtModificarIdDetalle.TabIndex = 16;
-            // 
-            // btnModificarDetalle
-            // 
-            this.btnModificarDetalle.BackColor = System.Drawing.Color.White;
-            this.btnModificarDetalle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnModificarDetalle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnModificarDetalle.Image = ((System.Drawing.Image)(resources.GetObject("btnModificarDetalle.Image")));
-            this.btnModificarDetalle.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnModificarDetalle.Location = new System.Drawing.Point(546, 440);
-            this.btnModificarDetalle.Name = "btnModificarDetalle";
-            this.btnModificarDetalle.Size = new System.Drawing.Size(208, 38);
-            this.btnModificarDetalle.TabIndex = 15;
-            this.btnModificarDetalle.Text = "         Modificar Detalle";
-            this.btnModificarDetalle.UseVisualStyleBackColor = false;
-            this.btnModificarDetalle.Click += new System.EventHandler(this.btnModificarDetalle_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(825, 388);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(49, 16);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "Precio:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(656, 388);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(64, 16);
-            this.label6.TabIndex = 13;
-            this.label6.Text = "Cantidad:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(6, 388);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(123, 16);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Modificar el detalle:";
-            // 
-            // txtModificarPrecio
-            // 
-            this.txtModificarPrecio.Location = new System.Drawing.Point(828, 407);
-            this.txtModificarPrecio.Name = "txtModificarPrecio";
-            this.txtModificarPrecio.Size = new System.Drawing.Size(154, 22);
-            this.txtModificarPrecio.TabIndex = 11;
-            // 
-            // txtModificarCantidad
-            // 
-            this.txtModificarCantidad.Location = new System.Drawing.Point(659, 407);
-            this.txtModificarCantidad.Name = "txtModificarCantidad";
-            this.txtModificarCantidad.Size = new System.Drawing.Size(161, 22);
-            this.txtModificarCantidad.TabIndex = 10;
-            // 
-            // txtModificarDetelle
-            // 
-            this.txtModificarDetelle.Location = new System.Drawing.Point(6, 407);
-            this.txtModificarDetelle.Name = "txtModificarDetelle";
-            this.txtModificarDetelle.Size = new System.Drawing.Size(648, 22);
-            this.txtModificarDetelle.TabIndex = 9;
+            this.txtUsuario.Location = new System.Drawing.Point(7, 519);
+            this.txtUsuario.Name = "txtUsuario";
+            this.txtUsuario.Size = new System.Drawing.Size(148, 22);
+            this.txtUsuario.TabIndex = 19;
             // 
             // txtIdPedido
             // 
@@ -376,23 +279,7 @@
             this.txtPrecioTotalEstimado.Size = new System.Drawing.Size(208, 29);
             this.txtPrecioTotalEstimado.TabIndex = 4;
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Location = new System.Drawing.Point(6, 369);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1173, 118);
-            this.groupBox3.TabIndex = 18;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Modificar Detalle";
-            // 
-            // txtUsuario
-            // 
-            this.txtUsuario.Location = new System.Drawing.Point(7, 519);
-            this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(148, 22);
-            this.txtUsuario.TabIndex = 19;
-            // 
-            // FrmEditarPedido
+            // FrmEditarNotaPedidoCompras
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -401,7 +288,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox2);
-            this.Name = "FrmEditarPedido";
+            this.Name = "FrmEditarNotaPedidoCompras";
             this.Text = "Formulario Editar Pedidos";
             this.Load += new System.EventHandler(this.FrmEditarPedido_Load);
             this.groupBox1.ResumeLayout(false);
@@ -437,16 +324,6 @@
         public System.Windows.Forms.DataGridView dgvDetalles;
         public System.Windows.Forms.TextBox txtLegajo;
         public System.Windows.Forms.TextBox txtIdPedido;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtModificarPrecio;
-        private System.Windows.Forms.TextBox txtModificarCantidad;
-        private System.Windows.Forms.TextBox txtModificarDetelle;
-        private System.Windows.Forms.Button btnModificarDetalle;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox txtModificarIdDetalle;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox txtUsuario;
     }
 }
