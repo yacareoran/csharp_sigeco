@@ -101,6 +101,10 @@ namespace CapaPresentacion
                     Pedido = row["pedido"].ToString(),
                     Estado = row["estado"].ToString(),
                     Costo_total = CostoTotalDetalles
+
+
+
+
                 });
             }
 
@@ -115,9 +119,12 @@ namespace CapaPresentacion
                    Pedido = c.Pedido,
                    Estado = c.Estado,
                    costoTotal = c.Costo_total
+
+
+
+
                })
                .ToList();
-
             dgvBuscarPedidos.DataSource = datosfiltrados;
             dgvBuscarPedidos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
@@ -145,12 +152,31 @@ namespace CapaPresentacion
             FrmEditarPedido editarPedido = new FrmEditarPedido();
 
             // NOTA: Limpié los Convert.ToString(this...Value.ToString()) que estaban redundantes
+            /*editarPedido.txtNumeroTransaccion.Text = this.dgvBuscarPedidos.CurrentRow.Cells[1].Value?.ToString() ?? "";
+            editarPedido.txtIdPedido.Text = this.dgvBuscarPedidos.CurrentRow.Cells[0].Value?.ToString() ?? "";
+            editarPedido.cmbCaracterPedido = this.dgvBuscarPedidos.CurrentRow.Cells.[4].Value?.ToString() ?? "";
+            editarPedido.cmbEstadoPedido = this.dgvBuscarPedidos.CurrentRow.Cells.[6].Value?.ToString() ?? "";
+            editarPedido.txtPasarFechaPedido.Text = this.dgvBuscarPedidos.CurrentRow.Cells[2].Value?.ToString() ?? "";
+            editarPedido.txtPasarObservaciones.Text = this.dgvBuscarPedidos.CurrentRow.Cells[5].Value?.ToString() ?? "";
+            editarPedido.txtPrecioTotalEstimado.Text = this.dgvBuscarPedidos.CurrentRow.Cells[7].Value?.ToString() ?? "";
+            editarPedido.txtLegajo.Text = this.txtLegajoUsuario.Text;*/
+
+
+
             editarPedido.txtNumeroTransaccion.Text = this.dgvBuscarPedidos.CurrentRow.Cells[1].Value?.ToString() ?? "";
             editarPedido.txtIdPedido.Text = this.dgvBuscarPedidos.CurrentRow.Cells[0].Value?.ToString() ?? "";
+
+            // Corregido: agregamos .Text al ComboBox y quitamos el punto antes de [4] y [6]
+            editarPedido.cmbCaracterPedido.Text = this.dgvBuscarPedidos.CurrentRow.Cells[4].Value?.ToString() ?? "";
+            editarPedido.cmbEstadoPedido.Text = this.dgvBuscarPedidos.CurrentRow.Cells[6].Value?.ToString() ?? "";
+
             editarPedido.txtPasarFechaPedido.Text = this.dgvBuscarPedidos.CurrentRow.Cells[2].Value?.ToString() ?? "";
             editarPedido.txtPasarObservaciones.Text = this.dgvBuscarPedidos.CurrentRow.Cells[5].Value?.ToString() ?? "";
             editarPedido.txtPrecioTotalEstimado.Text = this.dgvBuscarPedidos.CurrentRow.Cells[7].Value?.ToString() ?? "";
             editarPedido.txtLegajo.Text = this.txtLegajoUsuario.Text;
+
+
+
 
             int idCaracterPedidoGrid = Convert.ToInt32(1);
 

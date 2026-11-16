@@ -51,6 +51,7 @@
             this.txtLegajo = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtPrecioTotalEstimado = new System.Windows.Forms.TextBox();
+            this.btnAgregarRenglon = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalles)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -70,6 +71,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.btnAgregarRenglon);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.txtEstado);
@@ -278,6 +280,16 @@
             this.txtPrecioTotalEstimado.Size = new System.Drawing.Size(208, 29);
             this.txtPrecioTotalEstimado.TabIndex = 4;
             // 
+            // btnAgregarRenglon
+            // 
+            this.btnAgregarRenglon.Location = new System.Drawing.Point(1087, 103);
+            this.btnAgregarRenglon.Name = "btnAgregarRenglon";
+            this.btnAgregarRenglon.Size = new System.Drawing.Size(149, 30);
+            this.btnAgregarRenglon.TabIndex = 12;
+            this.btnAgregarRenglon.Text = "Agrgar Renglón";
+            this.btnAgregarRenglon.UseVisualStyleBackColor = true;
+            this.btnAgregarRenglon.Click += new System.EventHandler(this.btnAgregarRenglon_Click);
+            // 
             // FrmEditarPedido
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -324,5 +336,6 @@
         public System.Windows.Forms.TextBox txtLegajo;
         public System.Windows.Forms.TextBox txtIdPedido;
         private System.Windows.Forms.TextBox txtUsuario;
+        private System.Windows.Forms.Button btnAgregarRenglon;
     }
 }

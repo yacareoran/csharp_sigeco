@@ -118,15 +118,7 @@ namespace CapaPresentacion
                 return;
             }
                         
-            
-            // Validar que cmbSubrubro tenga algo seleccionado
-            //if (this.cmbSubrubro.SelectedIndex == -1 || string.IsNullOrWhiteSpace(this.cmbSubrubro.Text))
-            //{
-            //    MessageBox.Show("Por favor, seleccione un Subrubro.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    this.cmbSubrubro.Focus();
-            //    return;
-            //}
-
+           
             // Validar que cmbSubrubro tenga algo seleccionado
             if (this.cmbSubrubro.SelectedIndex == -1 || string.IsNullOrWhiteSpace(this.cmbSubrubro.Text))
             {

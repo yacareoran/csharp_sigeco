@@ -355,6 +355,7 @@
             this.txtCantidad.Name = "txtCantidad";
             this.txtCantidad.Size = new System.Drawing.Size(124, 22);
             this.txtCantidad.TabIndex = 20;
+            this.txtCantidad.Text = " ";
             // 
             // label9
             // 

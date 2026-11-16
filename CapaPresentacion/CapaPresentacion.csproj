@@ -62,6 +62,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Class1.cs" />
+    <Compile Include="FrmAgregarRenglon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAgregarRenglon.Designer.cs">
+      <DependentUpon>FrmAgregarRenglon.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmAsignarNumeroNota.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +189,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FrmAgregarRenglon.resx">
+      <DependentUpon>FrmAgregarRenglon.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmAsignarNumeroNota.resx">
       <DependentUpon>FrmAsignarNumeroNota.cs</DependentUpon>
     </EmbeddedResource>

@@ -26,22 +26,6 @@ namespace CapaPresentacion
             
         }
 
-        /*private void LlenarComboCaracterPedido()
-        {
-            this.cmbCaracterPedido.DataSource = NCaracterPedido.Mostrar();
-            this.cmbCaracterPedido.ValueMember = "id_caracter_pedido";
-            this.cmbCaracterPedido.DisplayMember = "caracter_pedido";
-            this.cmbCaracterPedido.SelectedIndex = 1;
-        }
-
-        private void LlenarComboEstado()
-        {
-            this.cmbEstadoPedido.DataSource = NEstado.Mostrar();
-            this.cmbEstadoPedido.ValueMember = "id_estado";
-            this.cmbEstadoPedido.DisplayMember = "estado";
-            this.cmbEstadoPedido.SelectedIndex = 1;
-        }
-        */
         private void LlenarComboCaracterPedido()
         {
             this.cmbCaracterPedido.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -118,17 +102,26 @@ namespace CapaPresentacion
 
                 for (int i = 0; i <= dgvDetalles.Rows.Count - 1; i++)
                 {
-                    // Evita procesar la fila nueva vacía si está habilitada
                     if (dgvDetalles.Rows[i].IsNewRow) continue;
 
-                    rpta = NDetalle.EditarDetallexIdDetalle(
-                        Convert.ToInt32(dgvDetalles.Rows[i].Cells[1].Value),
-                        Convert.ToString(dgvDetalles.Rows[i].Cells[2].Value),
-                        Convert.ToInt32(dgvDetalles.Rows[i].Cells[3].Value),
-                        Convert.ToDecimal(dgvDetalles.Rows[i].Cells[4].Value)
-                    );
+                    int idDetalle = Convert.ToInt32(dgvDetalles.Rows[i].Cells[1].Value);
+                    string concepto = Convert.ToString(dgvDetalles.Rows[i].Cells[2].Value);
+                    int cantidad = Convert.ToInt32(dgvDetalles.Rows[i].Cells[3].Value);
+                    decimal precio = Convert.ToDecimal(dgvDetalles.Rows[i].Cells[4].Value);
+                    int renglon = Convert.ToInt32(dgvDetalles.Rows[i].Cells[0].Value);
 
-                    // Acepta tanto "OK" como el mensaje de éxito que devuelve tu capa de datos
+                    if (idDetalle > 0)
+                    {
+                        // RENGLÓN EXISTENTE: Actualiza en SQL Server
+                        rpta = NDetalle.EditarDetallexIdDetalle(idDetalle, concepto, cantidad, precio);
+                    }
+                    else
+                    {
+                        // RENGLÓN NUEVO (Id_detalle == 0): Inserta en SQL Server asociado a este Pedido
+                        int idPedidoActual = Convert.ToInt32(this.txtIdPedido.Text);
+                        //rpta = NDetalle.Insertar(idPedidoActual, renglon, concepto, cantidad, precio); // <-- Ajustar a los parámetros de tu método
+                    }
+
                     if (rpta != "OK" && rpta != "Detalle actualizado correctamente")
                     {
                         detallesOk = false;
@@ -136,6 +129,7 @@ namespace CapaPresentacion
                         break;
                     }
                 }
+
 
                 if (detallesOk)
                 {
@@ -168,7 +162,29 @@ namespace CapaPresentacion
                 string id_detalle = fila.Cells["id_detalle"].Value.ToString();
             }
         }
-        
-       
+
+        private void btnAgregarRenglon_Click(object sender, EventArgs e)
+        {
+            //FrmAgregarRenglon agregarRenglon = new FrmAgregarRenglon();
+            //agregarRenglon.ShowDialog();
+            using (FrmAgregarRenglon frmNuevo = new FrmAgregarRenglon())
+            {
+                // Abre la ventanita y espera a que el usuario presione "Agregar"
+                if (frmNuevo.ShowDialog() == DialogResult.OK)
+                {
+                    // Recuperamos la lista actual enlazada a la grilla
+                    var listaActual = (BindingList<DDetalle>)dgvDetalles.DataSource;
+
+                    // Calculamos el número de renglón siguiente automáticamente
+                    int siguienteRenglon = listaActual.Count > 0 ? listaActual.Max(x => x.Renglon) + 1 : 1;
+                    frmNuevo.NuevoDetalle.Renglon = siguienteRenglon;
+
+                    // Lo agregamos a la lista (al ser BindingList, aparece solo en la grilla al instante)
+                    listaActual.Add(frmNuevo.NuevoDetalle);
+
+                    // Opcional: Recalcular el total estimado del pedido aquí
+                }
+            }
+        }
     }
 }
