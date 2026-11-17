@@ -37,6 +37,7 @@
             this.btnAsignarNumeroNota = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.barraTituloRibbon1 = new CapaPresentacion.BarraTituloRibbon();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -91,7 +92,7 @@
             // 
             // btnAsignarNumeroNota
             // 
-            this.btnAsignarNumeroNota.Location = new System.Drawing.Point(500, 507);
+            this.btnAsignarNumeroNota.Location = new System.Drawing.Point(479, 413);
             this.btnAsignarNumeroNota.Name = "btnAsignarNumeroNota";
             this.btnAsignarNumeroNota.Size = new System.Drawing.Size(230, 31);
             this.btnAsignarNumeroNota.TabIndex = 6;
@@ -119,11 +120,20 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "Buscar por Concepto:";
             // 
+            // barraTituloRibbon1
+            // 
+            this.barraTituloRibbon1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barraTituloRibbon1.Location = new System.Drawing.Point(0, 0);
+            this.barraTituloRibbon1.Name = "barraTituloRibbon1";
+            this.barraTituloRibbon1.Size = new System.Drawing.Size(1165, 58);
+            this.barraTituloRibbon1.TabIndex = 9;
+            // 
             // FrmAsignarNumeroNota
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1165, 570);
+            this.ClientSize = new System.Drawing.Size(1165, 492);
+            this.Controls.Add(this.barraTituloRibbon1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnAsignarNumeroNota);
@@ -133,6 +143,7 @@
             this.Controls.Add(this.dgvPedidos);
             this.Controls.Add(this.txtBuscarPedido);
             this.Controls.Add(this.txtBuscar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmAsignarNumeroNota";
             this.Text = "FrmAsignarNumeroNota";
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidos)).EndInit();
@@ -152,5 +163,6 @@
         private System.Windows.Forms.Button btnAsignarNumeroNota;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private BarraTituloRibbon barraTituloRibbon1;
     }
 }

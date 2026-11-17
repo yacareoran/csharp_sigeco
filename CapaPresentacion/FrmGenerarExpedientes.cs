@@ -19,6 +19,21 @@ namespace CapaPresentacion
         public FrmGenerarExpedientes()
         {
             InitializeComponent();
+            // Sacamos el boton restaurar del formulario
+            this.barraTituloRibbon1.MostrarMaximizar = false;
+
+            // Sacamos el boton restaurar del formulario
+            this.barraTituloRibbon1.MostrarMaximizar = false;
+
+            // --- TU LÍNEA DE COLOR CONFIGURADA EN EL INICIO ---
+            this.BackColor = Color.FromArgb(240, 244, 250);
+
+            // --- BORDES ELEGANTES PARA TUS BOTONES ---
+            Color colorGrisBorde = Color.FromArgb(160, 180, 210);
+
+            // Botón Acceder
+            this.btnBuscarTransaccion.FlatStyle = FlatStyle.Flat;
+            this.btnBuscarTransaccion.FlatAppearance.BorderColor = colorGrisBorde;
 
             // Hace que todas las celdas sean de solo lectura
             dgvPedidoExpedientes.ReadOnly = true;
@@ -330,48 +345,52 @@ namespace CapaPresentacion
                 }
 
                 // 2. Intentar parsear el ID del pedido limpiamente
-                //cambiamos 1 por 0
-                if (!int.TryParse(this.dgvPedidos.CurrentRow.Cells[1].Value.ToString(), out int idPedido))
+                if (!int.TryParse(this.dgvPedidos.CurrentRow.Cells[1].Value?.ToString(), out int idPedido))
                 {
                     MessageBox.Show("Por favor, selecciona un ID de pedido numérico y válido.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Obtenemos los datos secundarios que ya usabas de la fila actual
+                // =========================================================================
+                // 3. VALIDACIÓN ANTI-DUPLICADOS EN LA SEGUNDA GRILLA
+                // =========================================================================
+                // IMPORTANTE: Cambia "dgvPedidosSeleccionados" por el nombre real de tu segunda grilla
+                // y ajusta el índice de celda (Cells[0] o Cells[1]) donde guardas el idPedido allí.
+                foreach (DataGridViewRow fila in this.dgvPedidoExpedientes.Rows)
+                {
+                    if (fila.IsNewRow) continue;
+
+                    if (fila.Cells[0].Value != null && Convert.ToInt32(fila.Cells[0].Value) == idPedido)
+                    {
+                        MessageBox.Show($"El pedido N° {idPedido} ya fue agregado a este expediente.",
+                                        "Pedido Duplicado",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                        return; // Frenamos la ejecución para que no vuelva a cargarlo ni sume el monto dos veces
+                    }
+                }
+                // =========================================================================
+
+                // Obtenemos los datos secundarios de la fila actual
                 string datoCelda2 = this.dgvPedidos.CurrentRow.Cells[2].Value?.ToString() ?? "";
                 string idPedidoMostrar = this.dgvPedidos.CurrentRow.Cells[1].Value?.ToString() ?? "";
 
-                // Llamamos a tu método existente para cargar la grilla secundaria si lo requieres
+                // Llamamos a tu método existente para cargar la grilla secundaria
                 CargarVentasGrillaPedidos(idPedido, datoCelda2);
-                MessageBox.Show("El id_pedido seleccionado es: " + idPedidoMostrar, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 try
                 {
-                    // 1. Instanciamos la Entidad y le asignamos el ID del pedido
                     DPedido pedidoEntidad = new DPedido();
                     pedidoEntidad.Id_pedido = idPedido;
 
-                    // --- BLOQUE DE DIAGNÓSTICO EN PRESENTACIÓN REAL ---
-                    // Usamos el método correcto de tu Capa de Negocio para calcular el total
                     decimal totalGeneral = NPedido.ObtenerTotalPedido(pedidoEntidad);
 
-                    // Mostramos el total directo que calculó la capa de negocio
-                    MessageBox.Show($"DIAGNÓSTICO: El método ObtenerTotalPedido devolvió: {totalGeneral}");
-                    // --- FIN DEL BLOQUE DE DIAGNÓSTICO ---
-
-                    // 2. Mostramos el resultado final formateado en tu etiqueta de la pantalla
+                    // Mostramos el resultado final formateado en tu etiqueta
                     this.lblMontoTotal.Text = totalGeneral.ToString("N2");
 
-
-                    // 3. ¡NUEVA LÓGICA! Acumulamos el total en el Gran Total global
+                    // Acumulamos el total en el Gran Total global
                     _totalGeneralAcumulado += totalGeneral;
-
-                    // 3. Mostramos el acumulado en el nuevo label lblTotalGral
                     this.lblTotalGralAcumulado.Text = _totalGeneralAcumulado.ToString("N2");
-
-
-
-
                 }
                 catch (Exception ex)
                 {
@@ -379,6 +398,7 @@ namespace CapaPresentacion
                 }
             }
         }
+
 
         private void txtBuscarPedido_TextChanged(object sender, EventArgs e)
         {

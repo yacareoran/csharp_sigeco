@@ -16,6 +16,19 @@ namespace CapaPresentacion
         public FrmAsignarNumeroNota()
         {
             InitializeComponent();
+            // Sacamos el boton restaurar del formulario
+            this.barraTituloRibbon1.MostrarMaximizar = false;
+                      
+            // --- TU LÍNEA DE COLOR CONFIGURADA EN EL INICIO ---
+            this.BackColor = Color.FromArgb(240, 244, 250);
+
+            // --- BORDES ELEGANTES PARA TUS BOTONES ---
+            Color colorGrisBorde = Color.FromArgb(160, 180, 210);
+
+            // Botón Asignar número de nota
+            this.btnAsignarNumeroNota.FlatStyle = FlatStyle.Flat;
+            this.btnAsignarNumeroNota.FlatAppearance.BorderColor = colorGrisBorde;
+
         }
 
         private void txtBuscarPedido_TextChanged(object sender, EventArgs e)

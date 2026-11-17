@@ -6,46 +6,35 @@ using System.Threading.Tasks;
 using System.Data;
 using CapaDatos;
 
+
 namespace CapaNegocio
 {
     public class NExpedientes
-    {//inicio clase
-        //metodo insertar
-        public static string Insertar(int id_expediente, string numero_expediente, string caratula, string fecha_creacion)
+    {
+        public static string Insertar(string expediente_interno, string caratula, DateTime fecha_creacion,
+                                      int sector_iniciador, int sector_destino, decimal monto_total,
+                                      int usuario_iniciador, DataTable dtPedidos)
         {
-
             DExpedientes Obj = new DExpedientes();
-            Obj.Id_expediente = id_expediente;
-            Obj.Numero_expediente = numero_expediente;
+            Obj.Expediente_interno = expediente_interno;
             Obj.Caratula = caratula;
-            if (fecha_creacion != string.Empty)
-            {
-                try
-                {
-                    Obj.Fecha_creacion = Convert.ToDateTime(fecha_creacion);
-                }
-                catch (Exception)
-                {
+            Obj.Fecha_creacion = fecha_creacion;
+            Obj.Sector_iniciador = sector_iniciador;
+            Obj.Sector_destino = sector_destino;
+            Obj.Monto_total = monto_total;
+            Obj.Usuario_iniciador = usuario_iniciador;
 
-                    Obj.Fecha_creacion = System.DateTime.Parse("1900-01-01");
-
-                }
-            }
-            else
+            List<DExpedientesPedido> detalles = new List<DExpedientesPedido>();
+            foreach (DataRow row in dtPedidos.Rows)
             {
-                Obj.Fecha_creacion = System.DateTime.Parse("1900-01-01");
+                DExpedientesPedido detalle = new DExpedientesPedido();
+                detalle.Pedido_id = Convert.ToInt32(row["pedido_id"]);
+                detalle.Fecha_expedientes_pedido = fecha_creacion;
+                detalle.Is_activo = true; // Lo marcamos activo por defecto al crearlo
+                detalles.Add(detalle);
             }
-                        
-            return Obj.Insertar(Obj);
+
+            return Obj.Insertar(Obj, detalles);
         }
-        
-        
-        //metodo buscar por Id 
-        public static DataTable BuscarxId(int id_expediente)
-        {
-            DExpedientes Obj = new DExpedientes();
-            Obj.Id_expediente = id_expediente;
-            return Obj.BuscarxId(Obj);
-        }
-    }//fin clase
+    }
 }

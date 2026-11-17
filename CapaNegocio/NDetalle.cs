@@ -86,5 +86,13 @@ namespace CapaNegocio
             return Obj.EditarDetallexIdDetalle(Obj);
         }
 
+        // Método Eliminar en NDetalle
+        public static string Eliminar(int id_detalle)
+        {
+            DDetalle Obj = new DDetalle();
+            Obj.Id_detalle = id_detalle;
+            return Obj.Eliminar(Obj);
+        }
+
     }
 }

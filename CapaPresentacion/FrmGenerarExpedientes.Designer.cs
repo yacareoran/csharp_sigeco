@@ -58,14 +58,15 @@
             this.txtBuscarNotaPedido = new System.Windows.Forms.TextBox();
             this.dgvPedidos = new System.Windows.Forms.DataGridView();
             this.dgvPedidoExpedientes = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnGuardarExpediente = new System.Windows.Forms.Button();
             this.lblMontoTotal = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.lblTotalGralAcumulado = new System.Windows.Forms.Label();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.barraTituloRibbon1 = new CapaPresentacion.BarraTituloRibbon();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidoExpedientes)).BeginInit();
@@ -74,7 +75,7 @@
             // cmbOrganismoExpediente
             // 
             this.cmbOrganismoExpediente.FormattingEnabled = true;
-            this.cmbOrganismoExpediente.Location = new System.Drawing.Point(45, 70);
+            this.cmbOrganismoExpediente.Location = new System.Drawing.Point(45, 98);
             this.cmbOrganismoExpediente.Name = "cmbOrganismoExpediente";
             this.cmbOrganismoExpediente.Size = new System.Drawing.Size(242, 21);
             this.cmbOrganismoExpediente.TabIndex = 0;
@@ -83,7 +84,7 @@
             // cmbSectorExpediente
             // 
             this.cmbSectorExpediente.FormattingEnabled = true;
-            this.cmbSectorExpediente.Location = new System.Drawing.Point(254, 43);
+            this.cmbSectorExpediente.Location = new System.Drawing.Point(254, 44);
             this.cmbSectorExpediente.Name = "cmbSectorExpediente";
             this.cmbSectorExpediente.Size = new System.Drawing.Size(273, 23);
             this.cmbSectorExpediente.TabIndex = 1;
@@ -92,7 +93,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(45, 51);
+            this.label1.Location = new System.Drawing.Point(45, 79);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(121, 15);
             this.label1.TabIndex = 2;
@@ -102,7 +103,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(265, 24);
+            this.label2.Location = new System.Drawing.Point(265, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(95, 15);
             this.label2.TabIndex = 3;
@@ -119,9 +120,9 @@
             this.groupBox1.Controls.Add(this.cmbSectorExpediente);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(39, 27);
+            this.groupBox1.Location = new System.Drawing.Point(39, 53);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1227, 85);
+            this.groupBox1.Size = new System.Drawing.Size(1227, 77);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccionar las categorías coeespondientes:";
@@ -130,7 +131,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(530, 24);
+            this.label10.Location = new System.Drawing.Point(530, 25);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(116, 15);
             this.label10.TabIndex = 30;
@@ -139,7 +140,7 @@
             // cmbOrganismoDestino
             // 
             this.cmbOrganismoDestino.FormattingEnabled = true;
-            this.cmbOrganismoDestino.Location = new System.Drawing.Point(533, 43);
+            this.cmbOrganismoDestino.Location = new System.Drawing.Point(533, 44);
             this.cmbOrganismoDestino.Name = "cmbOrganismoDestino";
             this.cmbOrganismoDestino.Size = new System.Drawing.Size(252, 23);
             this.cmbOrganismoDestino.TabIndex = 12;
@@ -149,7 +150,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(1011, 24);
+            this.label5.Location = new System.Drawing.Point(1011, 25);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(123, 15);
             this.label5.TabIndex = 11;
@@ -158,7 +159,7 @@
             // cmbTipoContratacion
             // 
             this.cmbTipoContratacion.FormattingEnabled = true;
-            this.cmbTipoContratacion.Location = new System.Drawing.Point(1014, 43);
+            this.cmbTipoContratacion.Location = new System.Drawing.Point(1014, 44);
             this.cmbTipoContratacion.Name = "cmbTipoContratacion";
             this.cmbTipoContratacion.Size = new System.Drawing.Size(207, 23);
             this.cmbTipoContratacion.TabIndex = 9;
@@ -166,7 +167,7 @@
             // cmbSectorDestino
             // 
             this.cmbSectorDestino.FormattingEnabled = true;
-            this.cmbSectorDestino.Location = new System.Drawing.Point(791, 43);
+            this.cmbSectorDestino.Location = new System.Drawing.Point(791, 44);
             this.cmbSectorDestino.Name = "cmbSectorDestino";
             this.cmbSectorDestino.Size = new System.Drawing.Size(217, 23);
             this.cmbSectorDestino.TabIndex = 7;
@@ -176,7 +177,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(788, 25);
+            this.label4.Location = new System.Drawing.Point(788, 26);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(90, 15);
             this.label4.TabIndex = 8;
@@ -184,17 +185,17 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(39, 140);
+            this.textBox1.Location = new System.Drawing.Point(39, 166);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1230, 117);
+            this.textBox1.Size = new System.Drawing.Size(1230, 105);
             this.textBox1.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(39, 122);
+            this.label3.Location = new System.Drawing.Point(39, 142);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 15);
             this.label3.TabIndex = 6;
@@ -317,7 +318,7 @@
             this.btnBuscarTransaccion.Name = "btnBuscarTransaccion";
             this.btnBuscarTransaccion.Size = new System.Drawing.Size(133, 23);
             this.btnBuscarTransaccion.TabIndex = 20;
-            this.btnBuscarTransaccion.Text = "Buscar Nota Pedido";
+            this.btnBuscarTransaccion.Text = "Buscar por Transacción";
             this.btnBuscarTransaccion.UseVisualStyleBackColor = true;
             this.btnBuscarTransaccion.Click += new System.EventHandler(this.btnBuscarTransaccion_Click);
             // 
@@ -357,6 +358,23 @@
             this.dgvPedidoExpedientes.Name = "dgvPedidoExpedientes";
             this.dgvPedidoExpedientes.Size = new System.Drawing.Size(655, 261);
             this.dgvPedidoExpedientes.TabIndex = 28;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Numero Transaccion";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Pedido";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 400;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Número de Nota";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 150;
             // 
             // btnGuardarExpediente
             // 
@@ -410,28 +428,20 @@
             this.lblTotalGralAcumulado.TabIndex = 33;
             this.lblTotalGralAcumulado.Text = "Total Gral";
             // 
-            // Column1
+            // barraTituloRibbon1
             // 
-            this.Column1.HeaderText = "Numero Transaccion";
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Pedido";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 400;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Número de Nota";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 150;
+            this.barraTituloRibbon1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barraTituloRibbon1.Location = new System.Drawing.Point(0, 0);
+            this.barraTituloRibbon1.Name = "barraTituloRibbon1";
+            this.barraTituloRibbon1.Size = new System.Drawing.Size(1330, 58);
+            this.barraTituloRibbon1.TabIndex = 34;
             // 
             // FrmGenerarExpedientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1330, 798);
+            this.Controls.Add(this.barraTituloRibbon1);
             this.Controls.Add(this.lblTotalGralAcumulado);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label12);
@@ -459,6 +469,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbOrganismoExpediente);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmGenerarExpedientes";
             this.Text = "Generar Expedientes";
             this.Load += new System.EventHandler(this.FrmGenerarExpedientes_Load);
@@ -511,5 +522,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private BarraTituloRibbon barraTituloRibbon1;
     }
 }

@@ -53,6 +53,7 @@
     <Compile Include="DDetalle.cs" />
     <Compile Include="DEstado.cs" />
     <Compile Include="DExpedientes.cs" />
+    <Compile Include="DExpedientesPedido.cs" />
     <Compile Include="DOrganismo.cs" />
     <Compile Include="DPedido.cs" />
     <Compile Include="DPedidoCompra.cs" />

@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEditarPedido));
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnAgregarRenglon = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.txtEstado = new System.Windows.Forms.Label();
@@ -51,7 +52,8 @@
             this.txtLegajo = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtPrecioTotalEstimado = new System.Windows.Forms.TextBox();
-            this.btnAgregarRenglon = new System.Windows.Forms.Button();
+            this.btnEliminarRenglon = new System.Windows.Forms.Button();
+            this.barraTituloRibbon1 = new CapaPresentacion.BarraTituloRibbon();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalles)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -71,6 +73,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.btnEliminarRenglon);
             this.groupBox1.Controls.Add(this.btnAgregarRenglon);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.textBox1);
@@ -86,12 +89,22 @@
             this.groupBox1.Controls.Add(this.txtNumeroTransaccion);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(12, 37);
+            this.groupBox1.Location = new System.Drawing.Point(12, 55);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1310, 149);
+            this.groupBox1.Size = new System.Drawing.Size(1271, 149);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Modificar Encabezado";
+            // 
+            // btnAgregarRenglon
+            // 
+            this.btnAgregarRenglon.Location = new System.Drawing.Point(915, 98);
+            this.btnAgregarRenglon.Name = "btnAgregarRenglon";
+            this.btnAgregarRenglon.Size = new System.Drawing.Size(149, 30);
+            this.btnAgregarRenglon.TabIndex = 12;
+            this.btnAgregarRenglon.Text = "Agrgar Renglón";
+            this.btnAgregarRenglon.UseVisualStyleBackColor = true;
+            this.btnAgregarRenglon.Click += new System.EventHandler(this.btnAgregarRenglon_Click);
             // 
             // label4
             // 
@@ -107,7 +120,7 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(2, 103);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1068, 21);
+            this.textBox1.Size = new System.Drawing.Size(907, 21);
             this.textBox1.TabIndex = 10;
             // 
             // txtEstado
@@ -204,7 +217,7 @@
             this.btnModificarPedido.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnModificarPedido.Image = ((System.Drawing.Image)(resources.GetObject("btnModificarPedido.Image")));
             this.btnModificarPedido.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnModificarPedido.Location = new System.Drawing.Point(546, 439);
+            this.btnModificarPedido.Location = new System.Drawing.Point(546, 466);
             this.btnModificarPedido.Name = "btnModificarPedido";
             this.btnModificarPedido.Size = new System.Drawing.Size(208, 40);
             this.btnModificarPedido.TabIndex = 1;
@@ -216,11 +229,12 @@
             // 
             this.dgvDetalles.BackgroundColor = System.Drawing.Color.White;
             this.dgvDetalles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDetalles.Location = new System.Drawing.Point(6, 21);
+            this.dgvDetalles.Location = new System.Drawing.Point(6, 35);
             this.dgvDetalles.Name = "dgvDetalles";
-            this.dgvDetalles.Size = new System.Drawing.Size(1230, 342);
+            this.dgvDetalles.Size = new System.Drawing.Size(1230, 374);
             this.dgvDetalles.TabIndex = 3;
             this.dgvDetalles.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDetalles_CellContentDoubleClick);
+            this.dgvDetalles.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDetalles_CellEndEdit);
             this.dgvDetalles.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDetalles_CellValueChanged);
             // 
             // groupBox2
@@ -234,30 +248,30 @@
             this.groupBox2.Controls.Add(this.btnModificarPedido);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(12, 192);
+            this.groupBox2.Location = new System.Drawing.Point(12, 205);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1271, 523);
+            this.groupBox2.Size = new System.Drawing.Size(1260, 510);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Detalle Nota de Pedido";
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(7, 420);
+            this.txtUsuario.Location = new System.Drawing.Point(7, 459);
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(148, 22);
             this.txtUsuario.TabIndex = 19;
             // 
             // txtIdPedido
             // 
-            this.txtIdPedido.Location = new System.Drawing.Point(8, 445);
+            this.txtIdPedido.Location = new System.Drawing.Point(8, 484);
             this.txtIdPedido.Name = "txtIdPedido";
             this.txtIdPedido.Size = new System.Drawing.Size(147, 22);
             this.txtIdPedido.TabIndex = 8;
             // 
             // txtLegajo
             // 
-            this.txtLegajo.Location = new System.Drawing.Point(7, 396);
+            this.txtLegajo.Location = new System.Drawing.Point(7, 435);
             this.txtLegajo.Name = "txtLegajo";
             this.txtLegajo.Size = new System.Drawing.Size(148, 22);
             this.txtLegajo.TabIndex = 7;
@@ -266,7 +280,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(812, 403);
+            this.label3.Location = new System.Drawing.Point(812, 457);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(143, 16);
             this.label3.TabIndex = 6;
@@ -275,30 +289,40 @@
             // txtPrecioTotalEstimado
             // 
             this.txtPrecioTotalEstimado.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPrecioTotalEstimado.Location = new System.Drawing.Point(961, 394);
+            this.txtPrecioTotalEstimado.Location = new System.Drawing.Point(961, 448);
             this.txtPrecioTotalEstimado.Name = "txtPrecioTotalEstimado";
             this.txtPrecioTotalEstimado.Size = new System.Drawing.Size(208, 29);
             this.txtPrecioTotalEstimado.TabIndex = 4;
             // 
-            // btnAgregarRenglon
+            // btnEliminarRenglon
             // 
-            this.btnAgregarRenglon.Location = new System.Drawing.Point(1087, 103);
-            this.btnAgregarRenglon.Name = "btnAgregarRenglon";
-            this.btnAgregarRenglon.Size = new System.Drawing.Size(149, 30);
-            this.btnAgregarRenglon.TabIndex = 12;
-            this.btnAgregarRenglon.Text = "Agrgar Renglón";
-            this.btnAgregarRenglon.UseVisualStyleBackColor = true;
-            this.btnAgregarRenglon.Click += new System.EventHandler(this.btnAgregarRenglon_Click);
+            this.btnEliminarRenglon.Location = new System.Drawing.Point(1076, 100);
+            this.btnEliminarRenglon.Name = "btnEliminarRenglon";
+            this.btnEliminarRenglon.Size = new System.Drawing.Size(151, 28);
+            this.btnEliminarRenglon.TabIndex = 13;
+            this.btnEliminarRenglon.Text = "Eliminar Renglón";
+            this.btnEliminarRenglon.UseVisualStyleBackColor = true;
+            this.btnEliminarRenglon.Click += new System.EventHandler(this.btnEliminarRenglon_Click);
+            // 
+            // barraTituloRibbon1
+            // 
+            this.barraTituloRibbon1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barraTituloRibbon1.Location = new System.Drawing.Point(0, 0);
+            this.barraTituloRibbon1.Name = "barraTituloRibbon1";
+            this.barraTituloRibbon1.Size = new System.Drawing.Size(1291, 58);
+            this.barraTituloRibbon1.TabIndex = 5;
             // 
             // FrmEditarPedido
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(1284, 740);
+            this.ClientSize = new System.Drawing.Size(1291, 740);
+            this.Controls.Add(this.barraTituloRibbon1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmEditarPedido";
             this.Text = "Formulario Editar Pedidos";
             this.Load += new System.EventHandler(this.FrmEditarPedido_Load);
@@ -337,5 +361,7 @@
         public System.Windows.Forms.TextBox txtIdPedido;
         private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.Button btnAgregarRenglon;
+        private System.Windows.Forms.Button btnEliminarRenglon;
+        private BarraTituloRibbon barraTituloRibbon1;
     }
 }

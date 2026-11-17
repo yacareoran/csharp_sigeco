@@ -98,26 +98,30 @@ namespace CapaPresentacion
             // Validaciones básicas
             if (string.IsNullOrWhiteSpace(txtConcepto.Text) ||
                 string.IsNullOrWhiteSpace(txtCantidad.Text) ||
-                string.IsNullOrWhiteSpace(txtPrecioUnitario.Text))
+                string.IsNullOrWhiteSpace(txtPrecioUnitario.Text) ||
+                cmbUnidadMedida.SelectedValue == null ||
+                cmbRubro.SelectedValue == null ||
+                cmbSubrubro.SelectedValue == null)
             {
-                MessageBox.Show("Complete todos los campos del renglón.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Complete todos los campos y seleccione Unidad, Rubro y Subrubro.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Creamos el objeto detalle con Id_detalle = 0 (eso le avisará a FrmEditarPedido que es NUEVO)
             NuevoDetalle = new DDetalle
             {
-                Id_detalle = 0,
+                Id_detalle = 0, // Señal de que es un renglón nuevo para insertar
                 Detalle = txtConcepto.Text.Trim(),
                 Cantidad = Convert.ToInt32(txtCantidad.Text.Trim()),
-                Precio = Convert.ToDecimal(txtPrecioUnitario.Text.Trim())
-                // Si necesitas Unidad, Rubro_id o Subrubro_id, también los asignas aquí
+                Precio = Convert.ToDecimal(txtPrecioUnitario.Text.Trim()),
+                Unidad_medida_id = Convert.ToInt32(cmbUnidadMedida.SelectedValue),
+                Rubro_id = Convert.ToInt32(cmbRubro.SelectedValue),
+                Subrubro_id = Convert.ToInt32(cmbSubrubro.SelectedValue)
             };
 
-            // Indicamos que todo salió bien y cerramos la ventanita
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {

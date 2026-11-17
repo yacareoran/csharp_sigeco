@@ -453,10 +453,6 @@ namespace CapaDatos
             return rpta;
         }
 
-
-
-
-
         //metodo efitar detalle
         public string EditarDetallexIdPedido(DDetalle Detalle)
         {//inicio editar
@@ -521,11 +517,42 @@ namespace CapaDatos
 
             }
             return rpta;
-        }//fin editar
+        }
+        //fin editar
 
+        // Método Eliminar en DDetalle
+        public string Eliminar(DDetalle Detalle)
+        {
+            string rpta = "";
+            SqlConnection SqlCon = new SqlConnection();
+            try
+            {
+                SqlCon.ConnectionString = Conexion.Cn;
+                SqlCon.Open();
 
+                SqlCommand SqlCmd = new SqlCommand();
+                SqlCmd.Connection = SqlCon;
+                SqlCmd.CommandText = "sp_eliminarDetalle";
+                SqlCmd.CommandType = CommandType.StoredProcedure;
 
+                SqlCmd.Parameters.Add("@id_detalle", SqlDbType.Int).Value = Detalle.Id_detalle;
 
+                SqlCmd.ExecuteNonQuery();
+                rpta = "OK";
+            }
+            catch (Exception ex)
+            {
+                rpta = ex.Message;
+            }
+            finally
+            {
+                if (SqlCon.State == ConnectionState.Open)
+                {
+                    SqlCon.Close();
+                }
+            }
+            return rpta;
+        }
 
         //metodo obtener costo total del pedido 
         public decimal BuscarCostoTotal(DDetalle Detalle)
@@ -649,11 +676,5 @@ namespace CapaDatos
             }
             return DtResultado;
         }//fin metodo buscar
-
-
-
-
-
-
     }
 }
