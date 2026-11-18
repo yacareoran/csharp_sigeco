@@ -213,12 +213,13 @@ namespace CapaPresentacion
             // Validar que no sea el encabezado de la fila
             if (e.RowIndex >= 0)
             {
-                DataGridViewRow fila = dgvDetalles.Rows[e.RowIndex];
+                MessageBox.Show("Hizo doble clic, debe hacer solo un clic, para poder modificar los datos del renglón");
+                //DataGridViewRow fila = dgvDetalles.Rows[e.RowIndex];
                 // Obtener datos de una celda específica (por ejemplo, columna "Nombre")
-                string detalle = fila.Cells["detalle"].Value.ToString();
-                string cantidad = fila.Cells["cantidad"].Value.ToString();
-                string precio = fila.Cells["precio"].Value.ToString();
-                string id_detalle = fila.Cells["id_detalle"].Value.ToString();
+                //string detalle = fila.Cells["detalle"].Value.ToString();
+                //string cantidad = fila.Cells["cantidad"].Value.ToString();
+                //string precio = fila.Cells["precio"].Value.ToString();
+                //string id_detalle = fila.Cells["id_detalle"].Value.ToString();
             }
         }
 

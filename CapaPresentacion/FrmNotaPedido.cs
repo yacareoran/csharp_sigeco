@@ -271,7 +271,7 @@ namespace CapaPresentacion
                 ms.Dispose();
                 pdfDocument?.Dispose();
             }
-        }//fin metodo improimir pedido
+        }//fin metodo imprimir pedido
 
         //Inicio metodo LlenarGrilla
         private void LlenarGrilla()
@@ -283,10 +283,6 @@ namespace CapaPresentacion
             for (int i = 0; i < lst.Count; i++)
             //while (i <= lst.Count)
             {
-
-
-                
-
                 dgvAgregarNotaPedido.Rows.Add();
                 dgvAgregarNotaPedido.Rows[i].Cells[0].Value = lst[i].Cantidad;
                 dgvAgregarNotaPedido.Rows[i].Cells[1].Value = lst[i].Unidad;
@@ -301,10 +297,7 @@ namespace CapaPresentacion
                 dgvAgregarNotaPedido.Rows[i].Cells[6].Value = Subtotal;
                 //SumaSubTotal += Convert.ToDecimal(dataVentas.Rows[i].Cells[4].Value);
                 
-
                 SumaSubTotal += Convert.ToDecimal(dgvAgregarNotaPedido.Rows[i].Cells[6].Value);
-         
-
             }
             
             limpiarcomandos();

@@ -41,10 +41,11 @@ namespace CapaPresentacion.Reporte.Formulario_Pedido
 
                 // NOTA MAESTRA: Aquí mapeamos el alias de texto que corregimos en tu base de datos para quitar el "0"
                 reportes.Destino = row["Sector_destino"].ToString();
-                reportes.Sector = row["Origen"].ToString();
+                //reportes.Sector = row["Origen"].ToString();
+                reportes.Sector = row["Sectores_internos"].ToString();
                 reportes.Caracter_pedido = row["Caracter_pedido"].ToString();
                 reportes.Estado = row["Estado"].ToString();
-                reportes.Origen = row["Origen"].ToString();
+                //reportes.Origen = row["Origen"].ToString();
             }
 
             MemoryStream ms = new MemoryStream();
