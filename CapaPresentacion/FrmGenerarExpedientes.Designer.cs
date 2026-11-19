@@ -53,7 +53,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.dtpHoraFinal = new System.Windows.Forms.DateTimePicker();
             this.dtpHoraInicial = new System.Windows.Forms.DateTimePicker();
-            this.btnBuscarTransaccion = new System.Windows.Forms.Button();
+            this.btnBuscarNotaPedido = new System.Windows.Forms.Button();
             this.txtBuscarPedido = new System.Windows.Forms.TextBox();
             this.txtBuscarNotaPedido = new System.Windows.Forms.TextBox();
             this.dgvPedidos = new System.Windows.Forms.DataGridView();
@@ -312,19 +312,19 @@
             this.dtpHoraInicial.Size = new System.Drawing.Size(99, 20);
             this.dtpHoraInicial.TabIndex = 22;
             // 
-            // btnBuscarTransaccion
+            // btnBuscarNotaPedido
             // 
-            this.btnBuscarTransaccion.Location = new System.Drawing.Point(206, 427);
-            this.btnBuscarTransaccion.Name = "btnBuscarTransaccion";
-            this.btnBuscarTransaccion.Size = new System.Drawing.Size(133, 23);
-            this.btnBuscarTransaccion.TabIndex = 20;
-            this.btnBuscarTransaccion.Text = "Buscar por Transacción";
-            this.btnBuscarTransaccion.UseVisualStyleBackColor = true;
-            this.btnBuscarTransaccion.Click += new System.EventHandler(this.btnBuscarTransaccion_Click);
+            this.btnBuscarNotaPedido.Location = new System.Drawing.Point(206, 427);
+            this.btnBuscarNotaPedido.Name = "btnBuscarNotaPedido";
+            this.btnBuscarNotaPedido.Size = new System.Drawing.Size(147, 23);
+            this.btnBuscarNotaPedido.TabIndex = 20;
+            this.btnBuscarNotaPedido.Text = "Buscar por Nota de Pedido";
+            this.btnBuscarNotaPedido.UseVisualStyleBackColor = true;
+            this.btnBuscarNotaPedido.Click += new System.EventHandler(this.btnBuscarTransaccion_Click);
             // 
             // txtBuscarPedido
             // 
-            this.txtBuscarPedido.Location = new System.Drawing.Point(355, 428);
+            this.txtBuscarPedido.Location = new System.Drawing.Point(384, 428);
             this.txtBuscarPedido.Name = "txtBuscarPedido";
             this.txtBuscarPedido.Size = new System.Drawing.Size(330, 20);
             this.txtBuscarPedido.TabIndex = 19;
@@ -336,6 +336,7 @@
             this.txtBuscarNotaPedido.Name = "txtBuscarNotaPedido";
             this.txtBuscarNotaPedido.Size = new System.Drawing.Size(180, 20);
             this.txtBuscarNotaPedido.TabIndex = 18;
+            this.txtBuscarNotaPedido.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBuscarNotaPedido_KeyPress_1);
             // 
             // dgvPedidos
             // 
@@ -454,7 +455,7 @@
             this.Controls.Add(this.label9);
             this.Controls.Add(this.dtpHoraFinal);
             this.Controls.Add(this.dtpHoraInicial);
-            this.Controls.Add(this.btnBuscarTransaccion);
+            this.Controls.Add(this.btnBuscarNotaPedido);
             this.Controls.Add(this.txtBuscarPedido);
             this.Controls.Add(this.txtBuscarNotaPedido);
             this.Controls.Add(this.lblExpedienteInterno);
@@ -507,7 +508,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.DateTimePicker dtpHoraFinal;
         private System.Windows.Forms.DateTimePicker dtpHoraInicial;
-        private System.Windows.Forms.Button btnBuscarTransaccion;
+        private System.Windows.Forms.Button btnBuscarNotaPedido;
         private System.Windows.Forms.TextBox txtBuscarPedido;
         private System.Windows.Forms.TextBox txtBuscarNotaPedido;
         private System.Windows.Forms.DataGridView dgvPedidos;

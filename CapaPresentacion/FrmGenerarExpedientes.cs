@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;//para validaciones
 using System.Windows.Forms;
 
 namespace CapaPresentacion
@@ -32,8 +33,8 @@ namespace CapaPresentacion
             Color colorGrisBorde = Color.FromArgb(160, 180, 210);
 
             // Botón Acceder
-            this.btnBuscarTransaccion.FlatStyle = FlatStyle.Flat;
-            this.btnBuscarTransaccion.FlatAppearance.BorderColor = colorGrisBorde;
+            this.btnBuscarNotaPedido.FlatStyle = FlatStyle.Flat;
+            this.btnBuscarNotaPedido.FlatAppearance.BorderColor = colorGrisBorde;
 
             // Hace que todas las celdas sean de solo lectura
             dgvPedidoExpedientes.ReadOnly = true;
@@ -295,39 +296,120 @@ namespace CapaPresentacion
 
         }//fin metodo datagrid Ventas 
 
+        private void txtBuscarNotaPedido_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir dígitos (0-9), tecla Borrar (Backspace) y la barra '/'
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '/')
+            {
+                e.Handled = true; // Bloquea cualquier letra o símbolo raro
+                return;
+            }
+
+            // Evitar que escriban '/' al principio o pongan más de una barra '/'
+            if (e.KeyChar == '/')
+            {
+                TextBox txt = sender as TextBox;
+                if (txt.Text.Length == 0 || txt.Text.Contains("/"))
+                {
+                    e.Handled = true;
+                }
+            }
+        }
         private void btnBuscarTransaccion_Click(object sender, EventArgs e)
         {
+            // 1. VALIDACIÓN: Evitar búsquedas vacías
+            string numeroNota = this.txtBuscarNotaPedido.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(numeroNota))
+            {
+                MessageBox.Show("Por favor, ingrese el número de nota que desea buscar (Ej: 285/25).",
+                                "Campo Requerido",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                this.txtBuscarNotaPedido.Focus();
+                return;
+            }
+
+            // 2. VALIDACIÓN DE FORMATO: Debe ser Número/Año (ej: 285/25 o 285/2026)
+            if (!Regex.IsMatch(numeroNota, @"^[0-9]+/[0-9]{2,4}$"))
+            {
+                MessageBox.Show("El formato del número de nota no es válido.\nDebe ingresar Número/Año (por ejemplo: 285/25).",
+                                "Formato Incorrecto",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                this.txtBuscarNotaPedido.SelectAll();
+                this.txtBuscarNotaPedido.Focus();
+                return;
+            }
+
             try
             {
-                
-                // 1. Primero traés los datos. Al hacer esto, el DataGridView genera automáticamente las columnas, [1], [2], etc.
-                this.dgvPedidos.DataSource = NPedido.BuscarNotaPedido(this.txtBuscarNotaPedido.Text);
+                // 2. LLAMADA A LA CAPA DE NEGOCIO
+                DataTable dtResultados = NPedido.BuscarPedidoxNotaPedido(numeroNota);
 
-                // 2. Ahora que las columnas SÍ existen en memoria, las modificás y ocultás sin errores
-                this.dgvPedidos.Columns[0].Width = 60;
-                this.dgvPedidos.Columns[1].Visible = false;
-                this.dgvPedidos.Columns[2].Width = 400;
-                this.dgvPedidos.Columns[3].Visible = false;
-                this.dgvPedidos.Columns[4].Visible = false;
-                this.dgvPedidos.Columns[5].Visible = false;
-                this.dgvPedidos.Columns[6].Width = 80;
-                this.dgvPedidos.Columns[7].Visible = false;
-                this.dgvPedidos.Columns[8].Visible = false;
-                this.dgvPedidos.Columns[9].Visible = false;
-                this.dgvPedidos.Columns[10].Visible = false;
-
-                // Ojo: Recordá que tu procedimiento ahora devuelve más campos (hasta el índice 17).
-                // Si querés ocultar TODOS los demás automáticamente para que no aparezcan al final, podés sumar este bucle:
-                for (int i = 11; i < this.dgvPedidos.Columns.Count; i++)
+                // Validar si hubo un error de conexión en la capa de datos
+                if (dtResultados == null)
                 {
-                    this.dgvPedidos.Columns[i].Visible = false;
+                    MessageBox.Show("No se pudo conectar con la base de datos. Intente nuevamente.",
+                                    "Error de Conexión",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return;
                 }
 
+                // 3. VALIDACIÓN: Verificar si se encontraron registros
+                if (dtResultados.Rows.Count == 0)
+                {
+                    this.dgvPedidos.DataSource = null;
+                    MessageBox.Show($"No se encontró ningún pedido con el número de nota '{numeroNota}'.",
+                                    "Sin Resultados",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                    this.txtBuscarNotaPedido.SelectAll();
+                    this.txtBuscarNotaPedido.Focus();
+                    return;
+                }
 
+                // 4. CARGAR LA GRILLA CON LOS RESULTADOS
+                this.dgvPedidos.DataSource = dtResultados;
+
+                // Ocultamos columnas internas que el usuario no necesita ver (pero que sirven al seleccionar fila)
+                if (this.dgvPedidos.Columns.Contains("usuario_id"))
+                    this.dgvPedidos.Columns["usuario_id"].Visible = false;
+
+                if (this.dgvPedidos.Columns.Contains("estado_id"))
+                    this.dgvPedidos.Columns["estado_id"].Visible = false;
+
+                // Damos títulos prolijos a las columnas visibles
+                if (this.dgvPedidos.Columns.Contains("num_transaccion"))
+                    this.dgvPedidos.Columns["num_transaccion"].HeaderText = "N° Transacción";
+
+                if (this.dgvPedidos.Columns.Contains("id_pedido"))
+                    this.dgvPedidos.Columns["id_pedido"].HeaderText = "ID Pedido";
+
+                if (this.dgvPedidos.Columns.Contains("numero_nota"))
+                    this.dgvPedidos.Columns["numero_nota"].HeaderText = "N° Nota";
+
+                if (this.dgvPedidos.Columns.Contains("fecha_pedido"))
+                    this.dgvPedidos.Columns["fecha_pedido"].HeaderText = "Fecha";
+
+                if (this.dgvPedidos.Columns.Contains("pedido"))
+                    this.dgvPedidos.Columns["pedido"].HeaderText = "Detalle / Pedido";
+
+                if (this.dgvPedidos.Columns.Contains("extracto"))
+                    this.dgvPedidos.Columns["extracto"].HeaderText = "Extracto";
+
+                if (this.dgvPedidos.Columns.Contains("estado"))
+                    this.dgvPedidos.Columns["estado"].HeaderText = "Estado";
+
+                this.dgvPedidos.AutoResizeColumns();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Los productos no coinciden con las letras ingresadas, vuelva a ingresar el nombre del producto o agreguelo desde el boton nuevo producto" + "" + ex);
+                MessageBox.Show("Ocurrió un error al realizar la búsqueda: " + ex.Message,
+                                "Error del Sistema",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
             }
         }
 
@@ -483,6 +565,34 @@ namespace CapaPresentacion
                 // Si Rows.Count es 0, no entra al IF y el combo permanece totalmente vacío
             }
 
+        }
+
+        private void txtBuscarNotaPedido_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            // 1. Permitir dígitos (0-9), tecla Borrar (Backspace) y la barra '/'
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '/')
+            {
+                e.Handled = true; // Bloquea la tecla
+                MessageBox.Show("Teclas alfabéticas y símbolos bloqueados momentáneamente.\nPor favor, ingrese únicamente números y la barra '/' (Ej: 285/25).",
+                                "Entrada no permitida",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Evitar que escriban '/' al principio o pongan más de una barra '/'
+            if (e.KeyChar == '/')
+            {
+                TextBox txt = sender as TextBox;
+                if (txt.Text.Length == 0 || txt.Text.Contains("/"))
+                {
+                    e.Handled = true; // Bloquea la barra
+                    MessageBox.Show("La barra '/' solo puede ingresarse una vez y después del número de nota (Ej: 285/25).",
+                                    "Posición de barra incorrecta",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                }
+            }
         }
     }
 }

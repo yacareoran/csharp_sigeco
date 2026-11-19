@@ -186,6 +186,15 @@ namespace CapaNegocio
             return Obj.BuscarNumeroTransaccion();
         }
 
+        // Método buscar pedidos por número de nota
+        public static DataTable BuscarPedidoxNotaPedido(string textobuscar)
+        {
+            DPedido Obj = new DPedido();
+            Obj.Textobuscar = textobuscar;
+            return Obj.BuscarPedidoxNotaPedido(Obj); // <-- Corregido para que coincida con DPedido
+        }
+
+
         // Método asignar número de nota (Capa de Negocio)
         public static string AsignarNumeroNotaPedido(int id_pedido, string numero_nota)
         {

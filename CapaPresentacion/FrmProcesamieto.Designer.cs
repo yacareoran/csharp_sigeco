@@ -39,7 +39,7 @@
             this.txtIdUsuario = new System.Windows.Forms.TextBox();
             this.txtUsuarioProcesamiento = new System.Windows.Forms.TextBox();
             this.txtOrigenSector = new System.Windows.Forms.TextBox();
-            this.btnVerDetalle = new System.Windows.Forms.Button();
+            this.btnExportarExcel = new System.Windows.Forms.Button();
             this.btnAgregarPedido = new System.Windows.Forms.Button();
             this.dgvBuscarPedidos = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -92,7 +92,7 @@
             this.groupBox1.Controls.Add(this.txtIdUsuario);
             this.groupBox1.Controls.Add(this.txtUsuarioProcesamiento);
             this.groupBox1.Controls.Add(this.txtOrigenSector);
-            this.groupBox1.Controls.Add(this.btnVerDetalle);
+            this.groupBox1.Controls.Add(this.btnExportarExcel);
             this.groupBox1.Controls.Add(this.btnAgregarPedido);
             this.groupBox1.Controls.Add(this.dgvBuscarPedidos);
             this.groupBox1.Location = new System.Drawing.Point(0, 196);
@@ -159,19 +159,20 @@
             this.txtOrigenSector.Size = new System.Drawing.Size(206, 21);
             this.txtOrigenSector.TabIndex = 3;
             // 
-            // btnVerDetalle
+            // btnExportarExcel
             // 
-            this.btnVerDetalle.BackColor = System.Drawing.Color.White;
-            this.btnVerDetalle.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnVerDetalle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVerDetalle.Image = ((System.Drawing.Image)(resources.GetObject("btnVerDetalle.Image")));
-            this.btnVerDetalle.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerDetalle.Location = new System.Drawing.Point(613, 295);
-            this.btnVerDetalle.Name = "btnVerDetalle";
-            this.btnVerDetalle.Size = new System.Drawing.Size(155, 38);
-            this.btnVerDetalle.TabIndex = 2;
-            this.btnVerDetalle.Text = "    Ver Detalle";
-            this.btnVerDetalle.UseVisualStyleBackColor = false;
+            this.btnExportarExcel.BackColor = System.Drawing.Color.White;
+            this.btnExportarExcel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnExportarExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportarExcel.Image = ((System.Drawing.Image)(resources.GetObject("btnExportarExcel.Image")));
+            this.btnExportarExcel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExportarExcel.Location = new System.Drawing.Point(613, 295);
+            this.btnExportarExcel.Name = "btnExportarExcel";
+            this.btnExportarExcel.Size = new System.Drawing.Size(155, 38);
+            this.btnExportarExcel.TabIndex = 2;
+            this.btnExportarExcel.Text = "   Exportar a Excel";
+            this.btnExportarExcel.UseVisualStyleBackColor = false;
+            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
             // 
             // btnAgregarPedido
             // 
@@ -269,7 +270,7 @@
             this.barraTituloRibbon1.Dock = System.Windows.Forms.DockStyle.Top;
             this.barraTituloRibbon1.Location = new System.Drawing.Point(0, 0);
             this.barraTituloRibbon1.Name = "barraTituloRibbon1";
-            this.barraTituloRibbon1.Size = new System.Drawing.Size(1091, 45);
+            this.barraTituloRibbon1.Size = new System.Drawing.Size(1091, 58);
             this.barraTituloRibbon1.TabIndex = 4;
             // 
             // FrmProcesamieto
@@ -308,7 +309,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dtpHoraFinal;
         private System.Windows.Forms.DateTimePicker dtpHoraInicial;
-        private System.Windows.Forms.Button btnVerDetalle;
+        private System.Windows.Forms.Button btnExportarExcel;
         private System.Windows.Forms.Button btnAgregarPedido;
         public System.Windows.Forms.TextBox txtUsuarioProcesamiento;
         public System.Windows.Forms.TextBox txtOrigenSector;

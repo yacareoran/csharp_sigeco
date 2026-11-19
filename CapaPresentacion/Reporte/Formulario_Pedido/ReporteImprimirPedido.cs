@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Data;
+using System.Text; // <-- Agrega esta línea arriba
 using System.Windows.Forms;
 
 namespace CapaPresentacion.Reporte.Formulario_Pedido
@@ -63,11 +64,7 @@ namespace CapaPresentacion.Reporte.Formulario_Pedido
             var fuenteNormal = FontFactory.GetFont(FontFactory.TIMES_ROMAN, 12, BaseColor.BLACK);
 
             doc.Add(new Paragraph(" "));
-
-
-            // =========================================================================
-            // ENCABEZADO CON LOGOTIPO COMPAÑÍA (Texto debajo del Logo) - CORREGIDO Y LIMPIO
-            // =========================================================================
+                                    
             // =========================================================================
             // ENCABEZADO: LOGOTIPO Y TEXTO CENTRADOS (Modelo Oficial de la Imagen)
             // =========================================================================
@@ -224,8 +221,162 @@ namespace CapaPresentacion.Reporte.Formulario_Pedido
             doc.Add(tablaDatosInferior);
             // =========================================================================
 
+            // =========================================================================
+            // NUEVO BLOQUE: EXTRACTO AL PIE DEL REPORTE
+            // =========================================================================
+            if (!string.IsNullOrWhiteSpace(reportes.Extracto))
+            {
+                Paragraph parrafoExtracto = new Paragraph();
+                parrafoExtracto.SpacingBefore = 15f; // Separación prolija debajo de Carácter/Origen/Destino
+                parrafoExtracto.Alignment = Element.ALIGN_JUSTIFIED; // Alineación justificada por si el extracto es largo
+
+                // Etiqueta en negrita + contenido en fuente normal
+                var fuenteNegrita = FontFactory.GetFont(FontFactory.TIMES_BOLD, 12, BaseColor.BLACK);
+                parrafoExtracto.Add(new Chunk("Extracto: ", fuenteNegrita));
+                parrafoExtracto.Add(new Chunk(reportes.Extracto, fuenteNormal));
+
+                doc.Add(parrafoExtracto);
+            }
+            // =========================================================================
+
+
             doc.Close();
             return ms;
+            
+
         }
+
+        // =========================================================================
+        // AQUÍ DEBAJO PEGAS EL MÉTODO NUEVO ExportarPedidoExcel
+        // =========================================================================
+        public static void ExportarPedidoExcel(DataTable pedidox, DataTable dDetallexPedido)
+        {
+            string caracterPedido = "";
+            string sectorOrigen = "";
+            string sectorDestino = "";
+            string numTransaccion = "0";
+            string extracto = ""; // <-- Agregamos esta variable
+
+            if (pedidox.Rows.Count > 0)
+            {
+                DataRow row = pedidox.Rows[0];
+                numTransaccion = row["Num_transaccion"].ToString();
+                sectorDestino = row["Sector_destino"].ToString();
+                sectorOrigen = row["Sectores_internos"].ToString();
+                caracterPedido = row["Caracter_pedido"].ToString();
+                extracto = row["Extracto"].ToString(); // <-- 2. Lee el dato desde la consulta
+            }
+
+            // Abrimos cuadro de diálogo para que el usuario elija dónde guardar el Excel
+            SaveFileDialog guardarDialogo = new SaveFileDialog();
+            guardarDialogo.Filter = "Archivo de Excel (*.xls)|*.xls";
+            guardarDialogo.Title = "Exportar Nota de Pedido a Excel";
+            guardarDialogo.FileName = $"Nota_Pedido_{numTransaccion}_{DateTime.Now:yyyyMMdd}.xls";
+
+            if (guardarDialogo.ShowDialog() != DialogResult.OK)
+                return;
+
+            CultureInfo cultura = new CultureInfo("es-ES");
+            string fechaCompleta = "Salta, " + DateTime.Now.ToString("d 'de' MMMM 'de' yyyy", cultura);
+
+            decimal precioEstimado = 0;
+            StringBuilder sb = new StringBuilder();
+
+            // Estructura HTML nativa para Microsoft Excel con estilos idénticos a tu PDF
+            sb.AppendLine("<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://w3.org'>");
+            sb.AppendLine("<head><meta charset='utf-8'>");
+            sb.AppendLine("<style>");
+            sb.AppendLine("body { font-family: 'Times New Roman', serif; font-size: 12pt; }");
+            sb.AppendLine(".membrete { font-family: Arial, sans-serif; font-size: 8pt; font-weight: bold; text-align: center; }");
+            sb.AppendLine(".fecha { text-align: right; font-size: 11pt; }");
+            sb.AppendLine(".titulo { text-align: center; font-size: 14pt; font-weight: bold; text-decoration: underline; }");
+            sb.AppendLine(".tabla-detalles { border-collapse: collapse; width: 100%; }");
+            sb.AppendLine(".tabla-detalles th, .tabla-detalles td { border: 1px solid #000000; padding: 6px; }");
+            sb.AppendLine(".tabla-detalles th { background-color: #E8ECEF; font-weight: bold; text-align: center; }");
+            sb.AppendLine(".num { text-align: center; }");
+            sb.AppendLine(".moneda { text-align: right; mso-number-format:'\"$\"#,##0.00'; }");
+            sb.AppendLine(".pie-izq { text-align: left; vertical-align: top; border: none; }");
+            sb.AppendLine(".pie-der { text-align: right; vertical-align: top; font-weight: bold; border: none; }");
+            sb.AppendLine("</style></head><body>");
+
+            // 1. Membrete Institucional (Columna A y B combinadas a la izquierda)
+            sb.AppendLine("<table>");
+            sb.AppendLine("<tr><td colspan='2' class='membrete'>SERVICIO PENITENCIARIO DE LA<br/>PROVINCIA DE SALTA</td><td colspan='3'></td></tr>");
+            sb.AppendLine("<tr><td colspan='5'></td></tr>");
+
+            // 2. Fecha alineada a la derecha
+            sb.AppendLine($"<tr><td colspan='5' class='fecha'>{fechaCompleta}</td></tr>");
+            sb.AppendLine("<tr><td colspan='5' style='border-bottom: 1px solid #000000;'></td></tr>");
+            sb.AppendLine("<tr><td colspan='5'></td></tr>");
+
+            // 3. Título centrado "Nota de Pedido"
+            sb.AppendLine("<tr><td colspan='5' class='titulo'>Nota de Pedido</td></tr>");
+            sb.AppendLine("<tr><td colspan='5'></td></tr>");
+            sb.AppendLine("</table>");
+
+            // 4. Tabla Principal de 5 Columnas (idéntica al PDF)
+            sb.AppendLine("<table class='tabla-detalles'>");
+            sb.AppendLine("<tr>");
+            sb.AppendLine("<th style='width: 70px;'>Renglón</th>");
+            sb.AppendLine("<th style='width: 80px;'>Cantidad</th>");
+            sb.AppendLine("<th style='width: 350px;'>Concepto</th>");
+            sb.AppendLine("<th style='width: 120px;'>Precio Unitario</th>");
+            sb.AppendLine("<th style='width: 120px;'>Subtotal</th>");
+            sb.AppendLine("</tr>");
+
+            foreach (DataRow fila in dDetallexPedido.Rows)
+            {
+                int renglon = Convert.ToInt32(fila["renglon"]);
+                int cantidad = Convert.ToInt32(fila["cantidad"]);
+                string concepto = fila["detalle"].ToString();
+                decimal precioUnitario = Convert.ToDecimal(fila["precio"]);
+                decimal totalFila = cantidad * precioUnitario;
+
+                precioEstimado += totalFila;
+
+                sb.AppendLine("<tr>");
+                sb.AppendLine($"<td class='num'>{renglon}</td>");
+                sb.AppendLine($"<td class='num'>{cantidad}</td>");
+                sb.AppendLine($"<td>{concepto}</td>");
+                sb.AppendLine($"<td class='moneda'>{precioUnitario.ToString("F2", CultureInfo.InvariantCulture)}</td>");
+                sb.AppendLine($"<td class='moneda'>{totalFila.ToString("F2", CultureInfo.InvariantCulture)}</td>");
+                sb.AppendLine("</tr>");
+            }
+            sb.AppendLine("</table>");
+
+            // 5. Bloque Inferior de Datos (Carácter, Origen, Destino, Total Estimado y Extracto)
+            sb.AppendLine("<br/><table>");
+            sb.AppendLine("<tr>");
+            sb.AppendLine($"<td colspan='3' class='pie-izq'><b>Carácter de la Compra:</b> {caracterPedido}<br/>");
+            sb.AppendLine($"<b>Origen del Pedido:</b> {sectorOrigen}<br/>");
+            sb.AppendLine($"<b>Destino:</b> {sectorDestino}</td>");
+            sb.AppendLine($"<td colspan='2' class='pie-der'>Precio Total Estimado: $ {precioEstimado.ToString("N2")}</td>");
+            sb.AppendLine("</tr>");
+
+            // =========================================================================
+            // NUEVO: Extracto al pie del Excel (igual que en el PDF)
+            // =========================================================================
+            if (!string.IsNullOrWhiteSpace(extracto))
+            {
+                sb.AppendLine("<tr><td colspan='5'></td></tr>");
+                sb.AppendLine($"<tr><td colspan='5' style='text-align: left; border: none;'><b>Extracto:</b> {extracto}</td></tr>");
+            }
+            // =========================================================================
+
+            sb.AppendLine("</table>");
+
+            sb.AppendLine("</body></html>");
+
+            // Guardamos con UTF8 con BOM para que Excel reconozca acentos y la letra ñ perfectamente
+            File.WriteAllText(guardarDialogo.FileName, sb.ToString(), new UTF8Encoding(true));
+
+            DialogResult abrir = MessageBox.Show("Archivo Excel generado con éxito.\n¿Desea abrirlo ahora?", "Exportación Completada", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (abrir == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start(guardarDialogo.FileName);
+            }
+        }
+
+
     }
 }

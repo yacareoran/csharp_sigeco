@@ -1,5 +1,6 @@
 ﻿using CapaDatos;
 using CapaNegocio;
+using CapaPresentacion.Reporte.Formulario_Pedido;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,8 +42,8 @@ namespace CapaPresentacion
             this.btnEditarPedido.FlatAppearance.BorderColor = colorGrisBorde;
 
             // Botón Ver Detalles Pedido
-            this.btnVerDetalle.FlatStyle = FlatStyle.Flat;
-            this.btnVerDetalle.FlatAppearance.BorderColor = colorGrisBorde;
+            this.btnExportarExcel.FlatStyle = FlatStyle.Flat;
+            this.btnExportarExcel.FlatAppearance.BorderColor = colorGrisBorde;
 
             
             // (Repite estas dos líneas para cada botón de tu menú principal...)
@@ -230,5 +231,25 @@ namespace CapaPresentacion
             editarPedido.ShowDialog();
         }
 
+        private void btnExportarExcel_Click(object sender, EventArgs e)
+        {
+            // 1. Validamos que haya un pedido seleccionado en la grilla
+            if (this.dgvBuscarPedidos.CurrentRow == null || this.dgvBuscarPedidos.CurrentRow.Index < 0)
+            {
+                MessageBox.Show("Por favor, seleccione un pedido de la lista para exportar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Obtenemos el ID del pedido seleccionado (Cells[0] en tu grilla de búsqueda)
+            int idPedido = Convert.ToInt32(this.dgvBuscarPedidos.CurrentRow.Cells[0].Value);
+
+            // 3. Traemos los mismos dos DataTable que usa el reporte PDF
+            DataTable dtPedido = NReportes.BuscarxId(idPedido);
+            DataTable dtDetalle = NDetalle.BuscarDetalles(idPedido);
+
+            // 4. Llamamos al exportador que acabamos de crear
+            ReporteImprimirPedido.ExportarPedidoExcel(dtPedido, dtDetalle);
+
+        }
     }
 }

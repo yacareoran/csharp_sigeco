@@ -682,6 +682,45 @@ namespace CapaDatos
             return DtResultado;
         }//fin metodo buscar por Nota de Pedido
 
+        // Método buscar por Nota de Pedido
+        public DataTable BuscarPedidoxNotaPedido(DPedido Pedido)
+        {
+            DataTable DtResultado = new DataTable("pedido");
+            SqlConnection SqlCon = new SqlConnection();
+            try
+            {
+                SqlCon.ConnectionString = Conexion.Cn;
+                SqlCommand SqlCmd = new SqlCommand();
+                SqlCmd.Connection = SqlCon;
+
+                SqlCmd.CommandType = CommandType.StoredProcedure;
+                SqlCmd.CommandText = "sp_BuscarPedidoxNota";
+
+                SqlParameter ParTextoBuscar = new SqlParameter();
+                ParTextoBuscar.ParameterName = "@textobuscar";
+                ParTextoBuscar.SqlDbType = SqlDbType.VarChar;
+                ParTextoBuscar.Size = 50;
+                ParTextoBuscar.Value = Pedido.Textobuscar ?? "";
+                SqlCmd.Parameters.Add(ParTextoBuscar);
+
+                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
+                SqlDat.Fill(DtResultado);
+            }
+            catch (Exception)
+            {
+                DtResultado = null;
+            }
+            finally
+            {
+                if (SqlCon.State == ConnectionState.Open)
+                {
+                    SqlCon.Close();
+                }
+            }
+            return DtResultado;
+        }
+
+
 
         //metodo editar 
         public string EditarPedido(DPedido Pedido)
