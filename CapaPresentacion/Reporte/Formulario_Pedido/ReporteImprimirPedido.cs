@@ -160,11 +160,12 @@ namespace CapaPresentacion.Reporte.Formulario_Pedido
             }
 
             // 4. Creación y llenado de la Tabla Principal de Productos
-            PdfPTable tablaVinculos = new PdfPTable(5);
+            PdfPTable tablaVinculos = new PdfPTable(6);
             tablaVinculos.WidthPercentage = 100;
-            tablaVinculos.SetWidths(new float[] { 0.6f, 0.6f, 2.2f, 0.8f, 0.8f });
+            tablaVinculos.SetWidths(new float[] { 0.5f, 0.5f, 0.5f, 2.2f, 0.8f, 0.8f });
             tablaVinculos.AddCell("Renglón");
             tablaVinculos.AddCell("Cantidad");
+            tablaVinculos.AddCell("U.Medida");
             tablaVinculos.AddCell("Concepto");
             tablaVinculos.AddCell("Precio Unitario");
             tablaVinculos.AddCell("Subtotal");
@@ -173,6 +174,7 @@ namespace CapaPresentacion.Reporte.Formulario_Pedido
             {
                 tablaVinculos.AddCell(fila["renglon"].ToString());
                 tablaVinculos.AddCell(fila["cantidad"].ToString());
+                tablaVinculos.AddCell(fila["medida"].ToString());
                 tablaVinculos.AddCell(fila["detalle"].ToString());
                 tablaVinculos.AddCell(fila["precio"].ToString());
 

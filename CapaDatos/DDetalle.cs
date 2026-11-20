@@ -658,7 +658,7 @@ namespace CapaDatos
                 SqlCmd.CommandText = "sp_ObtenerDetalles";
 
                 SqlParameter ParIdPedido = new SqlParameter();
-                ParIdPedido.ParameterName = "@pedido_id";
+                ParIdPedido.ParameterName = "@id_pedido"; // <-- Corregido para coincidir con el SP;
                 ParIdPedido.SqlDbType = SqlDbType.Int;
                 ParIdPedido.Value = Detalle.Pedido_id;
                 SqlCmd.Parameters.Add(ParIdPedido);

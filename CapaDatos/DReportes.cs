@@ -38,7 +38,7 @@ namespace CapaDatos
         private int _Origen_id;
         private string _Origen;
         private string _Sector_destino;
-
+        
         public int Id_pedido
         {
             get
