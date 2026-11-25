@@ -143,7 +143,7 @@ namespace CapaPresentacion
         private void cmbOrganismoExpediente_SelectedIndexChanged(object sender, EventArgs e)
         {
             // 1. Limpiamos SIEMPRE el combo de sectores al inicio para borrar el organismo anterior
-            cmbSectorExpediente.DataSource = null;
+            cmbSectorIniciador.DataSource = null;
 
             // Validamos que realmente haya un elemento seleccionado válido
             if (cmbOrganismoExpediente.SelectedValue != null && int.TryParse(cmbOrganismoExpediente.SelectedValue.ToString(), out int idOrganismo))
@@ -154,9 +154,9 @@ namespace CapaPresentacion
                 // 2. Solo cargamos el combo si la base de datos realmente devolvió filas
                 if (dtSectores != null && dtSectores.Rows.Count > 0)
                 {
-                    cmbSectorExpediente.DataSource = dtSectores;
-                    cmbSectorExpediente.DisplayMember = "sector"; // Lo que el usuario VE
-                    cmbSectorExpediente.ValueMember = "id_sector"; // El ID oculto
+                    cmbSectorIniciador.DataSource = dtSectores;
+                    cmbSectorIniciador.DisplayMember = "sector"; // Lo que el usuario VE
+                    cmbSectorIniciador.ValueMember = "id_sector"; // El ID oculto
 
                     // Al no poner Index = -1, se preselecciona el primer sector automáticamente
                 }
@@ -268,33 +268,32 @@ namespace CapaPresentacion
 
 
         }//fin metodo llenar grilla
-        public void CargarVentasGrillaPedidos(int id_pedido, string pedido)
-        {//inicio metdo cargar ventas desde Grilla Productos 08/11/21
-                   
-            
-            DCargarPedidos cargarPedidos = new DCargarPedidos();
-            try
+        private void CargarVentasGrillaPedidos(string numTransaccion, string pedidoTexto, string numeroNota, int idPedido)
+        {
+            if (this.dgvPedidoExpedientes.Columns.Count < 4)
             {
-                cargarPedidos.Id_pedido = id_pedido;
-                //cargarPedidos.Num_transaccion = Convert.ToInt32(descripcion);
-                cargarPedidos.Pedido = pedido;
-                //cargarPedidos.Fecha_pedido = 
-              
-                //Ventas.Descripcion_producto = descripcion;
-                //Ventas.Cantidad_producto = cantidad;
-                //Ventas.Stock = stock;
-                //Ventas.Id_factura = id_factura;
-                //Ventas.Id_factura = Convert.ToInt32(grillaProducto.txtPrueba.Text);
-                lst.Add(cargarPedidos);
-                LlenarGrilla();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
+                this.dgvPedidoExpedientes.Columns.Clear();
+                //SI EL TEXTO DE PEDIDO SUPERA LA FILA SE AGREGA DEBAJO DE LA MISMA FILA
+                this.dgvPedidoExpedientes.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                this.dgvPedidoExpedientes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; 
+                //HASTA AQUI ESE CODIGO DE LA FILA
+                this.dgvPedidoExpedientes.Columns.Add("num_transaccion", "N° Transacción");
+                this.dgvPedidoExpedientes.Columns.Add("pedido", "Pedido");
+                this.dgvPedidoExpedientes.Columns.Add("numero_nota", "N° Nota");
+                this.dgvPedidoExpedientes.Columns.Add("id_pedido", "ID Pedido");
+
+                this.dgvPedidoExpedientes.Columns["id_pedido"].Visible = false;
+
+                // Ajustamos los anchos para que "Pedido" se expanda y muestre toda la descripción
+                this.dgvPedidoExpedientes.Columns["num_transaccion"].Width = 110;
+                this.dgvPedidoExpedientes.Columns["numero_nota"].Width = 100;
+                this.dgvPedidoExpedientes.Columns["pedido"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
 
+            this.dgvPedidoExpedientes.Rows.Add(numTransaccion, pedidoTexto, numeroNota, idPedido);
+        }
 
-        }//fin metodo datagrid Ventas 
+
 
         private void txtBuscarNotaPedido_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -315,6 +314,61 @@ namespace CapaPresentacion
                 }
             }
         }
+
+        private void QuitarPedidoDeExpediente()
+        {
+            // 1. Validamos que haya una fila válida seleccionada
+            if (this.dgvPedidoExpedientes.CurrentRow == null || this.dgvPedidoExpedientes.CurrentRow.IsNewRow)
+            {
+                return;
+            }
+
+            DataGridViewRow filaSeleccionada = this.dgvPedidoExpedientes.CurrentRow;
+            string numTransaccion = filaSeleccionada.Cells["num_transaccion"].Value?.ToString() ?? "";
+
+            // 2. Pedimos confirmación al usuario
+            DialogResult respuesta = MessageBox.Show(
+                $"¿Desea quitar el pedido (Transacción N° {numTransaccion}) de este expediente?",
+                "Quitar Pedido",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (respuesta != DialogResult.Yes)
+                return;
+
+            try
+            {
+                // 3. Obtenemos el id_pedido oculto (columna 3) para consultar su monto y descontarlo
+                int idPedido = Convert.ToInt32(filaSeleccionada.Cells["id_pedido"].Value);
+
+                DPedido pedidoEntidad = new DPedido();
+                pedidoEntidad.Id_pedido = idPedido;
+                decimal montoARestar = NPedido.ObtenerTotalPedido(pedidoEntidad);
+
+                // 4. Descontamos del acumulado general (asegurando que nunca quede negativo)
+                _totalGeneralAcumulado -= montoARestar;
+                if (_totalGeneralAcumulado < 0) _totalGeneralAcumulado = 0;
+
+                this.lblTotalGralAcumulado.Text = _totalGeneralAcumulado.ToString("N2");
+
+                // 5. Eliminamos la fila de la grilla
+                this.dgvPedidoExpedientes.Rows.Remove(filaSeleccionada);
+
+                // Si ya no quedan filas, limpiamos también el monto parcial del último pedido
+                if (this.dgvPedidoExpedientes.Rows.Count == 0)
+                {
+                    this.lblMontoTotal.Text = "0,00";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error al quitar el pedido: " + ex.Message,
+                                "Error del Sistema",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+        }
+
         private void btnBuscarTransaccion_Click(object sender, EventArgs e)
         {
             // 1. VALIDACIÓN: Evitar búsquedas vacías
@@ -419,47 +473,48 @@ namespace CapaPresentacion
             {
                 e.SuppressKeyPress = true;
 
-                // 1. Validar que la fila actual y la celda tengan datos válidos
-                if (this.dgvPedidos.CurrentRow == null || this.dgvPedidos.CurrentRow.Cells[0].Value == null)
+                // 1. Validar que haya una fila seleccionada en dgvPedidos
+                if (this.dgvPedidos.CurrentRow == null)
                 {
                     MessageBox.Show("Selecciona un pedido válido en la grilla.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // 2. Intentar parsear el ID del pedido limpiamente
-                if (!int.TryParse(this.dgvPedidos.CurrentRow.Cells[1].Value?.ToString(), out int idPedido))
+                // 2. Leer los datos por el NOMBRE EXACTO de la columna en dgvPedidos (sin depender de índices)
+                DataGridViewRow filaOrigen = this.dgvPedidos.CurrentRow;
+
+                if (!int.TryParse(filaOrigen.Cells["id_pedido"].Value?.ToString(), out int idPedido))
                 {
                     MessageBox.Show("Por favor, selecciona un ID de pedido numérico y válido.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // =========================================================================
-                // 3. VALIDACIÓN ANTI-DUPLICADOS EN LA SEGUNDA GRILLA
-                // =========================================================================
-                // IMPORTANTE: Cambia "dgvPedidosSeleccionados" por el nombre real de tu segunda grilla
-                // y ajusta el índice de celda (Cells[0] o Cells[1]) donde guardas el idPedido allí.
+                string numTransaccion = filaOrigen.Cells["num_transaccion"].Value?.ToString() ?? "";
+                string pedidoTexto = filaOrigen.Cells["pedido"].Value?.ToString() ?? "";
+                string numeroNota = filaOrigen.Cells["numero_nota"].Value?.ToString() ?? "";
+
+                // 3. VALIDACIÓN ANTI-DUPLICADOS EN dgvPedidoExpedientes (usando la columna oculta "id_pedido" o índice 3)
                 foreach (DataGridViewRow fila in this.dgvPedidoExpedientes.Rows)
                 {
                     if (fila.IsNewRow) continue;
 
-                    if (fila.Cells[0].Value != null && Convert.ToInt32(fila.Cells[0].Value) == idPedido)
+                    // Comparamos contra la 4ta celda (índice 3) donde guardamos el idPedido oculto
+                    //if (fila.Cells.Count > 3 && fila.Cells.Value != null && Convert.ToInt32(fila.Cells.Value) == idPedido)
+                    // Comparamos contra la 4ta celda (índice 3) donde guardamos el idPedido oculto
+                    if (fila.Cells.Count > 3 && fila.Cells[3].Value != null && Convert.ToInt32(fila.Cells[3].Value) == idPedido)
                     {
-                        MessageBox.Show($"El pedido N° {idPedido} ya fue agregado a este expediente.",
+                        MessageBox.Show($"El pedido (Transacción N° {numTransaccion}) ya fue agregado a este expediente.",
                                         "Pedido Duplicado",
                                         MessageBoxButtons.OK,
                                         MessageBoxIcon.Warning);
-                        return; // Frenamos la ejecución para que no vuelva a cargarlo ni sume el monto dos veces
+                        return;
                     }
                 }
-                // =========================================================================
 
-                // Obtenemos los datos secundarios de la fila actual
-                string datoCelda2 = this.dgvPedidos.CurrentRow.Cells[2].Value?.ToString() ?? "";
-                string idPedidoMostrar = this.dgvPedidos.CurrentRow.Cells[1].Value?.ToString() ?? "";
+                // 4. Agregamos la fila a dgvPedidoExpedientes con el orden exacto que necesitas
+                CargarVentasGrillaPedidos(numTransaccion, pedidoTexto, numeroNota, idPedido);
 
-                // Llamamos a tu método existente para cargar la grilla secundaria
-                CargarVentasGrillaPedidos(idPedido, datoCelda2);
-
+                // 5. Calculamos y acumulamos el monto total del pedido
                 try
                 {
                     DPedido pedidoEntidad = new DPedido();
@@ -467,10 +522,8 @@ namespace CapaPresentacion
 
                     decimal totalGeneral = NPedido.ObtenerTotalPedido(pedidoEntidad);
 
-                    // Mostramos el resultado final formateado en tu etiqueta
                     this.lblMontoTotal.Text = totalGeneral.ToString("N2");
 
-                    // Acumulamos el total en el Gran Total global
                     _totalGeneralAcumulado += totalGeneral;
                     this.lblTotalGralAcumulado.Text = _totalGeneralAcumulado.ToString("N2");
                 }
@@ -480,6 +533,7 @@ namespace CapaPresentacion
                 }
             }
         }
+
 
 
         private void txtBuscarPedido_TextChanged(object sender, EventArgs e)
@@ -517,6 +571,126 @@ namespace CapaPresentacion
             }
         }
 
+        private bool ValidarFormulario()
+        {
+            // 0. Validar que ya se haya generado el Número de Expediente Interno en lblExpedienteInterno
+            string expInterno = this.lblExpedienteInterno.Text.Trim();
+            if (string.IsNullOrWhiteSpace(expInterno) || expInterno == "0" || expInterno == "Expediente")
+            {
+                MessageBox.Show("Primero debe generar el Número de Expediente Interno antes de continuar.",
+                                "Número de Expediente Requerido",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                this.btnGenerarExpediente.Focus(); // <-- Cambia por el nombre real de tu botón generador
+                return false;
+            }
+
+            // 1. Validar que txtCaratula no esté vacío
+            if (string.IsNullOrWhiteSpace(this.txtCaratula.Text))
+            {
+                MessageBox.Show("Por favor, ingrese la carátula o título del expediente.",
+                                "Campo Obligatorio",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                this.txtCaratula.Focus();
+                return false;
+            }
+
+            // 2. Validar cmbSectorIniciador (si está vacío, devolver el foco al combo padre cmbOrganismoExpediente)
+            if (this.cmbSectorIniciador.SelectedIndex == -1 || this.cmbSectorIniciador.SelectedValue == null)
+            {
+                MessageBox.Show("Por favor, seleccione un Organismo y un Sector Iniciador.",
+                                "Sector Iniciador Requerido",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                this.cmbOrganismoExpediente.Focus();
+                return false;
+            }
+
+            // 3. Validar cmbSectorDestino (si está vacío, devolver el foco al combo padre cmbOrganismoDestino)
+            if (this.cmbSectorDestino.SelectedIndex == -1 || this.cmbSectorDestino.SelectedValue == null)
+            {
+                MessageBox.Show("Por favor, seleccione un Organismo y un Sector de Destino.",
+                                "Sector Destino Requerido",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                this.cmbOrganismoDestino.Focus();
+                return false;
+            }
+
+            // 4. Validar cmbTipoContratacion
+            if (this.cmbTipoContratacion.SelectedIndex == -1 || this.cmbTipoContratacion.SelectedValue == null)
+            {
+                MessageBox.Show("Por favor, seleccione el Tipo de Contratación.",
+                                "Tipo de Contratación Requerido",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                this.cmbTipoContratacion.Focus();
+                return false;
+            }
+
+            // 5. Confirmación paso a paso de cada combo seleccionado
+            // 5.1 Confirmar Sector Iniciador
+            DialogResult respIniciador = MessageBox.Show(
+                $"¿Confirma que el Sector Iniciador seleccionado es correcto?\n\nSector Iniciador: {this.cmbSectorIniciador.Text}",
+                "Confirmar Sector Iniciador",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (respIniciador == DialogResult.No)
+            {
+                this.cmbOrganismoExpediente.Focus();
+                return false;
+            }
+
+            // 5.2 Confirmar Sector Destino
+            DialogResult respDestino = MessageBox.Show(
+                $"¿Confirma que el Sector de Destino seleccionado es correcto?\n\nSector Destino: {this.cmbSectorDestino.Text}",
+                "Confirmar Sector Destino",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (respDestino == DialogResult.No)
+            {
+                this.cmbOrganismoDestino.Focus();
+                return false;
+            }
+
+            // 5.3 Confirmar Tipo de Contratación
+            DialogResult respContratacion = MessageBox.Show(
+                $"¿Confirma que el Tipo de Contratación seleccionado es correcto?\n\nTipo de Contratación: {this.cmbTipoContratacion.Text}",
+                "Confirmar Tipo de Contratación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (respContratacion == DialogResult.No)
+            {
+                this.cmbTipoContratacion.Focus();
+                return false;
+            }
+
+            // 6. Validar que haya al menos un pedido cargado en dgvPedidoExpedientes
+            int cantidadPedidos = 0;
+            foreach (DataGridViewRow fila in this.dgvPedidoExpedientes.Rows)
+            {
+                if (!fila.IsNewRow) cantidadPedidos++;
+            }
+
+            if (cantidadPedidos == 0)
+            {
+                MessageBox.Show("Debe agregar al menos un pedido a la lista antes de generar el expediente.",
+                                "Sin Pedidos Vinculados",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                this.txtBuscarNotaPedido.Focus();
+                return false;
+            }
+
+            return true; // Todo validado y confirmado correctamente
+        }
+
+
+
         private void btnGenerarExpediente_Click(object sender, EventArgs e)
         {
             NPedido pedido = new NPedido();
@@ -534,7 +708,7 @@ namespace CapaPresentacion
 
         private void btnGuardarExpediente_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("debe generar nuevamente en número de expediente o pongase en contacto con un administrador");
+            this.ValidarFormulario();
         }
 
         private void cmbSectorDestino_SelectedIndexChanged(object sender, EventArgs e)
@@ -592,6 +766,15 @@ namespace CapaPresentacion
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Warning);
                 }
+            }
+        }
+
+        private void dgvPedidoExpedientes_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                e.SuppressKeyPress = true;
+                QuitarPedidoDeExpediente();
             }
         }
     }

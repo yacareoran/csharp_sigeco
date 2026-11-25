@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.cmbOrganismoExpediente = new System.Windows.Forms.ComboBox();
-            this.cmbSectorExpediente = new System.Windows.Forms.ComboBox();
+            this.cmbSectorIniciador = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -39,7 +39,7 @@
             this.cmbTipoContratacion = new System.Windows.Forms.ComboBox();
             this.cmbSectorDestino = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtCaratula = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox5 = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -81,13 +81,13 @@
             this.cmbOrganismoExpediente.TabIndex = 0;
             this.cmbOrganismoExpediente.SelectedIndexChanged += new System.EventHandler(this.cmbOrganismoExpediente_SelectedIndexChanged);
             // 
-            // cmbSectorExpediente
+            // cmbSectorIniciador
             // 
-            this.cmbSectorExpediente.FormattingEnabled = true;
-            this.cmbSectorExpediente.Location = new System.Drawing.Point(254, 44);
-            this.cmbSectorExpediente.Name = "cmbSectorExpediente";
-            this.cmbSectorExpediente.Size = new System.Drawing.Size(273, 23);
-            this.cmbSectorExpediente.TabIndex = 1;
+            this.cmbSectorIniciador.FormattingEnabled = true;
+            this.cmbSectorIniciador.Location = new System.Drawing.Point(254, 44);
+            this.cmbSectorIniciador.Name = "cmbSectorIniciador";
+            this.cmbSectorIniciador.Size = new System.Drawing.Size(273, 23);
+            this.cmbSectorIniciador.TabIndex = 1;
             // 
             // label1
             // 
@@ -117,7 +117,7 @@
             this.groupBox1.Controls.Add(this.cmbTipoContratacion);
             this.groupBox1.Controls.Add(this.cmbSectorDestino);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.cmbSectorExpediente);
+            this.groupBox1.Controls.Add(this.cmbSectorIniciador);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(39, 53);
@@ -183,13 +183,13 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Sector Destino:";
             // 
-            // textBox1
+            // txtCaratula
             // 
-            this.textBox1.Location = new System.Drawing.Point(39, 166);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1230, 105);
-            this.textBox1.TabIndex = 5;
+            this.txtCaratula.Location = new System.Drawing.Point(39, 166);
+            this.txtCaratula.Multiline = true;
+            this.txtCaratula.Name = "txtCaratula";
+            this.txtCaratula.Size = new System.Drawing.Size(1230, 105);
+            this.txtCaratula.TabIndex = 5;
             // 
             // label3
             // 
@@ -359,6 +359,7 @@
             this.dgvPedidoExpedientes.Name = "dgvPedidoExpedientes";
             this.dgvPedidoExpedientes.Size = new System.Drawing.Size(655, 261);
             this.dgvPedidoExpedientes.TabIndex = 28;
+            this.dgvPedidoExpedientes.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvPedidoExpedientes_KeyDown);
             // 
             // Column1
             // 
@@ -466,7 +467,7 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.comboBox5);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtCaratula);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbOrganismoExpediente);
             this.Controls.Add(this.groupBox1);
@@ -486,11 +487,11 @@
         #endregion
 
         private System.Windows.Forms.ComboBox cmbOrganismoExpediente;
-        private System.Windows.Forms.ComboBox cmbSectorExpediente;
+        private System.Windows.Forms.ComboBox cmbSectorIniciador;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtCaratula;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbSectorDestino;
         private System.Windows.Forms.Label label4;
