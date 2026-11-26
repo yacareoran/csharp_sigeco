@@ -67,6 +67,8 @@
             this.label11 = new System.Windows.Forms.Label();
             this.lblTotalGralAcumulado = new System.Windows.Forms.Label();
             this.barraTituloRibbon1 = new CapaPresentacion.BarraTituloRibbon();
+            this.txtUsuario = new System.Windows.Forms.TextBox();
+            this.txtIdUsuario = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidoExpedientes)).BeginInit();
@@ -438,11 +440,27 @@
             this.barraTituloRibbon1.Size = new System.Drawing.Size(1330, 58);
             this.barraTituloRibbon1.TabIndex = 34;
             // 
+            // txtUsuario
+            // 
+            this.txtUsuario.Location = new System.Drawing.Point(23, 763);
+            this.txtUsuario.Name = "txtUsuario";
+            this.txtUsuario.Size = new System.Drawing.Size(100, 20);
+            this.txtUsuario.TabIndex = 35;
+            // 
+            // txtIdUsuario
+            // 
+            this.txtIdUsuario.Location = new System.Drawing.Point(129, 763);
+            this.txtIdUsuario.Name = "txtIdUsuario";
+            this.txtIdUsuario.Size = new System.Drawing.Size(100, 20);
+            this.txtIdUsuario.TabIndex = 36;
+            // 
             // FrmGenerarExpedientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1330, 798);
+            this.Controls.Add(this.txtIdUsuario);
+            this.Controls.Add(this.txtUsuario);
             this.Controls.Add(this.barraTituloRibbon1);
             this.Controls.Add(this.lblTotalGralAcumulado);
             this.Controls.Add(this.label11);
@@ -525,5 +543,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private BarraTituloRibbon barraTituloRibbon1;
+        public System.Windows.Forms.TextBox txtUsuario;
+        public System.Windows.Forms.TextBox txtIdUsuario;
     }
 }

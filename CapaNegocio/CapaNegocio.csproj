@@ -50,6 +50,7 @@
     <Compile Include="NDetalle.cs" />
     <Compile Include="NEstado.cs" />
     <Compile Include="NExpedientes.cs" />
+    <Compile Include="NExpedientesPedido.cs" />
     <Compile Include="NOrganismo.cs" />
     <Compile Include="NPedido.cs" />
     <Compile Include="NReportes.cs" />

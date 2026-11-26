@@ -101,6 +101,8 @@ namespace CapaPresentacion
         private void btnGenerarExpediente_Click(object sender, EventArgs e)
         {
             FrmGenerarExpedientes generarExpedientes = new FrmGenerarExpedientes();
+            generarExpedientes.txtUsuario.Text = this.txtUsuario.Text;
+            generarExpedientes.txtIdUsuario.Text = this.txtIdUsuario.Text;
             generarExpedientes.Show();
         }
     }

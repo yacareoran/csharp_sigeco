@@ -708,8 +708,92 @@ namespace CapaPresentacion
 
         private void btnGuardarExpediente_Click(object sender, EventArgs e)
         {
-            this.ValidarFormulario();
+                // 1. Ejecutamos todas las validaciones y confirmaciones; si alguna falla, frenamos aquí
+                if (!this.ValidarFormulario())
+                {
+                    return;
+                }
+
+                try
+                {
+                    // 2. Armamos el DataTable con la columna "pedido_id" que espera NExpedientes.Insertar
+                    DataTable dtPedidos = new DataTable();
+                    dtPedidos.Columns.Add("pedido_id", typeof(int));
+
+                    foreach (DataGridViewRow fila in this.dgvPedidoExpedientes.Rows)
+                    {
+                        if (fila.IsNewRow) continue;
+
+                        // Leemos la columna oculta "id_pedido" que guardamos al presionar Enter
+                        int idPedido = Convert.ToInt32(fila.Cells["id_pedido"].Value);
+                        dtPedidos.Rows.Add(idPedido);
+                    }
+
+                    // 3. Capturamos los datos de cabecera del expediente
+                    string expedienteInterno = this.lblExpedienteInterno.Text.Trim();
+                    string caratula = this.txtCaratula.Text.Trim();
+                    DateTime fechaCreacion = DateTime.Now;
+                    int sectorIniciador = Convert.ToInt32(this.cmbSectorIniciador.SelectedValue);
+                    int sectorDestino = Convert.ToInt32(this.cmbSectorDestino.SelectedValue);
+                    decimal montoTotal = _totalGeneralAcumulado;
+
+                    // IMPORTANTE: Cambia esta variable por el nombre real de cómo guardas el ID del usuario logueado en este form
+                    int usuarioIniciador = Convert.ToInt32(this.txtIdUsuario.Text.Trim());
+
+                    // 4. Llamamos a la Capa de Negocio (guarda cabecera + todos los pedidos en una sola transacción)
+                    string rpta = NExpedientes.Insertar(
+                        expedienteInterno,
+                        caratula,
+                        fechaCreacion,
+                        sectorIniciador,
+                        sectorDestino,
+                        montoTotal,
+                        usuarioIniciador,
+                        dtPedidos
+                    );
+
+                    // 5. Evaluamos el resultado
+                    if (rpta.Equals("OK"))
+                    {
+                        MessageBox.Show($"El Expediente Interno N° {expedienteInterno} fue generado y guardado correctamente.",
+                                        "Expediente Guardado",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+
+                        // Limpiamos el formulario para cargar un nuevo expediente
+                        this.LimpiarFormularioExpediente();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo guardar el expediente:\n" + rpta,
+                                        "Error al Guardar",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ocurrió un error inesperado al guardar el expediente: " + ex.Message,
+                                    "Error del Sistema",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                }
         }
+
+        
+
+        private void LimpiarFormularioExpediente()
+        {
+            this.lblExpedienteInterno.Text = "";
+            this.txtCaratula.Clear();
+            this.txtBuscarNotaPedido.Clear();
+            this.dgvPedidoExpedientes.Rows.Clear();
+            _totalGeneralAcumulado = 0;
+            this.lblMontoTotal.Text = "0,00";
+            this.lblTotalGralAcumulado.Text = "0,00";
+            this.txtCaratula.Focus();
+        }
+
 
         private void cmbSectorDestino_SelectedIndexChanged(object sender, EventArgs e)
         {

@@ -34,7 +34,7 @@ namespace CapaDatos
                 SqlCommand SqlCmd = new SqlCommand();
                 SqlCmd.Connection = SqlCon;
                 SqlCmd.Transaction = SqlTra;
-                SqlCmd.CommandText = "sp_insertarExpediente";
+                SqlCmd.CommandText = "sp_insertarExpedientes";
                 SqlCmd.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter ParIdExpediente = new SqlParameter();
@@ -48,7 +48,14 @@ namespace CapaDatos
                 SqlCmd.Parameters.Add("@fecha_creacion", SqlDbType.Date).Value = Expediente.Fecha_creacion;
                 SqlCmd.Parameters.Add("@sector_iniciador", SqlDbType.Int).Value = Expediente.Sector_iniciador;
                 SqlCmd.Parameters.Add("@sector_destino", SqlDbType.Int).Value = Expediente.Sector_destino;
-                SqlCmd.Parameters.Add("@monto_total", SqlDbType.Decimal).Value = Expediente.Monto_total;
+
+                // Parámetro @monto_total con precisión (18, 2) para no perder los centavos
+                SqlParameter ParMontoTotal = new SqlParameter("@monto_total", SqlDbType.Decimal);
+                ParMontoTotal.Precision = 18;
+                ParMontoTotal.Scale = 2;
+                ParMontoTotal.Value = Expediente.Monto_total;
+                SqlCmd.Parameters.Add(ParMontoTotal);
+
                 SqlCmd.Parameters.Add("@usuario_iniciador", SqlDbType.Int).Value = Expediente.Usuario_iniciador;
 
                 SqlCmd.ExecuteNonQuery();

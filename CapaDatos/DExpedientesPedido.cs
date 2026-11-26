@@ -24,7 +24,7 @@ namespace CapaDatos
                 SqlCommand SqlCmd = new SqlCommand();
                 SqlCmd.Connection = SqlCon;
                 SqlCmd.Transaction = SqlTra;
-                SqlCmd.CommandText = "sp_insertarExpedientePedido";
+                SqlCmd.CommandText = "sp_insertarExpedientesPedido";
                 SqlCmd.CommandType = CommandType.StoredProcedure;
 
                 SqlCmd.Parameters.Add("@pedido_id", SqlDbType.Int).Value = Detalle.Pedido_id;
@@ -41,5 +41,40 @@ namespace CapaDatos
             }
             return rpta;
         }
+
+        // Sobrecarga de 1 parámetro para insertar desde NExpedientesPedido
+        public string Insertar(DExpedientesPedido Detalle)
+        {
+            string rpta = "";
+            SqlConnection SqlCon = new SqlConnection();
+            try
+            {
+                SqlCon.ConnectionString = Conexion.Cn;
+                SqlCon.Open();
+
+                SqlCommand SqlCmd = new SqlCommand();
+                SqlCmd.Connection = SqlCon;
+                SqlCmd.CommandText = "sp_insertarExpedientesPedido";
+                SqlCmd.CommandType = CommandType.StoredProcedure;
+
+                SqlCmd.Parameters.Add("@pedido_id", SqlDbType.Int).Value = Detalle.Pedido_id;
+                SqlCmd.Parameters.Add("@expediente_id", SqlDbType.Int).Value = Detalle.Expediente_id;
+                SqlCmd.Parameters.Add("@fecha_expedientes_pedido", SqlDbType.Date).Value = Detalle.Fecha_expedientes_pedido;
+                SqlCmd.Parameters.Add("@is_activo", SqlDbType.Bit).Value = Detalle.Is_activo;
+
+                SqlCmd.ExecuteNonQuery();
+                rpta = "OK";
+            }
+            catch (Exception ex)
+            {
+                rpta = ex.Message;
+            }
+            finally
+            {
+                if (SqlCon.State == ConnectionState.Open) SqlCon.Close();
+            }
+            return rpta;
+        }
+
     }
 }
