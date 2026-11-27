@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -36,7 +37,15 @@ namespace CapaPresentacion
             try
             {
                 // 1. Cargamos los datos limpios en la grilla
-                this.dgvPedidos.DataSource = NPedido.BuscarConcepto(this.txtBuscarPedido.Text);
+                DataTable dt = NPedido.BuscarConcepto(this.txtBuscarPedido.Text.Trim());
+
+                if (dt == null)
+                {
+                    MessageBox.Show("Error al consultar la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                this.dgvPedidos.DataSource = dt;
 
                 // 2. Ocultamos TODAS las columnas primero
                 foreach (DataGridViewColumn col in this.dgvPedidos.Columns)
@@ -44,7 +53,7 @@ namespace CapaPresentacion
                     col.Visible = false;
                 }
 
-                // 3. Recorremos y ordenamos las columnas
+                // 3. Recorremos y ordenamos las columnas visibles
                 foreach (DataGridViewColumn col in this.dgvPedidos.Columns)
                 {
                     string nombreColumna = col.Name.ToLower();
@@ -54,21 +63,21 @@ namespace CapaPresentacion
                         col.Visible = true;
                         col.Width = 60;
                         col.HeaderText = "ID";
-                        col.DisplayIndex = 0; // <-- QUEREMOS QUE SEA LA PRIMERA
+                        col.DisplayIndex = 0;
                     }
-                    else if (nombreColumna == "num_transaccion" || nombreColumna == "num_transaccion")
+                    else if (nombreColumna == "num_transaccion")
                     {
                         col.Visible = true;
-                        col.Width = 110; // Le subí un toque el ancho para que no se corte el título
+                        col.Width = 110;
                         col.HeaderText = "N° Transacción";
-                        col.DisplayIndex = 1; // <-- QUEREMOS QUE SEA LA SEGUNDA
+                        col.DisplayIndex = 1;
                     }
                     else if (nombreColumna == "pedido")
                     {
                         col.Visible = true;
                         col.Width = 850;
                         col.HeaderText = "Concepto";
-                        col.DisplayIndex = 2; // <-- QUEREMOS QUE SEA LA TERCERA
+                        col.DisplayIndex = 2;
                     }
                 }
             }
@@ -77,6 +86,7 @@ namespace CapaPresentacion
                 MessageBox.Show("Ocurrió un error al buscar el pedido: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void btnAsignarNumeroNota_Click(object sender, EventArgs e)
         {
@@ -102,8 +112,9 @@ namespace CapaPresentacion
                 if (dgvPedidos.CurrentRow != null)
                 {
                     var celdaPedido = dgvPedidos.Columns.Contains("pedido")
-                        ? dgvPedidos.CurrentRow.Cells["pedido"]
-                        : dgvPedidos.CurrentRow.Cells[2]; // Respaldo: tu columna de concepto estaba en el índice 2
+                    ? dgvPedidos.CurrentRow.Cells["pedido"]
+                    : dgvPedidos.CurrentRow.Cells[2]; // Respaldo: tu columna de concepto estaba en el índice 2
+
 
                     if (celdaPedido != null && celdaPedido.Value != null)
                     {
@@ -132,12 +143,24 @@ namespace CapaPresentacion
                 // Como el usuario ya confirmó que el pedido es el correcto, ahora miramos la nota
                 if (string.IsNullOrWhiteSpace(this.txtNumeroNota.Text))
                 {
-                    MessageBox.Show("Por favor, ingrese el número de nota para el pedido seleccionado.", "Falta completar datos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Por favor, ingrese el número de nota para el pedido seleccionado (Ejemplo: 285/26).", "Falta completar datos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     this.txtNumeroNota.Focus(); // Mandamos el foco a la caja de texto
                     return; // Detenemos la ejecución
                 }
 
                 string numeroNota = this.txtNumeroNota.Text.Trim();
+
+                // VALIDACIÓN DE FORMATO EXACTO: Debe tener Número + '/' + 2 dígitos del año (Ej: 285/26)
+                if (!Regex.IsMatch(numeroNota, @"^[0-9]+/[0-9]{2}$"))
+                {
+                    MessageBox.Show("El formato del número de nota no es válido.\nDebe ingresar el número seguido de la barra '/' y los 2 dígitos del año (Ejemplo: 285/26).",
+                                    "Formato Incorrecto",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    this.txtNumeroNota.SelectAll();
+                    this.txtNumeroNota.Focus();
+                    return; // Detenemos la ejecución para que corrija el formato
+                }
 
 
                 // -----------------------------------------------------------------
@@ -174,6 +197,7 @@ namespace CapaPresentacion
                 MessageBox.Show("Ocurrió un error inesperado en el programa: " + ex.Message, "Error General", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private int? ObtenerIdPedidoSeleccionado()
         {
             if (this.dgvPedidos.CurrentRow != null && this.dgvPedidos.CurrentRow.Index >= 0)
@@ -187,6 +211,34 @@ namespace CapaPresentacion
                 }
             }
             return null;
+        }
+
+        private void txtNumeroNota_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 1. Permitir únicamente números (0-9), tecla Borrar (Backspace) y la barra '/'
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '/')
+            {
+                e.Handled = true;
+                MessageBox.Show("Teclas alfabéticas y símbolos bloqueados.\nIngrese únicamente números y la barra '/' (Ejemplo: 285/26).",
+                                "Entrada no permitida",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Evitar que escriban '/' al principio o pongan más de una barra '/'
+            if (e.KeyChar == '/')
+            {
+                TextBox txt = sender as TextBox;
+                if (txt.Text.Length == 0 || txt.Text.Contains("/"))
+                {
+                    e.Handled = true;
+                    MessageBox.Show("La barra '/' solo puede ingresarse una vez y después del número de nota (Ejemplo: 285/26).",
+                                    "Posición de barra incorrecta",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                }
+            }
         }
     }
 }

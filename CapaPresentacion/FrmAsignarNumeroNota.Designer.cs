@@ -79,6 +79,7 @@
             this.txtNumeroNota.Name = "txtNumeroNota";
             this.txtNumeroNota.Size = new System.Drawing.Size(122, 20);
             this.txtNumeroNota.TabIndex = 4;
+            this.txtNumeroNota.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumeroNota_KeyPress);
             // 
             // label1
             // 
